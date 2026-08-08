@@ -1,0 +1,22 @@
+{
+  "scp_id": "forge-stack/leighton-weight-implementation-definition-v1",
+  "scp_version": "1.2.0",
+  "created": "2026-08-08T15:15:00Z",
+  "inherits": "forge-stack/governance-v3",
+  "declaration": {
+    "intent": "Witness the canonical implementation definition for the v1 Leighton Weight Engine (`leighton_weight.py`). This document details the runtime commands, parameters, and artefact structures, complementing the high-level design.",
+    "parameters": {
+      "document": "docs/leighton-weight-implementation-definition.md",
+      "document_sha256": "f4d81dcefe01effd4cc3c0e86ed4a5d82d5ef88fb1b909ac5c9fd41654cf31c0"
+    },
+    "constraints": {
+      "status": "This document describes the initial, shipped implementation. Future changes to the engine's behavior must be reflected in a new version of this document and its witness capsule."
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+    "algorithm": "Ed25519",
+    "value": "nm64CtLwZFJqqJKF7k2PRlVN4iX26/9QCxyQe2Ik/Ik/1/jO0JUIZIGJkFWR5L+6+m/UCcObL2L37JyqAZlGCQ=="
+  }
+}

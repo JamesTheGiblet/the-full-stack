@@ -22,8 +22,7 @@ def sha256_of(path: pathlib.Path) -> str:
 def main() -> int:
     changed = 0
     for capsule_path in sorted(
-        list(ROOT.glob("*.sc.json"))
-        + list(ROOT.glob("sc/**/*.sc.json"))
+        list(ROOT.glob("sc/**/*.sc.json"))
         + list(ROOT.glob("consumer/**/*.sc.json"))
     ):
         capsule = json.loads(capsule_path.read_text(encoding="utf-8"))
