@@ -1,0 +1,31 @@
+{
+  "scp_id": "forge-stack/manifest-v6",
+  "scp_version": "1.2.0",
+  "created": "2026-08-08T14:30:00Z",
+  "inherits": "forge-stack/governance-v3",
+  "declaration": {
+    "intent": "Pin the Forge Stack documentation set with the superseding Leighton Weight Engine v3 capsule and the current observation mechanism capsule. Supersedes forge-stack/manifest-v5.",
+    "parameters": {
+      "members": [
+        "forge-stack/docs/glossary-v1",
+        "forge-stack/docs/scp-spec-v1",
+        "forge-stack/docs/datacube-v1",
+        "forge-stack/leighton-weight-engine-v3",
+        "forge-stack/leighton-loop-observation-v2",
+        "forge-stack/docs/chronoscribe-v1",
+        "forge-stack/docs/hal-v1",
+        "forge-stack/docs/gate-pattern-v1",
+        "forge-stack/docs/axiom-v1"
+      ],
+      "governance": "forge-stack/governance-v3",
+      "example": "forge-stack/examples/minimal-v1",
+      "supersedes": "forge-stack/manifest-v5"
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+    "algorithm": "Ed25519",
+    "value": "WQx6n1MseNmOtVV8ZEYMQm70V3yDIdEz2XCwIN8ju7JjKrJvBDzk0FpQrrZ65FhEw7gLy4/YnY4DMX5J0aALBg=="
+  }
+}

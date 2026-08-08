@@ -1,5 +1,28 @@
 # Changelog
 
+2026-08-08 14:35
+
+## The Good 4.0
+Confidence rating: 10/10
+
+- **Neutral-attractor decay ratified for Leighton Weight.** Updated the Stage 3 design so decay applies to deviation from neutral (`λ(t) = 1.00 + (λ₀ − 1.00) × e^(−kt)`), eliminating the contradiction where inactivity drifted toward distrust.
+- **N0 semantics are now internally consistent.** `N0 = 1.00` and `1.00 = neutral/unknown` now align with runtime behavior: silence trends toward unknown rather than toward quarantine.
+- **Supersession surface reduced.** Removed `*.sc.json.SUPERSEDED` special-casing from `sign.py` discovery so supersession authority remains in capsule lineage (`supersedes`) and manifests.
+- **Governance lineage advanced cleanly.** Added and witnessed `forge-stack/leighton-weight-engine-v3` and `forge-stack/manifest-v6` with root ledger entries `#117`-`#119`.
+- **Verification remained green across all chains.** Full `sign.py --verify` plus root and consumer ledger verification all passed after the policy correction.
+
+## The Bad 4.0
+Risk rating: 1.0/10
+
+- **Historical witness layering is deeper.** Root history now contains v1/v2/v3 Leighton witnesses and v4/v5/v6 manifests, requiring strict `supersedes` interpretation rather than filename-era assumptions.
+
+## The Ugly 4.0
+Severity rating: 1.0/10
+
+- **A mathematically small change was architecturally central.** The curve anchor point, not the code volume, was the blocker between coherent trust semantics and policy drift.
+
+---
+
 2026-08-08 14:10
 
 ## The Good 3.9
