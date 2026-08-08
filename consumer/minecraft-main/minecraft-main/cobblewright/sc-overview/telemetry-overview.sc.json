@@ -1,4 +1,5 @@
 {
+  "scp_id": "telemetry-overview.sc.json",
   "id": "COBBLEWRIGHT.v1.telemetry-overview.2026-07-18.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_plugin",
@@ -62,7 +63,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "TJtbs1zqzuPCkF3lzmd+WGucg0gl2jDCNNW6d9I1nido+68ExrC0qaPMyk7wNJai/9/PwmfmRKaQfWZkSIuBBQ=="
+    "value": "j3UtD4vo7TfbfzR3R86MSSoLdxN1iSF+ZUstC47eavhMufTo/p6BImS7U/UY3TmruepEk9DF95u4N/mC6KU4CA=="
   },
   "extensions": {}
 }

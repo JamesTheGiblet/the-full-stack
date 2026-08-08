@@ -1,4 +1,5 @@
 {
+  "scp_id": "agent-safety-protocols-overview.sc.json",
   "id": "COBBLEWRIGHT.v1.agent-safety-protocols-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_protocol",
@@ -53,7 +54,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "4kKws7ZmRJeajQbeYjfIYldcTlUuBRnhc/xY8texB1KvJdKMrZFka0lBi9Wx/oYd3lraU0ZsC3N3TGDN+6QVCg=="
+    "value": "CImvfzkl8raTC/Sw1S/QhkhKLJ6kO/aaDTvgJEUoCpyNeBJd8G/J/XuQXs0mMgUQe8LXaVe8IoiQKQlu+6LlBg=="
   },
   "extensions": {}
 }

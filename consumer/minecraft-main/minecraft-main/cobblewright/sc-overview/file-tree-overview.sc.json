@@ -1,4 +1,5 @@
 {
+  "scp_id": "file-tree-overview.sc.json",
   "id": "COBBLEWRIGHT.v1.file-tree-overview.2026-07-17.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "project_structure",
@@ -88,7 +89,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "ifSsIMo5c1kJ8Jqv7+ZFf9O4/5oVu9ctO8JzF5IOWaTHVLC8A4ckqn/ezmhqSnTrjsKcXhEQFD0qwTmEfMReCw=="
+    "value": "I34qzp+pERAyMi5HMN4td7F3M/u2ihFr1CWXtReAfCHtjHio9lvjVfb6/3mzYzt/kEK6FsjUYayuw4G6pyMBBg=="
   },
   "extensions": {}
 }

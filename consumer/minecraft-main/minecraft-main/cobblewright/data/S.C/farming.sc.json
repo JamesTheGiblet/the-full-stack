@@ -1,4 +1,5 @@
 {
+  "scp_id": "farming.sc.json",
   "sc_version": "1.2-complete",
   "capsule_type": "farming",
   "intent": {
@@ -30,6 +31,6 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "EAKL1ZGczHcP1zVas3rSZ1IdXwAQ+uv757ctWiQcEjGdA3PqgjyU/jf0eF60nNMS86F8m34zFWui+kJeD3/gAw=="
+    "value": "9LCbIK421DoCgaHOS8NxQfUNxJBaYCp1wjRCRehPAmQ/O5L42JlWgqYSBoxkKeFN4zgTzaWi70cTWVj5YRfaDw=="
   }
 }

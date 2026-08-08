@@ -1,4 +1,5 @@
 {
+  "scp_id": "world-wrightrealm-geography-overview.sc.json",
   "id": "COBBLEWRIGHT.v1.world-wrightrealm-geography-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_lore",
@@ -57,7 +58,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "qIqBoXC3DVN8DzKLGKFapk3PKQ9ZrCppTfR6SG/9aSg8QrFXN0aCuumTBGs+gMWCvHHfoZlRhXt+DV/lzLzNAg=="
+    "value": "zYZ4Ofb0qgP+ZM8MzUj5g8lcpUdueknD64b4qELbd/MkV9pr9/YEl9vdFAnxYEzIpfkyVB4MYuELT+SrJpgxDw=="
   },
   "extensions": {}
 }

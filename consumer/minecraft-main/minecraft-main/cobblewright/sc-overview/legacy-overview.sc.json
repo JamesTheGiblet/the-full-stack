@@ -1,4 +1,5 @@
 {
+  "scp_id": "legacy-overview.sc.json",
   "sc_version": "1.2-complete",
   "capsule_type": "legacy_code_index",
   "intent": {
@@ -77,6 +78,6 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "ADLu0aPi6jKk++MWTtQV2gDVoV1WCz38wD6cJOkhTmCqWoWRlneKypDOu4ebAYnf/XseSNgw0C/ObLtpHchgCw=="
+    "value": "5g1jE9BNrdW8N8je5CScge0ROzjrudLwrWXlWcsruWDJmMEiMMZmtYU4I9gmnYxQU0NZHuccz9UaDkf7P4FFCg=="
   }
 }

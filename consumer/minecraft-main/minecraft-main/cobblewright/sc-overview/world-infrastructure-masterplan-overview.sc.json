@@ -1,4 +1,5 @@
 {
+  "scp_id": "world-infrastructure-masterplan-overview.sc.json",
   "id": "COBBLEWRIGHT.v1.world-infrastructure-masterplan-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_lore",
@@ -52,7 +53,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "TdUQA+1qOYqsHqw6NSTPO4Tqbhp7CDfo41m7+3rKPQ1/yKZDOTGGRRzb7fRvQVP+aY6WjW38JQITCfczqg77Bg=="
+    "value": "x8EfIg7PRqJyhZsJLRV/MAVHxsPEJ3dh8lQJwp9fH8EvETBoJQwgXocKcp/7QbaJTPmijbKduQ7ZxKjFrQh+Ag=="
   },
   "extensions": {}
 }

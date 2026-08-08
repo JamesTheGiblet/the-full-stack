@@ -1,4 +1,5 @@
 {
+  "scp_id": "world-wrightrealm-cultural-ledger-overview.sc.json",
   "id": "COBBLEWRIGHT.v1.world-wrightrealm-cultural-ledger-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_lore",
@@ -52,7 +53,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "OJGe6nkQf0dC5gCKAX3Q0EH/yC3F0TYs1Z+wqga65O3Z33ALGqz8CBMV04RNUw0ngpLRLgDzOYY8v2k/JTFdBA=="
+    "value": "6uxfWBIwTvyFJrV946VA1PBD2IMvUZphXx+75js+aJcxlE+RGH+nSW6nRsIMiuO9xdz/Q0EQ6+Xgu5HQ2W0lBA=="
   },
   "extensions": {}
 }

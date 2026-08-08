@@ -1,4 +1,5 @@
 {
+  "scp_id": "utils-overview.sc.json",
   "sc_version": "1.2-complete",
   "capsule_type": "utils",
   "intent": {
@@ -65,7 +66,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "BCe7oQ7TQ+kdeZqoe8vsuxCSKvxY4CHf6iI97T+QSyhxJoTs2vBG1qiCDWk6xhHG+tpYeTy0YSkvX5uqDtZdCg=="
+    "value": "USO3SA4xdMwcToTy4JiOakWkd6h5Cy4f6vnS/ZjTFrxTYH6RJX/wuIU29k466FiQeyxGm6t9Bkztqo20CkEyAw=="
   },
   "extensions": {}
 }

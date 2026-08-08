@@ -1,4 +1,5 @@
 {
+  "scp_id": "system-chronoscribe-spec-overview.sc.json",
   "id": "COBBLEWRIGHT.v1.system-chronoscribe-spec-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_protocol",
@@ -53,7 +54,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "kI8iD80ByyyM2D75dbHVbFyGUd1GLXGtc4GqBQs2ETvgcxsHkYBOobxRZKf90PSdcZ0SdZuthPkmMw0jyHPrCg=="
+    "value": "hsDMTmj3njuK+UWtYaziHAzJDT0jQ7JJqVr5XOSDEFQx8S6G8qq9mGM9SeHcv6jHHI6ZwWsfRUvb0Y5FatiIAg=="
   },
   "extensions": {}
 }

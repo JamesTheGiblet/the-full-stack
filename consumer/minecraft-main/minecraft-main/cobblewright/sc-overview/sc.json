@@ -83,7 +83,7 @@
 
   "persona": {
     "enabled": true,
-    "persona_source": "../data/S.C/james_voice_v1.sc.json",
+    "persona_source": "../../../../giblets-forge/sc/james-voice-v1.sc.json",
     "source_of_truth": "james-voice.scp.json (existing semantic voice capsule) — if present in this repo or the Forge Stack, defer to it over this section for tone/registers.",
     "identity": {
       "name": "James (JamesTheGiblet)",

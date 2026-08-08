@@ -1,4 +1,5 @@
 {
+  "scp_id": "memory.sc.json",
   "sc_version": "1.2-complete",
   "capsule_type": "memory",
   "intent": {
@@ -18,6 +19,6 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "flXJr3EoO9NrR2LgUOzT0awF5nYnAMmikds54IF61yhkP13ld2J5sbiCQPYzqJB3Dg6wHia+mw/+coXB7PhEBw=="
+    "value": "yT6ca4uQgvSnuoPZ9gbi7rm3PbbXu3c2FHxLGJMGCxMr1auW2gpH3haL8nUwClxvyK0Im+2xNcKCjbOSke6iCw=="
   }
 }
