@@ -7,7 +7,7 @@ This is intentionally separate from genesis.py:
 
 Usage:
   python ledger.py verify
-  python ledger.py append --event event.capsule.pinned --subject forge-stack/manifest-v2 --sha256 <hex>
+  python ledger.py [--scope <consumer>] append --event <event> --subject <subject> --sha256 <hex>
   python ledger.py append --entries-file entries.json
   python ledger.py append-pins
 """
@@ -21,7 +21,7 @@ import pathlib
 import re
 import sys
 from datetime import datetime, timezone
-from typing import Iterable
+from typing import Iterable, Optional
 
 from cryptography.hazmat.primitives.asymmetric.ed25519 import (
     Ed25519PrivateKey,
@@ -29,7 +29,6 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import (
 )
 
 ROOT = pathlib.Path(__file__).parent
-LEDGER = ROOT / "ledger.jsonl"
 KEY_FILE = pathlib.Path(os.environ.get("FORGE_KEY_PATH", str(ROOT / "forge-signing.key")))
 PUB_FILE = ROOT / "forge-signing.pub"
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
@@ -91,24 +90,32 @@ def find_referenced_documents(capsule: dict) -> list[str]:
     return found
 
 
-def read_ledger_lines() -> list[str]:
-    if not LEDGER.exists():
+def get_ledger_path(scope: Optional[str]) -> pathlib.Path:
+    if not scope:
+        return ROOT / "ledger.jsonl"
+    return ROOT / "consumer" / scope / "ledger.jsonl"
+
+
+def read_ledger_lines(ledger_path: pathlib.Path) -> list[str]:
+    if not ledger_path.exists():
         return []
-    text = LEDGER.read_text(encoding="utf-8")
+    text = ledger_path.read_text(encoding="utf-8")
     if not text.strip():
         return []
     return text.splitlines()
 
 
-def verify_chain(print_rows: bool = True) -> tuple[int, str, set[tuple[str, str, str]], int]:
-    if not LEDGER.exists():
-        raise FileNotFoundError("ledger.jsonl not found; run genesis.py first")
+def verify_chain(ledger_path: pathlib.Path, print_rows: bool = True) -> tuple[int, str, set[tuple[str, str, str]], int]:
+    # If a ledger file doesn't exist, it's not an error; it's a new chain.
+    # Return the genesis state.
+    if not ledger_path.exists():
+        return 0, "GENESIS", set(), 0
     if not PUB_FILE.exists():
         raise FileNotFoundError("forge-signing.pub not found")
 
     pub = Ed25519PublicKey.from_public_bytes(base64.b64decode(PUB_FILE.read_text().strip()))
 
-    lines = read_ledger_lines()
+    lines = read_ledger_lines(ledger_path)
     entries = parse_entries(lines)
     prev = "GENESIS"
     failed = 0
@@ -175,12 +182,22 @@ def sign_body(key: Ed25519PrivateKey, body: dict) -> dict:
     return signed
 
 
-def append_entries(candidates: Iterable[dict], allow_duplicates: bool, dry_run: bool = False) -> int:
+def append_entries(candidates: Iterable[dict], ledger_path: pathlib.Path, allow_duplicates: bool, dry_run: bool = False) -> int:
     if not KEY_FILE.exists():
         print(f"key file not found: {KEY_FILE}")
         return 1
 
-    next_seq, prev, seen, failed = verify_chain(print_rows=False)
+    ledger_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # If creating a new consumer ledger, anchor it to the root ledger's head.
+    is_new_consumer_ledger = not ledger_path.exists() and ledger_path.name != "ledger.jsonl"
+    if is_new_consumer_ledger:
+        print(f"New consumer ledger; anchoring to root ledger head...")
+        root_ledger_path = get_ledger_path(None)
+        _, root_head, _, root_failed = verify_chain(root_ledger_path, print_rows=False)
+        next_seq, prev, seen, failed = 0, root_head, set(), root_failed
+    else:
+        next_seq, prev, seen, failed = verify_chain(ledger_path, print_rows=False)
     if failed:
         print("refusing append: ledger verify failed; repair chain first")
         return 1
@@ -221,18 +238,23 @@ def append_entries(candidates: Iterable[dict], allow_duplicates: bool, dry_run: 
         appended += 1
 
     if new_lines and not dry_run:
-        with LEDGER.open("a", encoding="utf-8", newline="\n") as fh:
+        with ledger_path.open("a", encoding="utf-8", newline="\n") as fh:
             for line in new_lines:
                 fh.write(line + "\n")
 
     mode = "dry-run" if dry_run else "live"
-    print(f"append complete ({mode}): {appended} {'would append' if dry_run else 'appended'}, {skipped} skipped")
+    print(f"append complete for {ledger_path.relative_to(ROOT)} ({mode}): {appended} {'would append' if dry_run else 'appended'}, {skipped} skipped")
     return 0
 
 
-def digest_docs_and_capsules() -> list[dict]:
+def digest_docs_and_capsules(scope: Optional[str]) -> list[dict]:
     items: list[dict] = []
-    cap_paths = sorted(list((ROOT / "sc").glob("*.sc.json")) + list((ROOT / "consumer").glob("**/*.sc.json")))
+    if scope:
+        # Consumer scope: only capsules within that consumer's directory
+        cap_paths = sorted(list((ROOT / "consumer" / scope).glob("**/*.sc.json")))
+    else:
+        # Root scope: only capsules in sc/, excluding consumer/
+        cap_paths = sorted(list((ROOT / "sc").glob("*.sc.json")))
 
     referenced_docs: set[tuple[pathlib.Path, str]] = set()
     for cap in cap_paths:
@@ -287,9 +309,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Verify and append ChronoSCRIBE ledger entries")
     sub = parser.add_subparsers(dest="command", required=True)
 
-    sub.add_parser("verify", help="verify full ledger chain and signatures")
+    p_verify = sub.add_parser("verify", help="verify full ledger chain and signatures")
+    p_verify.add_argument("--scope", help="Operate on a specific consumer ledger. Defaults to root.")
 
     p_append = sub.add_parser("append", help="append one or more custom events")
+    p_append.add_argument("--scope", help="Operate on a specific consumer ledger. Defaults to root.")
     p_append.add_argument("--event", help="event name (e.g., event.capsule.pinned)")
     p_append.add_argument("--subject", help="event subject")
     p_append.add_argument("--sha256", help="sha256 digest (64-char lowercase hex)")
@@ -308,8 +332,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     p_pins = sub.add_parser(
         "append-pins",
-        help="append capsule-referenced document pins plus all capsule pin events (sc/*.sc.json and consumer/**/*.sc.json) idempotently",
+        help="append pins for all capsules and their referenced documents within the current scope (root or consumer) idempotently",
     )
+    p_pins.add_argument("--scope", help="Operate on a specific consumer ledger. Defaults to root.")
     p_pins.add_argument(
         "--allow-duplicates",
         action="store_true",
@@ -328,13 +353,16 @@ def main() -> int:
     parser = build_parser()
     args = parser.parse_args()
 
+    ledger_path = get_ledger_path(args.scope)
+
     if args.command == "verify":
-        _, _, _, failed = verify_chain(print_rows=True)
+        _, _, _, failed = verify_chain(ledger_path, print_rows=True)
         return 1 if failed else 0
 
     if args.command == "append-pins":
         return append_entries(
-            candidates=digest_docs_and_capsules(),
+            candidates=digest_docs_and_capsules(args.scope),
+            ledger_path=ledger_path,
             allow_duplicates=args.allow_duplicates,
             dry_run=args.dry_run,
         )
@@ -363,6 +391,7 @@ def main() -> int:
 
         return append_entries(
             candidates=entries,
+            ledger_path=ledger_path,
             allow_duplicates=args.allow_duplicates,
             dry_run=args.dry_run,
         )
