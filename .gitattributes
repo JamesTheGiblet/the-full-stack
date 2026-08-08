@@ -1,0 +1,6 @@
+﻿*.sc.json  -text
+*.jsonl    -text
+*.sig      -text binary
+*.md       -text
+*.html     -text
+*          -text
