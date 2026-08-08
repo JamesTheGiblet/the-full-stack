@@ -159,7 +159,7 @@ def find_referenced_documents(capsule: dict):
     return found
 
 
-def sign_all(skip_schema: bool = False) -> int:
+def sign_all(skip_schema: bool = False, dry_run: bool = False) -> int:
     if KEY_ID.startswith("REPLACE"):
         print("Set KEY_ID at the top of this script first (your DID or KERI AID).")
         return 1
@@ -169,8 +169,10 @@ def sign_all(skip_schema: bool = False) -> int:
             serialization.Encoding.Raw, serialization.PublicFormat.Raw
         )
     ).decode()
-    print(f"public key (b64): {pub_b64}")
-    PUB_FILE.write_text(pub_b64 + "\n", encoding="utf-8")
+
+    if not dry_run:
+        print(f"public key (b64): {pub_b64}")
+        PUB_FILE.write_text(pub_b64 + "\n", encoding="utf-8")
 
     capsule_paths = all_capsule_paths()
     referenced_docs = set()
@@ -189,28 +191,42 @@ def sign_all(skip_schema: bool = False) -> int:
 
     for path in capsule_paths:
         capsule = json.loads(path.read_text(encoding="utf-8"))
-        body = {k: v for k, v in capsule.items() if k != "signature"}
-        sig = key.sign(canonicalise(body).encode("utf-8"))
-        capsule["signature"] = {
-            "key_id": KEY_ID,
-            "algorithm": "Ed25519",
-            "value": base64.b64encode(sig).decode(),
-        }
-        path.write_text(
-            json.dumps(capsule, indent=2, ensure_ascii=False) + "\n",
-            encoding="utf-8",
-        )
-        print(f"signed  {path.name}")
+        if not dry_run:
+            body = {k: v for k, v in capsule.items() if k != "signature"}
+            sig = key.sign(canonicalise(body).encode("utf-8"))
+            capsule["signature"] = {
+                "key_id": KEY_ID,
+                "algorithm": "Ed25519",
+                "value": base64.b64encode(sig).decode(),
+            }
+            path.write_text(
+                json.dumps(capsule, indent=2, ensure_ascii=False) + "\n",
+                encoding="utf-8",
+            )
+            print(f"signed  {path.name}")
+        else:
+            print(f"would sign  {path.name}")
+
         for doc in find_referenced_documents(capsule):
             referenced_docs.add((path.parent, doc))
 
     if referenced_docs:
-        print("\nSigning artifacts referenced by capsule document fields:")
-        for parent_dir, doc in sorted(referenced_docs):
-            candidate = (parent_dir / doc) if not doc.startswith("docs/") else ROOT / doc
+        if not dry_run:
+            print("\nSigning artifacts referenced by capsule document fields:")
+        else:
+            print("\nWould sign artifacts referenced by capsule document fields:")
+
+        resolved_docs: set[pathlib.Path] = set()
+        for parent_dir, doc_ref in sorted(referenced_docs):
+            # Logic to resolve relative paths from capsule location or absolute from root
+            candidate = parent_dir / doc_ref
             if not candidate.exists():
-                candidate = ROOT / doc
-            sign_artifact(key, candidate, pub_b64)
+                candidate = ROOT / doc_ref
+            if candidate.exists():
+                resolved_docs.add(candidate.resolve())
+
+        for doc_path in sorted(list(resolved_docs)):
+            sign_artifact(key, doc_path, pub_b64)
 
     print("\ndone. Run 'python sign.py --verify' to prove it.")
     return 0

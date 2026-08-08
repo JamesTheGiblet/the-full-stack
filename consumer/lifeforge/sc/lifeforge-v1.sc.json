@@ -7,8 +7,8 @@
     "intent": "Declare LifeForge as a Forge Stack consumer: a developmental biology simulator where cell differentiation is a classified claim (OPINION, reinforced via the Leighton Loop to FACT) rather than an instant threshold assignment, with a real hash-chained ledger and gated interventions.",
     "parameters": {
       "domain": "Browser-based developmental biology simulation",
-      "document": "lifeforge-forge-stack.html",
-      "document_sha256": "COMPUTE-ON-FREEZE",
+      "document": "consumer/lifeforge/lifeforge-forge-stack.html",
+      "document_sha256": "aff1a0ef63283494d2485d37627e11d0df97f093e05d3d13f42311fc05bb55d7",
       "styled_under": "giblets-forge/style/visual-identity-v1"
     },
     "constraints": {
@@ -29,6 +29,6 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "j3e2liWj7/siWyZgMnhgKt3OtjNWLiz7myiiZBt8Gj4dPJ52RD29hrueBMbcm8qrlfnU9Y/XnsMw2Vef3z1bBg=="
+    "value": "kd67O4Rci+j4YjRCQyooTjjIPxW5mOVH0u4KcdrllA+NDra6G7PZhvkkRHAs2ZdLDXiotZEFoz69CbG13AegAA=="
   }
 }
