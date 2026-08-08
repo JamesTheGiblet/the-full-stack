@@ -1,0 +1,22 @@
+{
+  "scp_id": "forge-stack/leighton-weight-engine-v3",
+  "scp_version": "1.2.0",
+  "created": "2026-08-08T14:30:00Z",
+  "inherits": "forge-stack/governance-v3",
+  "declaration": {
+    "intent": "Witness the corrected Leighton Weight Engine policy where decay applies to deviation from neutral (1.00 attractor), preserving N0=1.00 neutrality without inactivity drift toward quarantine.",
+    "parameters": {
+      "document": "docs/leighton-weight-engine.md",
+      "document_sha256": "2c749d5d104f8adc5fff4f0430f80ce2195f9d0c7a4ff9024eb7b2d39ca5d453"
+    },
+    "constraints": {
+      "supersedes": "forge-stack/leighton-weight-engine-v2"
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+    "algorithm": "Ed25519",
+    "value": "i+e3sNHsjuuUqVDwxHL1SKmUT2WZJDj+pUWNB53p1eh6DAFyVjdknA4Qw8kEKxNItSkwjPqaZC4NiyDGRsSXBw=="
+  }
+}

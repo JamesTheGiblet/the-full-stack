@@ -115,7 +115,6 @@ def all_capsule_paths():
     return sorted(
         list(ROOT.glob("sc/**/*.sc.json"))
         + list(ROOT.glob("consumer/**/*.sc.json"))
-        + list(ROOT.glob("sc/**/*.sc.json.SUPERSEDED"))
     )
 
 

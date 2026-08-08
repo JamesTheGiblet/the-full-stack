@@ -52,7 +52,11 @@ An observation records: the entity, what happened, the outcome, who observed it,
 
 Score → observe outcomes → update. Implementation needs each arrow defined.
 
-- **Score.** Compute λ from the observation stream at `as_of`, applying N(t) = N₀ × e^(−kt) to each observation's contribution.
+- **Score.** Compute λ from the observation stream at `as_of`, applying exponential decay to the **deviation from neutral**:
+
+	λ(t) = 1.00 + (λ₀ − 1.00) × e^(−kt)
+
+	This keeps the same decay constant and curve shape, but makes `1.00` the attractor. Positive trust above neutral decays down toward neutral; damaged trust below neutral recovers up toward neutral.
 - **Observe outcomes.** This is the arrow that does not currently exist anywhere in the stack, and it is the hard part. An outcome is a later judgement about an earlier claim or action: the validated fact held or it did not; the authorised build worked or it broke.
 - **Update.** Nothing to update, because nothing is stored. The next computation simply includes the new observation. This is the payoff of §3.
 
@@ -70,9 +74,9 @@ Ratified policy:
 
 - **N₀ for a new entity is 1.00.** New entities start from neutral, not from trust and not from quarantine.
 - **1.00 means neutral / unknown.** It is explicitly "insufficient evidence either way," not an endorsement.
-- **Authority remains earned via participation floor.** Until an entity has at least 3 corroborated non-self observations in-window, it is treated as provisional and capped at Tier 1 for HAL consequence authorisation regardless of raw λ.
+- **Silence returns toward unknown, not toward condemnation.** With neutral-attractor decay, inactivity tends toward `1.00` rather than `0.00`, so lack of evidence is not treated as evidence of failure.
 
-This resolves the onboarding deadlock while preserving the design principle that high-consequence authority is earned from observed outcomes rather than granted at join time.
+This removes the onboarding deadlock without introducing a provisional participation floor, while preserving the design principle that high-consequence authority still has to be earned through observed outcomes.
 
 ## 6. Calibrating k
 
