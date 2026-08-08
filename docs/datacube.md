@@ -2,6 +2,8 @@
 
 **Stage 2 of the Forge Stack spine: Classify.** Terminology inherited from `docs/glossary.md` via `forge-stack/governance-v1`.
 
+Implementation definition: see `docs/datacube-implementation-definition.md`.
+
 DataCube is the classification system. Its artefact is the **cube** — an epistemic knowledge unit classified through six lenses. DataCube classifies what came in; it makes no trust claims (that is the Leighton Weight Engine's job) and keeps no authoritative history (that is ChronoSCRIBE's).
 
 ## The Six Lenses
