@@ -1,0 +1,58 @@
+{
+  "scp_id": "giblets-forge/style/visual-identity-v1",
+  "scp_version": "1.2.0",
+  "created": "2026-07-21T00:00:00Z",
+  "inherits": "forge-stack/governance-v1",
+  "declaration": {
+    "intent": "Declare the canonical visual identity for Forge Stack UIs, so every future build inherits one design system instead of a fresh palette being re-derived per consumer. Triggered by a real collision: LifeForge's stem-cell colour (#D4C24C) and the FACT lens colour (#D4A24C) were picked independently, in two different builds, and landed one character apart in hex — genuinely confusable in a live simulation. This capsule exists to make that class of error structurally impossible going forward.",
+    "constraints": {
+      "lens_palette": {
+        "rule": "These six colours are reserved exclusively for the six DataCube lenses, in every Forge Stack UI, permanently. They are never reused for anything else — no entity type, no agent identity, no domain-specific meaning may be assigned a colour from this set or a near-duplicate of one.",
+        "band": "Muted, desaturated, 'instrument panel' register — approx. 35-50% saturation, 55-65% lightness. Deliberately quiet, not vivid.",
+        "colours": {
+          "FACT": "#D4A24C",
+          "OPINION": "#7C8CA3",
+          "COUNTER": "#C06868",
+          "FICTION": "#8F6B9B",
+          "CONTEXT": "#7FA36E",
+          "UNKNOWN": "#5A6270"
+        }
+      },
+      "domain_palette_rule": {
+        "rule": "Any consumer-specific entity colour (cell types, agent identities, faction colours, whatever a given build needs) must NOT fall within the lens palette's saturation/lightness band, and should differ in hue from its nearest lens colour by a clearly perceptible margin. Prefer a more saturated, more vivid register (65%+ saturation) so domain colours read as a different visual category from lens colours at a glance, not just a different specific colour.",
+        "worked_example_lifeforge": {
+          "stem": "#8A7AE8 (was #D4C24C — collided with FACT, corrected here)",
+          "neural": "#4FC3D9",
+          "muscle": "#E8825E",
+          "digestive": "#4FCB8A"
+        },
+        "note": "This is a rule, not a fixed list — each consumer picks its own domain colours under this constraint. Only the lens six are ever fixed stack-wide."
+      },
+      "base_palette": {
+        "background": "#0B0E14 — deep ink-blue-black, not pure black and not the cream/terracotta AI-generated default",
+        "panel": "#0E121A",
+        "panel_alt": "#171C24",
+        "line": "#22282F",
+        "text": "#C9D1DB",
+        "text_dim": "#8B95A3",
+        "text_dimmer": "#5A6270"
+      },
+      "typography": {
+        "display_and_body": "A serif face — 'Iowan Old Style', Georgia, serif — used for headers and body copy alike. Chosen for a document/ledger register, not a marketing-page register.",
+        "utility_and_data": "A monospace face — 'SF Mono', 'JetBrains Mono', Consolas, monospace — reserved for labels, data values, hashes, timestamps, and anything meant to read as machine-verifiable rather than authored prose.",
+        "rule": "Never mix these roles. Prose and structure get the serif; anything the ledger could hash gets the mono."
+      },
+      "layout": {
+        "the_ledger_rail": "A dedicated vertical panel, typically right-hand, showing a live, top-appended, hash-referenced audit trail. This has now appeared unprompted in two independent builds (the Trust Game, LifeForge) and is ratified here as the canonical placement for any Forge Stack UI with an audit trail — not reinvented per build.",
+        "instrument_labels": "Small, uppercase, letter-spaced, monospace labels (e.g. 'FACT', 'LEDGER — 14 ENTRIES') for anything functioning as a system-level readout, distinct from ordinary prose labels."
+      },
+      "anti_pattern_note": "Per the frontend-design skill's own calibration: avoid the three AI-generated-design defaults (warm cream + terracotta serif; near-black + single neon accent; broadsheet hairline-rule newspaper layout) unless a brief explicitly calls for one. This capsule's own palette was chosen partly in deliberate opposition to the cream/terracotta default and partly in deliberate opposition to the flat neon-on-black default — an instrument-panel register with six named, muted, semantically-locked colours is neither."
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "YOUR_DID_HERE",
+    "algorithm": "Ed25519",
+    "value": "U94we1FsKaV3v0H0vMAGmR0Gs9KeGmEa26w517vOosXzdx+UJZp0SL/rXVsJ9I1sYMpAP/qBDL1VH4dgGl6KAw=="
+  }
+}

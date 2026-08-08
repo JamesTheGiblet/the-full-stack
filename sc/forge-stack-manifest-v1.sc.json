@@ -1,0 +1,28 @@
+{
+  "scp_id": "forge-stack/manifest-v1",
+  "scp_version": "1.2.0",
+  "created": "2026-07-21T00:00:00Z",
+  "inherits": "forge-stack/governance-v1",
+  "declaration": {
+    "intent": "Pin the complete Forge Stack v1 documentation set. This manifest names every doc capsule in the freeze; a revision to any member is a new capsule identity and therefore a new manifest version.",
+    "parameters": {
+      "members": [
+        "forge-stack/docs/glossary-v1",
+        "forge-stack/docs/scp-spec-v1",
+        "forge-stack/docs/datacube-v1",
+        "forge-stack/docs/leighton-weight-v1",
+        "forge-stack/docs/chronoscribe-v1",
+        "forge-stack/docs/hal-v1",
+        "forge-stack/docs/gate-pattern-v1"
+      ],
+      "governance": "forge-stack/governance-v1",
+      "example": "forge-stack/examples/minimal-v1"
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "YOUR_DID_HERE",
+    "algorithm": "Ed25519",
+    "value": "G1sPP5Ec0Gs/ctZlaB9yHMsV82SPRGnHAdpSbul/AwrSGmiCDk0LPDSaXPEnVGQO3XLxLL+hP01MKKHYBqVtCg=="
+  }
+}

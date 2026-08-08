@@ -1,0 +1,65 @@
+{
+  "scp_id": "the-last-full-stop/work-v1",
+  "scp_version": "1.2.0",
+  "created": "2026-07-23T08:13:41Z",
+  "inherits": "forge-stack/governance-v1",
+  "declaration": {
+    "intent": "Declare The Last Full Stop as a finished creative work under the Giblet's Forge imprint: a fable of the war between Letters and Numbers, ended by the Period, told as a historian's reconstructed archive from three centuries of disputed testimony.",
+    "parameters": {
+      "imprint": "Giblet's Forge",
+      "form": "illustrated fable, framed as a historian's reconstructed archive",
+      "structure": [
+        "I. The Old War",
+        "II. The Neutral Ground",
+        "Plate I",
+        "III. The Question Mark",
+        "IV. The Strike",
+        "Interlude. A Digression, Preserved Despite Itself",
+        "Plate II",
+        "V. The One Called Period",
+        "VI. Full Stop",
+        "Plate III",
+        "VII. The Aftermath",
+        "VIII. The Punctuation Assembly",
+        "Plate IV",
+        "IX. The Era of Quiet",
+        "X. The Scribe's Note",
+        "XI. The Last Full Stop",
+        "Appendix. On the Lost Scrap"
+      ],
+      "documents": [
+        {
+          "path": "the-last-full-stop.md",
+          "description": "Full plain-text edition",
+          "hash_algorithm": "sha256",
+          "hash": "3a8470c197808df24ea0e350b25e2aa64504cfc819a6a24bb9bf90badfc73c40"
+        },
+        {
+          "path": "the-last-full-stop.html",
+          "description": "Self-contained page-turning book reader",
+          "hash_algorithm": "sha256",
+          "hash": "1cdd972a0de15a6227b8a3e1e9a6857c19a9b0a67077bd597394e1377fca60cb"
+        }
+      ],
+      "standing_conventions": [
+        "Every testimony carries an explicit corroboration label (uncorroborated, disputed, self-reported, corroborated by n sources) — the historian's own evidentiary apparatus is part of the text, not hidden from the reader.",
+        "The historian never resolves a disputed account into a single truth; section VI's three-witness dispute over the Period's arrival is left open by design, not by omission.",
+        "Section X (the Scribe's Note) is the sole exception: the one claim every surviving witness agrees on, stated once and not repeated as the book's closing line.",
+        "Section X precedes XI so the reader meets the Period's final, tired sighting already knowing the one true thing about her.",
+        "The Appendix is framed explicitly as the historian's personal conviction, not scholarship — it does not claim evidentiary status for the lost scrap."
+      ]
+    },
+    "constraints": [
+      "Do not add a fourth account that resolves section VI's disputed testimony.",
+      "Do not restore 'she only asked them to stop' as a repeated closing line across more than its two intended appearances (the Scribe's Note, and the back-cover echo).",
+      "Do not reorder X and XI back to their original sequence without re-ratifying the restructure rationale.",
+      "Any future edition editing the text must re-pin both document hashes and bump this capsule's suffix version."
+    ]
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "YOUR_DID_HERE",
+    "algorithm": "Ed25519",
+    "value": "v/fE+fRdnYzyp3ZyL8gdYe+9iAQwmx4rFUJdHXhWOpnVA5UqjAa2O4ZnyFR6nMBzBH90AfrkjRXs9ehFcUATAA=="
+  }
+}

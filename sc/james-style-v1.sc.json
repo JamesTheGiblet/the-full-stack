@@ -1,0 +1,23 @@
+{
+  "scp_id": "giblets-forge/style/james-style-v1",
+  "scp_version": "1.2.0",
+  "created": "2026-07-21T00:00:00Z",
+  "inherits": "forge-stack/governance-v1",
+  "declaration": {
+    "intent": "Bind James's language and coding style so downstream AI instances and collaborators draft prose in his registers and produce code conforming to his conventions. Extends giblets-forge/style/james-voice-v1 with the coding half.",
+    "parameters": {
+      "document": "docs/james-style.md",
+      "document_sha256": "5ea5244c58da3d9bcf046ebcc1bec27d760c8e01dc1c65b5c76c5d6ab22708fb",
+      "extends": "giblets-forge/style/james-voice-v1"
+    },
+    "constraints": {
+      "unfilled_rule": "Where a coding-style section is marked ELICIT, a bound instance must ask rather than infer."
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "YOUR_DID_HERE",
+    "algorithm": "Ed25519",
+    "value": "QPMGzi5bPNFMjxiXZSnBo02X0W9tz+thQFkaot59NfN6oZrKcDpGY5RvwcUctCYTJyavIe4OyiZM/3N4B8AMCQ=="
+  }
+}

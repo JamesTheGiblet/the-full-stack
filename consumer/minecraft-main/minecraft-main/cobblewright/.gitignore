@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+
+# Build output
+*.exe
+dashboard/
+
+# Local configuration
+config.json
+
+# Local semantic capsules
+*.local.sc.json
+
+# Legacy directories after refactor
+plugins/
+utils/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Misc
+.npm
+.eslintcache
+
+# Environment variables
+.env
+.env.local
+
+# pkg cache
+.pkg-cache/

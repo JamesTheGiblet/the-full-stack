@@ -1,0 +1,19 @@
+{
+  "scp_id": "forge-stack/docs/leighton-weight-v1",
+  "scp_version": "1.2.0",
+  "created": "2026-07-21T00:00:00Z",
+  "inherits": "forge-stack/governance-v1",
+  "declaration": {
+    "intent": "Specify the Trust-score stage: Forge Theory, the Leighton Weight score (lambda), the per-domain decay constant (k), the engine, and the Leighton Loop.",
+    "parameters": {
+      "document": "docs/leighton-weight.md",
+      "document_sha256": "1c8392e9da7b16ba0e7e4c70c66645f2673cd0c6534f8e42021f4c2da46e2438"
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "YOUR_DID_HERE",
+    "algorithm": "Ed25519",
+    "value": "wWHSSF/c4mPG97+XnhU6j6uwz54hPpHV/YbPVonZs6L4XwiXuzzw3RqvdSNL/w8kbdixTGzNZ9CV4QRkiYJFAw=="
+  }
+}

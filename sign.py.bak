@@ -1,0 +1,107 @@
+"""sign.py — sign (and verify) every sc capsule in sc/ with an Ed25519 key.
+
+Implements scp-spec-v1.2.md section 4 exactly:
+  canonicalise = json.dumps(obj, sort_keys=True, separators=(',',':'), ensure_ascii=True)
+  sign         = Ed25519 over the raw UTF-8 canonical bytes, no pre-hash
+
+Usage:
+  python sign.py            # sign every capsule in sc/
+  python sign.py --verify   # verify every signature in sc/
+
+Key handling:
+  Reads a raw 32-byte Ed25519 seed from forge-signing.key next to this
+  script. If the file is missing, a new key is generated and saved.
+  If you already have a signing key (e.g. from the Mimir provenance
+  chain), copy its 32-byte seed to forge-signing.key instead so v1
+  chains to your existing identity.
+  NEVER commit forge-signing.key. Back it up somewhere offline.
+"""
+import base64
+import json
+import pathlib
+import sys
+
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric.ed25519 import (
+    Ed25519PrivateKey,
+    Ed25519PublicKey,
+)
+
+ROOT = pathlib.Path(__file__).parent
+KEY_FILE = ROOT / "forge-signing.key"
+KEY_ID = "z6MkqQnphvZWG9HVXbvxAhggq9V6mmkThYSFBUt4CYsVt2Y1"
+
+
+def canonicalise(obj) -> str:
+    return json.dumps(obj, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+
+
+def load_or_create_key() -> Ed25519PrivateKey:
+    if KEY_FILE.exists():
+        return Ed25519PrivateKey.from_private_bytes(KEY_FILE.read_bytes())
+    key = Ed25519PrivateKey.generate()
+    KEY_FILE.write_bytes(
+        key.private_bytes(
+            serialization.Encoding.Raw,
+            serialization.PrivateFormat.Raw,
+            serialization.NoEncryption(),
+        )
+    )
+    print(f"generated NEW key -> {KEY_FILE}  (back it up; never commit it)")
+    return key
+
+
+def sign_all() -> int:
+    if KEY_ID.startswith("REPLACE"):
+        print("Set KEY_ID at the top of this script first (your DID or KERI AID).")
+        return 1
+    key = load_or_create_key()
+    pub_b64 = base64.b64encode(
+        key.public_key().public_bytes(
+            serialization.Encoding.Raw, serialization.PublicFormat.Raw
+        )
+    ).decode()
+    print(f"public key (b64): {pub_b64}")
+    (ROOT / "forge-signing.pub").write_text(pub_b64 + "\n", encoding="utf-8")
+    for path in sorted(list(ROOT.glob("sc/*.sc.json")) + list(ROOT.glob("consumer/**/*.sc.json"))):
+        capsule = json.loads(path.read_text(encoding="utf-8"))
+        body = {k: v for k, v in capsule.items() if k != "signature"}
+        sig = key.sign(canonicalise(body).encode("utf-8"))
+        capsule["signature"] = {
+            "key_id": KEY_ID,
+            "algorithm": "Ed25519",
+            "value": base64.b64encode(sig).decode(),
+        }
+        path.write_text(
+            json.dumps(capsule, indent=2, ensure_ascii=False) + "\n",
+            encoding="utf-8",
+        )
+        print(f"signed  {path.name}")
+    print("done. Run 'python sign.py --verify' to prove it.")
+    return 0
+
+
+def verify_all() -> int:
+    pub = Ed25519PublicKey.from_public_bytes(
+        base64.b64decode((ROOT / "forge-signing.pub").read_text().strip())
+    )
+    failed = 0
+    for path in sorted(list(ROOT.glob("sc/*.sc.json")) + list(ROOT.glob("consumer/**/*.sc.json"))):
+        capsule = json.loads(path.read_text(encoding="utf-8"))
+        sig = capsule.get("signature", {})
+        body = {k: v for k, v in capsule.items() if k != "signature"}
+        try:
+            pub.verify(
+                base64.b64decode(sig["value"]),
+                canonicalise(body).encode("utf-8"),
+            )
+            print(f"OK      {path.name}")
+        except Exception:
+            print(f"FAILED  {path.name}")
+            failed += 1
+    print("all signatures verify." if failed == 0 else f"{failed} FAILED.")
+    return 1 if failed else 0
+
+
+if __name__ == "__main__":
+    sys.exit(verify_all() if "--verify" in sys.argv else sign_all())

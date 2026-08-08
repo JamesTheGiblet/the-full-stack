@@ -1,0 +1,49 @@
+{
+  "scp_id": "minecraft/mechanics-v1",
+  "scp_version": "1.2.0",
+  "created": "2026-07-21T00:00:00Z",
+  "inherits": "forge-stack/governance-v1",
+  "declaration": {
+    "intent": "Declare the actual Minecraft game mechanics relevant to an autonomous, Forge Stack-governed bot society. This capsule grounds the story arc in real constraints rather than invented ones — the world is real, the rules aren't ours to set.",
+    "constraints": {
+      "time_and_world": {
+        "day_night_cycle": "20 real-world minutes = 1 in-game day. Night brings hostile mob spawns in unlit areas.",
+        "weather": "Rain, thunderstorms, snow (biome-dependent) — no direct threat, but thunderstorms can spawn charged creepers and ignite fires.",
+        "chunk_persistence": "The world is saved to disk and persists between sessions. It is NOT self-erasing. The only things that erase it are administrative: a server wipe, a world reset, or deletion. Impermanence is a social/administrative threat, not a game mechanic."
+      },
+      "survival_mechanics": {
+        "hunger": "Entities must eat regularly or take damage and lose regeneration. A constant, recurring resource pressure — the closest Minecraft equivalent to Dust Margin's water scarcity.",
+        "hostile_mobs": "Spawn in darkness/unlit areas at night or underground. Threat scales with world difficulty setting. Zombies, skeletons, creepers (explosive — can destroy builds), spiders.",
+        "damage_and_health": "Entities take damage from mobs, falls, fire, drowning, starvation, the void."
+      },
+      "death_and_respawn": {
+        "rule": "Death is NOT final. On death, an entity drops its inventory (unless keepInventory is set) and respawns at its bed or the world spawn point.",
+        "story_implication": "Because death is a non-event, mortal stakes cannot be the society's central threat — that role has to be filled by something that IS actually erasable: builds, territory, history, trust standing. This is the opposite of Dust Margin's 'death is final' hard rule, and it should be treated as a deliberate structural difference, not an oversight."
+      },
+      "resources_and_progression": {
+        "gathering": "Mining (ores: coal, iron, gold, diamond, netherite — deeper/rarer as tier increases), farming, woodcutting, fishing.",
+        "crafting_tree": "Tools and armor gate progression — better tools mine better ores, better ores make better tools. A natural, real, structural analogue for HAL's tier ladder.",
+        "dimensions": "Overworld → Nether (hostile, resource-rich, portal-gated) → End (boss dimension, portal-gated, requires Nether progression first). Natural act structure if the story wants escalating stakes."
+      },
+      "building_and_redstone": {
+        "block_placement": "The core creative/constructive act — no inherent limit besides materials and world border.",
+        "redstone": "In-game logic circuits: wires, repeaters, comparators, pistons, sensors. Can implement real, in-world security systems, automated doors, traps, alarms — a literal, mechanical version of the gate pattern (an ingress gate can be an actual redstone-triggered door; an egress gate can be a real pressure-plate-and-piston lockout on a valuable area)."
+      },
+      "multiplayer_and_social_layer": {
+        "griefing": "Other players can destroy or steal builds unless the server enforces claims/permissions/protection plugins. This — not mobs, not death — is the real, credible threat to a society whose purpose is 'build something that lasts.'",
+        "factions_and_pvp": "Player-vs-player combat and rival groups are possible depending on server ruleset; not universal.",
+        "server_authority": "A server operator (or the world owner) has final administrative control — resets, bans, rule changes. This is the single point of failure the story's founding wound (impermanence) should ultimately trace back to."
+      },
+      "bot_ai_interface": {
+        "mineflayer": "The framework CobbleWright is built on. A bot perceives and acts on the world through the Minecraft protocol — it sees blocks, entities, and events, and can move, mine, place, craft, and chat, same interface a human player uses.",
+        "implication": "Every mechanic above is equally available to an autonomous bot society as to human players. Nothing here is fictionalised or simplified for the bots — they play by the same rules everyone else does."
+      }
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "YOUR_DID_HERE",
+    "algorithm": "Ed25519",
+    "value": "4vwLvdHfX+ShPVeZYDhKS3loo2k2Z1t00gjWYNt8dFdX5KGhkiofa4I2f8Cmax4VsBSTWVSFbAQjOEa5TXNSDA=="
+  }
+}

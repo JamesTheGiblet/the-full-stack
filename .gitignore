@@ -1,0 +1,41 @@
+@'
+# Keys and secrets — never in this tree
+*.key
+*.pem
+*.seed
+*_secret*
+*private*
+.env
+.env.*
+keys/
+secrets/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+
+# Build output
+dist/
+build/
+*.log
+'@ | Set-Content -NoNewline:$false -Encoding utf8 .gitignore
+
+@'
+*.sc.json  -text
+*.jsonl    -text
+*.sig      -text binary
+*.md       -text
+*          -text
+'@ | Set-Content -NoNewline:$false -Encoding utf8 .gitattributes
