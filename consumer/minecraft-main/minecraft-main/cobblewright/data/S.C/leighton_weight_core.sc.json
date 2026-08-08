@@ -1,5 +1,6 @@
 {
-  "scp_id": "leighton_weight_core.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/leighton-weight-core-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "FORGE.v1.leighton_weight_core.2026-07-16.JM",
   "scp_version": "1.2.0",
   "created_at": "2026-07-16T00:00:00Z",
@@ -119,7 +120,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "kuA0TFHVuI5O7xTOwG6+5CIcVMm/hHx4urG2jvZzOk1jrSZsJ+rjkXZUVRFgffeSybqnypd+rqKDvlRsmxFaBA=="
+    "value": "mGlepwq6gquryPquGM8tXtZLlz2Ft56DoHSJqejWMHo/Ljhyg1fcqTyUsbUluhA965QusIFxfFOiBlMom6KTBg=="
   },
   "extensions": {}
 }

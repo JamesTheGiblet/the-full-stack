@@ -1,5 +1,6 @@
 {
-  "scp_id": "test-suite-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/test-suite-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.test-suite-overview.2026-07-19.COPILOT",
   "sc_version": "1.2-complete",
   "capsule_type": "testing",
@@ -86,7 +87,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "Gpy0o/UpocdusZYHjzjrj16/QNg2Vr5ZTR1RDtDrju/wBVPMd6Losy1Dzs7qBdZsIn7kELozOcX2PuHZ2+jICA=="
+    "value": "Mhj1EtVZdTMoB1pcoc9T0pSMZ3t+Hx+r5tNu916i3IHwpcoU3Ar/blsoLz3KtHVGkt7rtim7bR586Sn3MhnIDQ=="
   },
   "extensions": {}
 }

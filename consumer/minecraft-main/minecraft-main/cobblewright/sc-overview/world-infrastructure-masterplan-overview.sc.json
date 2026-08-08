@@ -1,5 +1,6 @@
 {
-  "scp_id": "world-infrastructure-masterplan-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/world-infrastructure-masterplan-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.world-infrastructure-masterplan-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_lore",
@@ -53,7 +54,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "x8EfIg7PRqJyhZsJLRV/MAVHxsPEJ3dh8lQJwp9fH8EvETBoJQwgXocKcp/7QbaJTPmijbKduQ7ZxKjFrQh+Ag=="
+    "value": "4G2vtvWHXaUh/pTC1aoKiuEdx0kQyPBTOAzJP1tQvjt3txruMEddT2rVSc2+PpDjcjFa7L0ZTe/emwB3F5tYDg=="
   },
   "extensions": {}
 }

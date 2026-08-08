@@ -1,5 +1,6 @@
 {
-  "scp_id": "farming.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/farming-v1",
+  "created": "2026-07-19T00:00:00Z",
   "sc_version": "1.2-complete",
   "capsule_type": "farming",
   "intent": {
@@ -31,6 +32,6 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "9LCbIK421DoCgaHOS8NxQfUNxJBaYCp1wjRCRehPAmQ/O5L42JlWgqYSBoxkKeFN4zgTzaWi70cTWVj5YRfaDw=="
+    "value": "QhxO7p6yWFm2dZssiwL8WstyR1g889h7UxiTlOp5RwfSZkeeLAORLECyYFgmS3ss3XeLv24Z5o3T2kjhro6jDg=="
   }
 }

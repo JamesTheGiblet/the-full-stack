@@ -1,5 +1,6 @@
 {
-  "scp_id": "universe-memory-architecture-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/universe-memory-architecture-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.universe-memory-architecture-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_protocol",
@@ -55,7 +56,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "MUvWtzGVgNAhF/q8503JE92/qW8BmVNEnNZHufkRHh8MpROReYJ+cpLx2EdvIWDg4k5C6Bl45wTYiavkXVf2BQ=="
+    "value": "quEmVnmcV51Xp90wt97uPzPT4QVJ4el2Bz+ABtTrzm8Nr6efPXgTANYBTHofgPRS4yWY1MV/O0n/0z8mPGQ+Ag=="
   },
   "extensions": {}
 }

@@ -1,5 +1,6 @@
 {
-  "scp_id": "agent-cobblewright-prime-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/agent-cobblewright-prime-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.agent-cobblewright-prime-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_agent",
@@ -55,7 +56,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "mYzYx6DCsg0URtGBA6krJEWqgBFlVx6ilFXLwvKX1roEi6C/sTJVLGWFJkOWIefuqZ75BjgJKrul3cfw0M2IAQ=="
+    "value": "hj392Yq/8n3vpdu3PAvPvHgVXLOipfrQao+/LrvPBHN1udYtYJDMC6qBitSo8E69voZmrkPIPQA39to1oFpgBg=="
   },
   "extensions": {}
 }

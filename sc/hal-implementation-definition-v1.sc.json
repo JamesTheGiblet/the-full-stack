@@ -1,0 +1,19 @@
+{
+  "scp_id": "forge-stack/docs/hal-implementation-definition-v1",
+  "scp_version": "1.2.0",
+  "created": "2026-08-08T11:56:00Z",
+  "inherits": "forge-stack/governance-v3",
+  "declaration": {
+    "intent": "Specify HAL implementation boundaries: accountability question, seal minimum fields, decay non-retroactivity, and explicit single-operator mode semantics.",
+    "parameters": {
+      "document": "docs/hal-implementation-definition.md",
+      "document_sha256": "e16147427ac6561eb4e02b85b14a5721148c6a99683abbc0aeb4853e7ec25232"
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+    "algorithm": "Ed25519",
+    "value": "Ra2A4aku9vzpIeSVe8/9kWKmluuaxyyNQolDWuFGZOrvsyWKGvkXQXIBKeLNubOW+rtl6to6EgWOl00fA7jbDQ=="
+  }
+}

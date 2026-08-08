@@ -1,5 +1,6 @@
 {
-  "scp_id": "telemetry-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/telemetry-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.telemetry-overview.2026-07-18.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_plugin",
@@ -63,7 +64,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "j3UtD4vo7TfbfzR3R86MSSoLdxN1iSF+ZUstC47eavhMufTo/p6BImS7U/UY3TmruepEk9DF95u4N/mC6KU4CA=="
+    "value": "jK7bbkjXmv7shIm4N2umiWCct/zbGCwwO3R+MWUX+JD/8CT1K7HNWheCenMGBAaFMxhQfZ9iadZNTzsVT9f8Aw=="
   },
   "extensions": {}
 }

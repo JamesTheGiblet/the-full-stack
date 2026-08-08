@@ -1,5 +1,6 @@
 {
-  "scp_id": "agent-interaction-protocols-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/agent-interaction-protocols-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.agent-interaction-protocols-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_protocol",
@@ -54,7 +55,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "PErVzaKD5UPluJBwtgE3xHvz7zKjPReqObun9NrW4sIEPCQLfTS4OaBKmonTsovhmvStmjpgsnmu5UFzCfiVDA=="
+    "value": "dGoN5STvv+Bh/uWxVNW7Ng5iZ+niFO5D1XYPkDFWRS5ntJn/QUMof/Ii0y54IcVp71Z0E3zkfJohi+x1+2wKCg=="
   },
   "extensions": {}
 }

@@ -1,5 +1,6 @@
 {
-  "scp_id": "roadmap-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/roadmap-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.roadmap-overview.2026-07-17.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_strategic",
@@ -65,7 +66,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "HGkECUTfY5PwY9uVQj5PnsKU3mgrqBbEgGCjatHAvYA0pd0jhwLcsNQPPmz+m5lx6i539f2iI5dTGGBua9xnDA=="
+    "value": "LGsJ57V65q4pnAFslJUmoVrtfhwVpDUjtzyDfhlQKgieGqORhUrMUETMnKTQ7xjamBjI95e7MF72rzygnSgqAQ=="
   },
   "extensions": {}
 }

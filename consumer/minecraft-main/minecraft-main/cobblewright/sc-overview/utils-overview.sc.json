@@ -1,5 +1,6 @@
 {
-  "scp_id": "utils-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/utils-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "sc_version": "1.2-complete",
   "capsule_type": "utils",
   "intent": {
@@ -66,7 +67,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "USO3SA4xdMwcToTy4JiOakWkd6h5Cy4f6vnS/ZjTFrxTYH6RJX/wuIU29k466FiQeyxGm6t9Bkztqo20CkEyAw=="
+    "value": "K6R5lBi0dS5BLAR3VbHoXjP/6z0WPKMRXQMsqMDaXS8eV+UotdticbQtP/yJ15bp74t37u/pYaqLQAHQMursBw=="
   },
   "extensions": {}
 }

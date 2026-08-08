@@ -1,5 +1,6 @@
 {
-  "scp_id": "core.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/core-v1",
+  "created": "2026-07-19T00:00:00Z",
   "sc_version": "1.2-complete",
   "capsule_type": "core",
   "identity": {
@@ -26,6 +27,6 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "TPqDBAH3uNoXmFPXkjiP/lee86uW7xjdVjIaH431LR41Ga9gn3kY5DMWDbJLScOwq5SqVkLKcQb424Peql1FBg=="
+    "value": "C8nWrhCdKKxOruynhtHFXx1bkhjJm8TZkfAMoUUJg7JHlIqtw+G2u+imqijXfykU7/fddA0cL8XxO5Fof7CrDQ=="
   }
 }

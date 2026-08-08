@@ -1,6 +1,7 @@
 {
-  "capsule_schema_version": "0.1",
   "scp_id": "giblets-forge/forge-stack/chronicle-v1",
+  "created": "2026-07-19T00:00:00Z",
+  "capsule_schema_version": "0.1",
   "object_class": "Safe",
   "intent": "The living history of the village — legends, expeditions, and everyday life.",
   "containment": {
@@ -62,6 +63,6 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "6D5bsSkrWCdptDAqM4k0iPUTEQaBBtgyH0ENe3jg9ROy4E4MFdUGsMQr8YxMxslarAMl1hZkppMJMhJGMbVbAQ=="
+    "value": "63HvT7h2NILzk5UOSu1sAe/kO5Ir48MFxumthq4OJ9BX6SFAjqmmKkDNSUf1GbP0RqtFh28H4sSYYa5MSbJLAw=="
   }
 }

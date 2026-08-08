@@ -1,5 +1,6 @@
 {
-  "scp_id": "world-wrightrealm-geography-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/world-wrightrealm-geography-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.world-wrightrealm-geography-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_lore",
@@ -58,7 +59,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "zYZ4Ofb0qgP+ZM8MzUj5g8lcpUdueknD64b4qELbd/MkV9pr9/YEl9vdFAnxYEzIpfkyVB4MYuELT+SrJpgxDw=="
+    "value": "vy3KF7SkjXRfESvL3xZ3w16Lp0zrgu6cGRd6WihF0nM64Yf36R6h1WrXg+uORsfqqL0G7lYoJBuD88nnxVB6BQ=="
   },
   "extensions": {}
 }

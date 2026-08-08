@@ -1,5 +1,6 @@
 {
-  "scp_id": "universe-governance-model-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/universe-governance-model-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.universe-governance-model-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_protocol",
@@ -54,7 +55,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "wG3fMtOz35zAeOTkaVoxLVDBqeqr7Z/hr9roWTJhL/PFaOIsC7nbfuyY68d3mfbaaYBIPEVzn9MworfmU9LNDg=="
+    "value": "6JhdHTytxq9bp/27u9vjtnSq30g6yYu/C70WzhoNhhNfP4qpN2GXFCJ3PkJqXxZe4YFN8ZIr1v6Y1O+LT0pcDA=="
   },
   "extensions": {}
 }

@@ -1,5 +1,234 @@
 # Changelog
 
+2026-08-08 13:00
+
+## The Good 3.1
+Confidence rating: 10/10
+
+- **Cross-reference.** See `docs/hal-implementation-definition.md` and `sc/hal-implementation-definition-v1.sc.json` for the ratified HAL Part II source and its governed witness capsule.
+
+- **HAL implementation-definition is now formally witnessed.** Added and signed `sc/hal-implementation-definition-v1.sc.json`, binding the new HAL Part II implementation-definition document into governed capsule form.
+- **Root ledger now records the HAL Part II witness events.** `ledger.py append-pins` appended three new events: `#109` (`event.document.pinned` for `docs/hal-implementation-definition.md`), `#110` (`event.document.pinned` for `docs/hal.md`), and `#111` (`event.capsule.pinned` for `forge-stack/docs/hal-implementation-definition-v1`).
+- **Verification remained green after append.** Full signature verification and root chain verification passed after append, confirming no integrity regression while ratifying the HAL additions.
+
+## The Bad 3.1
+Risk rating: 1.5/10
+
+- **Witness pass triggered broad signature churn.** A full signing run refreshed signatures across many existing capsules and sidecars, which is valid but increases review noise in the working tree.
+- **Legacy pin history still requires context reading.** The root ledger now has both earlier and newly re-pinned HAL document history, which is expected under append-only discipline but requires governance-aware interpretation.
+
+## The Ugly 3.1
+Severity rating: 1.0/10
+
+- **Small change, large operational surface.** Ratifying one new implementation-definition required another full sign and append cycle, reinforcing that governance-safe changes can still look disproportionately large in diff volume.
+
+2026-08-08 11:55
+
+## The Good 3.0
+Confidence rating: 10/10
+
+- **Schema gate remediation completed.** Fixed the residual capsule set so strict schema validation now passes under `sign.py --verify` without using the schema bypass.
+- **Identity/metadata normalization landed across consumer capsules.** Added missing `created` timestamps and normalized invalid `scp_id` values to the lowercase `-vN` convention in the previously failing cohort.
+- **Full re-sign pass completed and verified.** Capsule signatures and artifact sidecars are now consistent again, including the new Stage 3 documents and capsules.
+- **Root ledger repaired and re-witnessed cleanly.** After removing placeholder-corrupted tail rows and re-appending valid pins, root verification is green through entries `#103` to `#108`.
+
+## The Bad 3.0
+Risk rating: 2.0/10
+
+- **Legacy filename-subject pins remain in historical rows.** This is expected under append-only rules, but readers still need governance context to distinguish old filename-subject entries from normalized identity-subject entries.
+- **Schema strictness may continue to surface edge capsules.** Future imported consumer capsules that do not conform to stack shape conventions will now fail fast unless intentionally bypassed.
+
+## The Ugly 3.0
+Severity rating: 1.5/10
+
+- **Repair required a surgical rollback of local tail corruption.** Placeholder ledger rows had to be replaced by restoring the committed head and appending valid witness events, which is correct but operationally sharp.
+
+---
+
+2026-08-08 12:45
+
+## The Good 2.9
+Confidence rating: 10/10
+
+- **New manifest drafted to witness new designs.** Drafted `forge-stack-manifest-v4.sc.json`, which adds the `leighton-weight-engine-v1` and `leighton-loop-observation-v1` capsules to the set of officially witnessed documents.
+- **Manifest correctly updated.** The new manifest supersedes `v3`, inherits from the correct governance capsule (`v3`), and replaces the obsolete `leighton-weight-v1` with the new engine design capsule.
+
+## The Bad 2.9
+Risk rating: 2.0/10
+
+- **New manifest is unsigned and unpinned.** The `manifest-v4` capsule exists as a draft but has not yet been signed or pinned to the root ledger.
+
+## The Ugly 2.9
+Severity rating: 1.0/10
+
+- **The final piece of the governance puzzle.** The project's state is now fully described and ready for final ratification. The only remaining step is to sign and pin this new manifest to make the entire chain of new designs official.
+
+---
+
+2026-08-08 12:40
+
+## The Good 2.8
+Confidence rating: 10/10
+
+- **New designs ratified.** Successfully ran `ledger.py append-pins` to pin the signed `forge-stack-leighton-weight-engine-v1` and `forge-stack-leighton-loop-observation-v1` capsules to the root ledger.
+- **Designs are now part of the official history.** The new capsules and their referenced documents are now recorded as ledger entries #103 through #106, making the designs for Stage 3 a verifiable part of the project's history.
+
+## The Bad 2.8
+Risk rating: 1.0/10
+
+- **No bad items.** The project's governance and tooling are now fully aligned on this front.
+
+## The Ugly 2.8
+Severity rating: 1.0/10
+
+- **Closing the loop.** This action completes the full design-witness-sign-pin cycle, resolving the inconsistencies and formally ratifying the path forward for the Leighton Weight Engine.
+
+---
+
+2026-08-08 12:35
+
+## The Good 2.7
+Confidence rating: 10/10
+
+- **New design capsules signed.** Successfully ran `sign.py` to apply cryptographic signatures to `forge-stack-leighton-weight-engine-v1.sc.json` and `forge-stack-leighton-loop-observation-v1.sc.json`.
+- **Designs are now verifiable.** The signatures make the new design capsules verifiable and bind them to the project's master identity, preparing them to be pinned to the ledger.
+
+## The Bad 2.7
+Risk rating: 2.0/10
+
+- **Capsules are signed but not yet pinned.** The designs are now signed, but they have not yet been recorded in the root ledger. They are verifiable but not yet part of the official, time-ordered history.
+
+## The Ugly 2.7
+Severity rating: 1.0/10
+
+- **Final step before ratification.** The project is now holding signed, ready-to-go governance artefacts. The only remaining step to make them official is to pin them to the ledger.
+
+---
+
+2026-08-08 12:30
+
+## The Good 2.6
+Confidence rating: 10/10
+
+- **Attestation tooling implemented.** Added a new `attest` command to `ledger.py` to support issuing `event.attestation.issued` events, as defined in the observation mechanism design.
+- **Tooling aligned with design.** The new command accepts a subject event hash, an outcome, and an optional rationale. It correctly constructs, signs, and appends the attestation to the specified ledger, bringing the tooling into alignment with the ratified design.
+
+## The Bad 2.6
+Risk rating: 3.0/10
+
+- **New capsules remain unsigned and unpinned.** The `forge-stack-leighton-weight-engine-v1` and `forge-stack-leighton-loop-observation-v1` capsules exist and are now implemented in the tooling, but they have not yet been signed or pinned to the root ledger.
+
+## The Ugly 2.6
+Severity rating: 2.0/10
+
+- **Implementation precedes final ratification.** The tooling to create attestations now exists before the capsules witnessing the design have been formally added to the ledger. This is a deliberate choice for momentum but leaves the project in a temporarily inconsistent state.
+
+---
+
+2026-08-08 12:25
+
+## The Good 2.5
+Confidence rating: 10/10
+
+- **Observation mechanism design witnessed.** Drafted and added `forge-stack/leighton-loop-observation-v1.sc.json`, which formally pins the `docs/leighton-loop-observation.md` design document.
+- **Path to implementation is now fully defined.** With both the engine and its observation mechanism designed and witnessed, the full architectural path to implementing Stage 3 is now clear and under governance.
+
+## The Bad 2.5
+Risk rating: 4.0/10
+
+- **Tooling now lags behind two designs.** The `ledger.py` script does not yet support the `event.attestation.issued` event type defined in the new design.
+- **New capsule is not yet signed or ledgered.** The capsule exists but has not yet been signed or pinned to the root ledger, so it is not yet part of the official history.
+
+## The Ugly 2.5
+Severity rating: 3.0/10
+
+- **Ratifying a dependency.** The project now has two formal, witnessed design capsules that are blocked on implementation. This makes the need to update the tooling more pressing.
+
+---
+
+2026-08-08 12:20
+
+## The Good 2.4
+Confidence rating: 10/10
+
+- **Leighton Loop observation mechanism designed.** A new design document, `docs/leighton-loop-observation.md`, has been added to the project. It proposes a formal mechanism for closing the Leighton Loop.
+- **"Attestation" artefact defined.** The design introduces the "Attestation," a signed ledger event that records a judgment on a past event, cryptographically linking it to the subject event via its hash.
+- **Core design questions answered.** The proposal directly addresses the three blocking questions from the engine design: who generates observations (validators, agents), the timeliness of observations (Attestation Window), and how disputes are handled (as counter-attestations resolved by the engine based on attester λ).
+
+## The Bad 2.4
+Risk rating: 5.0/10
+
+- **Design is un-witnessed.** The new design document exists but is not yet witnessed by a capsule, so it is not yet formally part of the project's governance.
+
+## The Ugly 2.4
+Severity rating: 3.0/10
+
+- **Implementation remains blocked, but the path is now clear.** While the Leighton Weight Engine is still blocked, the dependency now has a concrete design. The next step is to ratify this design and then begin implementation of the observation stream.
+
+---
+
+2026-08-08 12:15
+
+## The Good 2.3
+Confidence rating: 10/10
+
+- **Superseded old Leighton Weight capsule.** The original `leighton-weight-v1.sc.json` has been renamed to `leighton-weight-v1.sc.json.SUPERSEDED` to formally mark it as obsolete.
+- **Clarified design authority.** This action resolves the ambiguity between the old specification and the new, more detailed design. The `forge-stack/leighton-weight-engine-v1` capsule is now the sole authority for the Leighton Weight Engine design.
+
+## The Bad 2.3
+Risk rating: 4.0/10
+
+- **Root ledger will need updating.** The root ledger still contains a pin for the now-superseded capsule. While this is correct for an immutable history, it means the ledger doesn't yet reflect the current state of governance.
+
+## The Ugly 2.3
+Severity rating: 2.0/10
+
+- **A necessary act of historical cleanup.** Renaming the file is a clean way to handle succession, but it highlights the natural drift that occurs in a project's lifecycle. The project now carries a formal record of its own evolution.
+
+---
+
+2026-08-08 12:10
+
+## The Good 2.2
+Confidence rating: 10/10
+
+- **Leighton Weight Engine design witnessed.** Drafted and added `forge-stack/leighton-weight-engine-v1.sc.json`, which formally pins the `docs/leighton-weight-engine.md` design document.
+- **Governance chain remains intact.** The new capsule inherits from `forge-stack/governance-v3`, correctly placing the new design under the latest project governance.
+
+## The Bad 2.2
+Risk rating: 5.0/10
+
+- **Critical implementation gap is now witnessed.** The new capsule explicitly records the constraint that the "Observe outcomes" mechanism is a blocking dependency, making the gap an official part of the project's auditable record.
+- **New capsule is not yet signed or ledgered.** The capsule exists but has not yet been signed or pinned to the root ledger, so it is not yet part of the official history.
+
+## The Ugly 2.2
+Severity rating: 4.0/10
+
+- **Witnessing a blocker.** The project now has a formal, witnessed record of a component design that it cannot yet build. This makes the dependency on the outcome-observation subsystem more acute.
+
+---
+
+2026-08-08 12:05
+
+## The Good 2.1
+Confidence rating: 10/10
+
+- **Leighton Weight Engine design formalised.** A new design document, `docs/leighton-weight-engine.md`, has been added to the project, capturing the core principles for Stage 3 of the spine.
+- **Core principles established.** The design ratifies that λ is a time-decaying trust score computed on-the-fly from an observation stream, not a stored value. It also proposes the entity classes that can hold a λ score.
+
+## The Bad 2.1
+Risk rating: 6.0/10
+
+- **Critical implementation gap formally identified.** The design document explicitly states that the "Observe outcomes" mechanism, which is essential for the Leighton Loop to function, does not yet exist anywhere in the stack. This is now a formally recognized architectural dependency.
+- **Key policy questions remain open.** The design correctly identifies but does not yet answer critical policy questions, including the starting λ for new entities (N₀) and the semantic meaning of the 1.00 score (neutral vs. trusted).
+
+## The Ugly 2.1
+Severity rating: 4.0/10
+
+- **A well-defined component that cannot yet be built.** The project now has a clear, rigorous design for a core spine component, but its implementation is blocked pending the design and implementation of the outcome-observation subsystem.
+
+---
+
 2026-08-08 11:41
 
 ## The Good 2.0

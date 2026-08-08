@@ -1,5 +1,6 @@
 {
-  "scp_id": "agent-variant-evolution-roadmap-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/agent-variant-evolution-roadmap-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.agent-variant-evolution-roadmap-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_agent",
@@ -53,7 +54,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "wZZmD1uoAGYq5yui4CKTDqHJSjOxI1vXX9LuZGbkWi/USUBydeaUi48+4p0uOBqJgOB8wnsAMFcSCsMwsB3FAg=="
+    "value": "ZnSLI9lQX3KOvZ5YaPI0G7gZPYslqVZ+dPJl4JZUn3BOlYEa7wmQm6b2hloZbSkiM7ayahiU3k0bg2kWLSNmAQ=="
   },
   "extensions": {}
 }

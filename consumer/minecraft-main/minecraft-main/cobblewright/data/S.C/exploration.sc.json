@@ -1,5 +1,6 @@
 {
-  "scp_id": "exploration.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/exploration-v1",
+  "created": "2026-07-19T00:00:00Z",
   "sc_version": "1.2-complete",
   "capsule_type": "exploration",
   "intent": {
@@ -27,6 +28,6 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "Dr51tq4VzMOTTqsbmZR5mENFmUxSUpWzQSLK4LBpz2XpCeF6E/Jyz4wka6f2zrk69SNAovyTWcZbISXY1TAvAw=="
+    "value": "a7hYXJS3XVSL+4FMyLA6fLUhxIDuv6RQ4bhAl4QNYLh0KmoU7FkhCk2sAiFX1rOk77cFUYUsQgigyQnWk54DAw=="
   }
 }

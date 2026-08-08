@@ -1,5 +1,6 @@
 {
-  "scp_id": "agent-safety-protocols-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/agent-safety-protocols-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.agent-safety-protocols-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_protocol",
@@ -54,7 +55,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "CImvfzkl8raTC/Sw1S/QhkhKLJ6kO/aaDTvgJEUoCpyNeBJd8G/J/XuQXs0mMgUQe8LXaVe8IoiQKQlu+6LlBg=="
+    "value": "pi2cKhjf6HsAUYBbxdzUNkR36ozTgZTudZ90cE9A4dX6COhgTLCjwh8p+D0TYuKfwDQ/GSEu9/kAQEDAeuVDDQ=="
   },
   "extensions": {}
 }

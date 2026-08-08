@@ -1,5 +1,6 @@
 {
-  "scp_id": "critique.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/critique-v1",
+  "created": "2026-07-19T00:00:00Z",
   "sc_version": "1.2-complete",
   "capsule_type": "critique",
   "intent": {
@@ -30,6 +31,6 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "SWEPsaE7Bjtxx2qRd0IVK7LxAdkfpVN2R7ma3xWeVOh8AhHlUkYLdJJw2PBVFM8doHrMLckEqgnmbXI3TmzrAQ=="
+    "value": "OoT9EBcX55YONv+0t2nprf4cqtlU2gr7/nm/f1SUThSOIhqvhmr4HtzufLnoV0vKXLaUymO9FjJoA1a+kBwICQ=="
   }
 }

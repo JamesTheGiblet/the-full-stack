@@ -1,5 +1,6 @@
 {
-  "scp_id": "knowledge_gate_tests.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/knowledge-gate-tests-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.knowledge-gate-tests.2026-07-18.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "knowledge_verification_suite",
@@ -1719,6 +1720,6 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "tL3XCDytPKBBlmNp0Mv5+GNe71IxLFPYZuUk9HGMsRvhD3L8sk6q84BX9CT2N/TUWkPceJsmP0Tu+TY80DpCDQ=="
+    "value": "IFvuJYhme0m1YzONvIM931Zc85OqBbEngVRxyJ2NX7wzEv0k/OqK9mBEg6AHOhTnL/PUhsVf15GIUkyZUEtBAQ=="
   }
 }
