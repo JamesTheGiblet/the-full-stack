@@ -1,5 +1,45 @@
 # Changelog
 
+2026-08-08 12:00
+
+## The Good 1.8
+Confidence rating: 10/10
+
+- **Recovery commit pushed to remote.** The clean state of the project, following the major file migration, is now durably stored in the remote repository. This concludes the structural cleanup phase.
+
+## The Bad 1.8
+Risk rating: 1.0/10
+
+- **Ledgers remain ungenerated.** The project structure is now correct and durable, but the root and consumer ledgers have not yet been regenerated from this clean state. The project still lacks an auditable history.
+
+## The Ugly 1.8
+Severity rating: 2.0/10
+
+- **Finalizing a painful recovery.** This push marks the end of a significant and error-prone cleanup process. While the state is now correct, it was a corrective action, not forward progress.
+
+---
+
+2026-08-08 11:55
+
+## The Good 1.7
+Confidence rating: 10/10
+
+- **Consumer scope normalization confirmed across other consumers.** Capsule placement now follows the same pattern beyond CobbleWright, including dedicated `sc/` folders under consumer paths where applicable.
+- **Root scope remains clean.** Root `sc/` is still constrained to stack-level capsules, with consumer-specific style and consumer capsules kept in consumer scope.
+- **Verification still green after normalization checks.** Full signature verification passed after confirming file placement.
+
+## The Bad 1.7
+Risk rating: 1.5/10
+
+- **Follow-up governance execution is still pending.** Structural placement is correct, but any ledger reconstruction/anchoring steps remain a separate pass.
+
+## The Ugly 1.7
+Severity rating: 2.5/10
+
+- **Migration confidence required repeated validation.** Earlier migration ambiguity required multiple explicit inventory checks before the state could be trusted as correct.
+
+---
+
 2026-08-08 11:45
 
 ## The Good 1.6
