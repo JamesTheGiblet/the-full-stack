@@ -92,7 +92,7 @@
     "licence": "Meaning Sovereignty Licence v1.0"
   },
   "signature": {
-    "key_id": "YOUR_DID_HERE",
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
     "value": "BTebw9KtMwtlm5xN0ZGyLFKCG0I0aGcULgCkFlSfC9nWWXhFpOuxH+JSxCxM2HvkHFCgUTKC67G+grjJD/xEAQ=="
   }

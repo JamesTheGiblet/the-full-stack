@@ -65,7 +65,7 @@
     "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\plugins\\commands.js"
   ],
   "signature": {
-    "key_id": "YOUR_DID_HERE",
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
     "value": "Ku6D2w4lY0+EHYXUcij+83Nb/D+ElMnvbnUSs3R0T2OVktNPuxWGIBAhQ9XXTCvO/mRxpYjlNFQlc4hskMpmBA=="
   },

@@ -52,7 +52,7 @@
     "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\universe\\memory-architecture.md"
   ],
   "signature": {
-    "key_id": "YOUR_DID_HERE",
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
     "value": "5vaLk+4VpLmuKLV1RlRGCPUNT1x9M53RGY9wVe1dxlmrMGUwhPzxtbI+1FfAO8Z3CqmlswGiSyZYfyjGCAroCA=="
   },

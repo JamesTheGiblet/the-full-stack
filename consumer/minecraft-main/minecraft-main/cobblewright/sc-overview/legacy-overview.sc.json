@@ -75,7 +75,7 @@
     "note": "This capsule is the authoritative record for why legacy code was taken out of service. It is the foundation of our commitment to full provenance."
   },
   "signature": {
-    "key_id": "YOUR_DID_HERE",
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
     "value": "ADLu0aPi6jKk++MWTtQV2gDVoV1WCz38wD6cJOkhTmCqWoWRlneKypDOu4ebAYnf/XseSNgw0C/ObLtpHchgCw=="
   }

@@ -55,7 +55,7 @@
     "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\world\\wrightrealm-geography.md"
   ],
   "signature": {
-    "key_id": "YOUR_DID_HERE",
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
     "value": "qIqBoXC3DVN8DzKLGKFapk3PKQ9ZrCppTfR6SG/9aSg8QrFXN0aCuumTBGs+gMWCvHHfoZlRhXt+DV/lzLzNAg=="
   },

@@ -28,7 +28,7 @@
     "knowledge_bias": "prefer site readiness and utility over aesthetics in early project phases"
   },
   "signature": {
-    "key_id": "YOUR_DID_HERE",
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
     "value": "9n3iqsEn36E+dmFtRDU3luDJ3R/fuV7qpjyQpUk/cADIcuczD/WNAFhg0gT5OpY467e2Lnlxmqxq6wkFSsJ5DQ=="
   }

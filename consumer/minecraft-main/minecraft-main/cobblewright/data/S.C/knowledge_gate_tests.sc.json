@@ -1716,7 +1716,7 @@
     "note": "This capsule contains the ground-truth tests for AI knowledge verification. Adding more tests here directly improves bot safety and reliability."
   },
   "signature": {
-    "key_id": "YOUR_DID_HERE",
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
     "value": "+G8fqpFiNJr/DIstbZioEr9VRfGHFY0wdoCeioiGs5f+G+J2cTYg7q60zoWxeNUfX4nA0Sbnlr5nWWscfLgbBw=="
   }

@@ -63,7 +63,7 @@
   },
   "links": [],
   "signature": {
-    "key_id": "YOUR_DID_HERE",
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
     "value": "BCe7oQ7TQ+kdeZqoe8vsuxCSKvxY4CHf6iI97T+QSyhxJoTs2vBG1qiCDWk6xhHG+tpYeTy0YSkvX5uqDtZdCg=="
   },

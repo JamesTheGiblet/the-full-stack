@@ -33,6 +33,7 @@ LEDGER = ROOT / "ledger.jsonl"
 KEY_FILE = pathlib.Path(os.environ.get("FORGE_KEY_PATH", str(ROOT / "forge-signing.key")))
 PUB_FILE = ROOT / "forge-signing.pub"
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+KEY_ID = "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ"
 
 
 def canonicalise(obj) -> str:
@@ -45,6 +46,13 @@ def sha256_hex(data: bytes) -> str:
 
 def utc_now() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def format_seq(seq_value) -> str:
+    try:
+        return f"{int(seq_value):02d}"
+    except (TypeError, ValueError):
+        return "??"
 
 
 def parse_entries(lines: list[str]) -> list[dict]:
@@ -63,6 +71,24 @@ def entry_identity(entry: dict) -> tuple[str, str, str]:
         str(entry.get("subject", "")),
         str(entry.get("sha256", "")),
     )
+
+
+def find_referenced_documents(capsule: dict) -> list[str]:
+    """Collect non-.sc.json document references from known declaration fields."""
+    found: list[str] = []
+    decl = capsule.get("declaration", {})
+    for section in (decl.get("parameters", {}), decl.get("constraints", {})):
+        if not isinstance(section, dict):
+            continue
+        doc = section.get("document")
+        if doc and not doc.endswith(".sc.json"):
+            found.append(doc)
+        ta = section.get("terminology_authority")
+        if isinstance(ta, dict):
+            doc2 = ta.get("document")
+            if doc2 and not doc2.endswith(".sc.json"):
+                found.append(doc2)
+    return found
 
 
 def read_ledger_lines() -> list[str]:
@@ -115,7 +141,7 @@ def verify_chain(print_rows: bool = True) -> tuple[int, str, set[tuple[str, str,
         event = str(body.get("event", ""))
         subject = str(body.get("subject", ""))
         if print_rows:
-            print(f"{status}  #{int(seq):02d}  {event:24s}  {subject}")
+            print(f"{status}  #{format_seq(seq)}  {event:24s}  {subject}")
 
         prev = sha256_hex(lines[i].encode("utf-8"))
         seen.add(entry_identity(body))
@@ -142,13 +168,14 @@ def sign_body(key: Ed25519PrivateKey, body: dict) -> dict:
     sig = key.sign(canonicalise(body).encode("utf-8"))
     signed = dict(body)
     signed["signature"] = {
+        "key_id": KEY_ID,
         "algorithm": "Ed25519",
         "value": base64.b64encode(sig).decode(),
     }
     return signed
 
 
-def append_entries(candidates: Iterable[dict], allow_duplicates: bool) -> int:
+def append_entries(candidates: Iterable[dict], allow_duplicates: bool, dry_run: bool = False) -> int:
     if not KEY_FILE.exists():
         print(f"key file not found: {KEY_FILE}")
         return 1
@@ -188,30 +215,51 @@ def append_entries(candidates: Iterable[dict], allow_duplicates: bool) -> int:
 
         prev = sha256_hex(line.encode("utf-8"))
         seen.add(ident)
-        print(f"APPEND  #{next_seq:02d}  {body['event']:24s}  {body['subject']}")
+        action = "WOULD   " if dry_run else "APPEND  "
+        print(f"{action}#{next_seq:02d}  {body['event']:24s}  {body['subject']}")
         next_seq += 1
         appended += 1
 
-    if new_lines:
+    if new_lines and not dry_run:
         with LEDGER.open("a", encoding="utf-8", newline="\n") as fh:
             for line in new_lines:
                 fh.write(line + "\n")
 
-    print(f"append complete: {appended} appended, {skipped} skipped")
+    mode = "dry-run" if dry_run else "live"
+    print(f"append complete ({mode}): {appended} {'would append' if dry_run else 'appended'}, {skipped} skipped")
     return 0
 
 
 def digest_docs_and_capsules() -> list[dict]:
     items: list[dict] = []
-    for doc in sorted((ROOT / "docs").glob("*.md")):
+    cap_paths = sorted(list((ROOT / "sc").glob("*.sc.json")) + list((ROOT / "consumer").glob("**/*.sc.json")))
+
+    referenced_docs: set[tuple[pathlib.Path, str]] = set()
+    for cap in cap_paths:
+        capsule_obj = json.loads(cap.read_text(encoding="utf-8"))
+        for doc_ref in find_referenced_documents(capsule_obj):
+            referenced_docs.add((cap.parent, doc_ref))
+
+    resolved_docs: dict[str, pathlib.Path] = {}
+    for parent_dir, doc_ref in referenced_docs:
+        candidate = (parent_dir / doc_ref) if not doc_ref.startswith("docs/") else (ROOT / doc_ref)
+        if not candidate.exists():
+            candidate = ROOT / doc_ref
+        if candidate.exists():
+            subject = f"docs/{candidate.name}" if candidate.parent == (ROOT / "docs") else str(candidate.relative_to(ROOT)).replace("\\", "/")
+            resolved_docs[subject] = candidate
+
+    for subject in sorted(resolved_docs):
+        doc = resolved_docs[subject]
         items.append(
             {
                 "event": "event.document.pinned",
-                "subject": f"docs/{doc.name}",
+                "subject": subject,
                 "sha256": sha256_hex(doc.read_bytes()),
             }
         )
-    for cap in sorted((ROOT / "sc").glob("*.sc.json")):
+
+    for cap in cap_paths:
         obj = json.loads(cap.read_text(encoding="utf-8"))
         items.append(
             {
@@ -252,15 +300,25 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="allow appending entries that already exist by event+subject+sha256",
     )
+    p_append.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="validate and preview append operations without writing to ledger.jsonl",
+    )
 
     p_pins = sub.add_parser(
         "append-pins",
-        help="append current docs/*.md and sc/*.sc.json pin events idempotently",
+        help="append capsule-referenced document pins plus all capsule pin events (sc/*.sc.json and consumer/**/*.sc.json) idempotently",
     )
     p_pins.add_argument(
         "--allow-duplicates",
         action="store_true",
         help="allow appending duplicate pin entries",
+    )
+    p_pins.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="validate and preview append operations without writing to ledger.jsonl",
     )
 
     return parser
@@ -278,6 +336,7 @@ def main() -> int:
         return append_entries(
             candidates=digest_docs_and_capsules(),
             allow_duplicates=args.allow_duplicates,
+            dry_run=args.dry_run,
         )
 
     if args.command == "append":
@@ -302,7 +361,11 @@ def main() -> int:
             print("nothing to append: provide --entries-file or --event/--subject/--sha256")
             return 1
 
-        return append_entries(candidates=entries, allow_duplicates=args.allow_duplicates)
+        return append_entries(
+            candidates=entries,
+            allow_duplicates=args.allow_duplicates,
+            dry_run=args.dry_run,
+        )
 
     return 1
 

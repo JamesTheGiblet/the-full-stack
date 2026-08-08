@@ -86,7 +86,7 @@
     "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\sc-overview\\project-overview.sc.json"
   ],
   "signature": {
-    "key_id": "YOUR_DID_HERE",
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
     "value": "ifSsIMo5c1kJ8Jqv7+ZFf9O4/5oVu9ctO8JzF5IOWaTHVLC8A4ckqn/ezmhqSnTrjsKcXhEQFD0qwTmEfMReCw=="
   },

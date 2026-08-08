@@ -83,7 +83,7 @@
     "doc/TEST_SUITE.md"
   ],
   "signature": {
-    "key_id": "YOUR_DID_HERE",
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
     "value": "dEj5gx+wGruAHxPC51gU1A54HEb9xBvO47kPm06nWnLPVGGf8I1QaGwaP2JeqaTekUdb2KMOlG33HgDkXJmzBg=="
   },

@@ -60,7 +60,7 @@
     "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\packages\\core\\plugins\\telemetry.js"
   ],
   "signature": {
-    "key_id": "YOUR_DID_HERE",
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
     "value": "TJtbs1zqzuPCkF3lzmd+WGucg0gl2jDCNNW6d9I1nido+68ExrC0qaPMyk7wNJai/9/PwmfmRKaQfWZkSIuBBQ=="
   },
