@@ -1,5 +1,70 @@
 # Changelog
 
+2026-08-08 13:50
+
+## The Good 3.8
+Confidence rating: 10/10
+
+- **Consumer anchoring normalized across active scopes.** Recreated `consumer/giblets-forge/ledger.jsonl` and created `consumer/cobblewright/ledger.jsonl`, both now starting with `event.ledger.anchor.root` at sequence `#00`.
+- **Scope ledgers now carry explicit local witness history.** `giblets-forge` records `docs/james-style.md` plus style capsules, and `cobblewright` records its four consumer capsules, each under a root-anchored chain.
+- **Full verification pass remained green.** Verified `--scope giblets-forge`, `--scope cobblewright`, `--scope lifeforge`, and root `ledger.jsonl` with chain and signatures intact.
+
+## The Bad 3.8
+Risk rating: 1.5/10
+
+- **Consumer ledger recreation is a local-history reset by design.** Rebuilding unanchored consumer ledgers replaces their prior sequence numbers, so provenance now cleanly links to root but old local ordering is superseded.
+- **Root still carries pre-v3 consumer witness rows.** Historical root pins remain immutable and require governance context for interpretation relative to newer scope-local ledgers.
+
+## The Ugly 3.8
+Severity rating: 1.0/10
+
+- **Correctness required regeneration, not patching.** There was no safe incremental way to inject an anchor into already-started chains; the only honest path was full consumer-ledger recreation.
+
+---
+
+2026-08-08 13:35
+
+## The Good 3.7
+Confidence rating: 10/10
+
+- **Freeze visibility bug fixed at source.** Updated `freeze.py` capsule discovery from root-only to recursive `sc/**` plus `consumer/**`, so placeholders outside root scope are now seen and processed.
+- **LifeForge placeholder successfully frozen.** `consumer/lifeforge/sc/lifeforge-v1.sc.json` now carries a concrete `document_sha256` for `consumer/lifeforge/lifeforge-forge-stack.html` (no longer `COMPUTE-ON-FREEZE`).
+- **Artifact signing path now exercised end-to-end.** Running `freeze.py -> sign.py -> sign.py --verify` produced `artifact signed lifeforge-forge-stack.html` and verification remained green.
+- **Scope-correct witness established for LifeForge.** Created `consumer/lifeforge/ledger.jsonl` and appended `event.ledger.anchor.root` (`#00`), `event.document.pinned` (`#01`), and `event.capsule.pinned` (`#02`) for `lifeforge/consumer-v1`.
+
+## The Bad 3.7
+Risk rating: 1.5/10
+
+- **Signature churn remains broad for a targeted fix.** A full signing pass refreshed many capsule/artifact signatures to land one capsule-level repair, increasing review surface.
+- **Historical root pin remains by design.** Root still retains the earlier `lifeforge/consumer-v1` pin (`#26`) from pre-v3 behavior; interpretation still depends on governance context rather than deletion.
+
+## The Ugly 3.7
+Severity rating: 1.0/10
+
+- **A one-line glob mismatch hid a real governance gap.** The system looked healthy while a single unfrozen consumer capsule sat outside freeze reach; the issue only surfaced through strict end-to-end discipline.
+
+---
+
+2026-08-08 13:25
+
+## The Good 3.6
+Confidence rating: 10/10
+
+- **Artifact signature generation fixed.** Hardened the path resolution logic in `sign.py` to correctly locate and sign non-JSON documents referenced by capsules, regardless of their location.
+- **Verification failures addressed.** The fix directly addresses the four artifact signature failures (`AXIOM.md`, `hal-implementation-definition.md`, etc.) identified during the clean-clone verification pass.
+
+## The Bad 3.6
+Risk rating: 1.0/10
+
+- **A re-sign pass is now required.** To fix the failed signatures, a full `python sign.py` run is needed to generate the missing `.sig` sidecar files for the affected documents.
+
+## The Ugly 3.6
+Severity rating: 3.0/10
+
+- **A subtle but critical tooling bug.** The verification process successfully uncovered a flaw in the signing script that would have left key design documents without verifiable signatures, undermining the project's integrity goals. This proves the value of rigorous, independent verification.
+
+---
+
 2026-08-08 13:20
 
 ## The Good 3.5
