@@ -1,5 +1,29 @@
 # Changelog
 
+2026-08-08 10:12
+
+## The Good 0.2
+Confidence rating: 1.84/2.00
+
+- Tightened `ledger.py append-pins` document scope from broad `docs/*.md` sweep to capsule-referenced documents, reducing accidental pin drift.
+- Added `sc/forge-stack-manifest-v3.sc.json` with explicit scope language and `supersedes: forge-stack/manifest-v2` for machine-traceable lineage.
+- Implemented and validated append preview safety (`--dry-run`) and kept live append immutable; only genuinely new pins were appended.
+- End-to-end checks remain green after the update: `sign.py --verify` passed and `ledger.py verify` passed.
+
+## The Bad 0.2
+Risk rating: 0.88/2.00
+
+- The refined rule is now "capsule-referenced documents" rather than "docs-only", which still allows non-markdown artefacts to be pinned when referenced (for example the lifeforge HTML artefact).
+- Manifest policy remains strict and explicit: author-level capsules are still intentionally out of manifest membership, which can surprise readers unless they read the intent text.
+
+## The Ugly 0.2
+Severity rating: 0.54/2.00
+
+- Resolved drift from prior pass: changelog rating labels no longer use Leighton Weight terminology, preventing collision with the ratified λ trust-score model.
+- Resolved operational ambiguity: append scope behavior is now deterministic and testable with dry-run before live writes.
+
+---
+
 2026-08-08 09:58
 
 ## The Good 0.1
