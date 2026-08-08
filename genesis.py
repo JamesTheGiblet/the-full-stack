@@ -44,7 +44,7 @@ def sha256_hex(data: bytes) -> str:
 
 def genesis() -> int:
     if LEDGER.exists():
-        print("ledger.jsonl already exists — the ledger is append-only; refusing.")
+        print("ledger.jsonl already exists — genesis.py is genesis-only and will not overwrite it. Use ledger.py to append.")
         return 1
     key = Ed25519PrivateKey.from_private_bytes(KEY_FILE.read_bytes())
     key_id = "did:key-holder"  # informational; identity is proven by signature
