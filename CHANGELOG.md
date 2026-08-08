@@ -1,5 +1,29 @@
 # Changelog
 
+2026-08-08 14:10
+
+## The Good 3.9
+Confidence rating: 10/10
+
+- **Superseded capsule now covered by verification scope.** Updated signing/verification discovery to include recursive `sc/**` and `*.sc.json.SUPERSEDED`, and successfully verified `leighton-weight-v1.sc.json.SUPERSEDED`.
+- **Placeholder-hash witness bypass is now blocked at ledger write-time.** `ledger.py append-pins` now refuses to append when any candidate capsule contains unresolved or invalid `document_sha256` values (including `COMPUTE-ON-FREEZE`).
+- **Attestation dispute circularity rule ratified.** `docs/leighton-loop-observation.md` now defines pre-attestation weighting (`lambda(attester, as_of = attestation.created - ε)`), preventing self-bootstrapping dispute credibility.
+- **Stage 3 policy blockers resolved and witnessed.** `docs/leighton-weight-engine.md` now ratifies `N0 = 1.00` and `1.00 = neutral/unknown` with a provisional participation floor. Witnessed via new capsules `forge-stack/leighton-weight-engine-v2` and `forge-stack/leighton-loop-observation-v2`, plus `forge-stack/manifest-v5`.
+- **Root ledger updated and verified.** Appended entries `#112`-`#116` for updated docs and v2/v5 capsules; root and all consumer ledgers verify cleanly.
+
+## The Bad 3.9
+Risk rating: 1.5/10
+
+- **Signature churn remains broad for governance-safe edits.** Ratifying policy and capsule supersession still requires a full re-sign pass across the capsule set.
+- **Historical lineage remains intentionally layered.** v1 and v2 Leighton/manifest witnesses now coexist in root history, requiring readers to follow `supersedes` semantics rather than expecting replacement.
+
+## The Ugly 3.9
+Severity rating: 1.0/10
+
+- **Critical blockers were mostly policy, not code.** The highest-impact closure items were semantic and governance decisions; implementation velocity depended more on explicit ratification than on additional mechanics.
+
+---
+
 2026-08-08 13:50
 
 ## The Good 3.8

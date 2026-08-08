@@ -44,6 +44,7 @@ Yes, an outcome can be disputed. The system handles this elegantly without compl
 
 - **Disputes are Counter-Attestations:** A dispute is simply another attestation on the same `subject_event_hash` with a conflicting `outcome`. For example, one validator attests "succeeded" while another attests "failed".
 - **The Engine Resolves the Conflict:** There is no special "dispute" state. The Leighton Weight Engine resolves the conflict implicitly. It processes both attestations as standard observations. The impact of each attestation on the original actor's λ score is weighted by the λ score of the *attester*. If a high-trust validator refutes a low-trust agent's claim, the negative impact will far outweigh the positive one.
+- **Circularity guard (ratified):** The attester's weight for attestation `A` is computed as `lambda(attester, as_of = A.created - ε)`, using only observations strictly earlier than `A`. `A` itself and any later attestations are excluded from that weight calculation. This prevents dispute outcomes from bootstrapping their own credibility.
 - **No Infinite Recursion:** An attestation is a primary observation about an event. While one could theoretically attest to an attestation, this design proposes that for v1, attestations only target primary ledger events. The trust system resolves disputes via the relative weight of the attesters, not by a recursive chain of judgments.
 
 ## 3. Example Flow

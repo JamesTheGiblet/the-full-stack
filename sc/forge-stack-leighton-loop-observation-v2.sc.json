@@ -1,0 +1,22 @@
+{
+  "scp_id": "forge-stack/leighton-loop-observation-v2",
+  "scp_version": "1.2.0",
+  "created": "2026-08-08T14:05:00Z",
+  "inherits": "forge-stack/governance-v3",
+  "declaration": {
+    "intent": "Witness the updated observation mechanism design, ratifying the pre-attestation lambda snapshot rule to prevent dispute circularity.",
+    "parameters": {
+      "document": "docs/leighton-loop-observation.md",
+      "document_sha256": "a097fb0dd7d5e363cadfecd1ac41b8adf06a63eafb0a80f4bc4ea7333a9c914a"
+    },
+    "constraints": {
+      "supersedes": "forge-stack/leighton-loop-observation-v1"
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+    "algorithm": "Ed25519",
+    "value": "Wjk5/8QrsGVWC0iARK7cKNlK0EghxZqu8L7eckfHb7eO3TkwBmXpWZga6ZUF7+GEMhHq7kY5bxZpEut6NHAxCg=="
+  }
+}

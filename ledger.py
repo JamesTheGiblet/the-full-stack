@@ -33,6 +33,7 @@ KEY_FILE = pathlib.Path(os.environ.get("FORGE_KEY_PATH", str(ROOT / "forge-signi
 PUB_FILE = ROOT / "forge-signing.pub"
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 KEY_ID = "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ"
+UNFROZEN_PLACEHOLDER = "COMPUTE-ON-FREEZE"
 
 
 def canonicalise(obj) -> str:
@@ -176,6 +177,45 @@ def validate_candidate(entry: dict) -> None:
             raise ValueError("attestation entries must have a body with an outcome")
 
 
+def validate_capsule_document_hashes(capsule: dict, capsule_path: pathlib.Path) -> list[str]:
+    errors: list[str] = []
+    decl = capsule.get("declaration", {})
+    if not isinstance(decl, dict):
+        return errors
+
+    for section_name in ("parameters", "constraints"):
+        section = decl.get(section_name, {})
+        if not isinstance(section, dict):
+            continue
+
+        # Direct document/document_sha256 pair in declaration section
+        if "document" in section and "document_sha256" in section:
+            digest = str(section.get("document_sha256", "")).strip()
+            if digest == UNFROZEN_PLACEHOLDER:
+                errors.append(
+                    f"{capsule_path}: unresolved placeholder document_sha256 for {section.get('document')}"
+                )
+            elif not SHA256_RE.match(digest):
+                errors.append(
+                    f"{capsule_path}: invalid document_sha256 for {section.get('document')} ({digest})"
+                )
+
+        # Nested terminology authority document pin
+        ta = section.get("terminology_authority")
+        if isinstance(ta, dict) and "document" in ta and "document_sha256" in ta:
+            digest = str(ta.get("document_sha256", "")).strip()
+            if digest == UNFROZEN_PLACEHOLDER:
+                errors.append(
+                    f"{capsule_path}: unresolved placeholder terminology_authority.document_sha256 for {ta.get('document')}"
+                )
+            elif not SHA256_RE.match(digest):
+                errors.append(
+                    f"{capsule_path}: invalid terminology_authority.document_sha256 for {ta.get('document')} ({digest})"
+                )
+
+    return errors
+
+
 def sign_body(key: Ed25519PrivateKey, body: dict) -> dict:
     sig = key.sign(canonicalise(body).encode("utf-8"))
     signed = dict(body)
@@ -276,7 +316,19 @@ def digest_docs_and_capsules(scope: Optional[str]) -> list[dict]:
         cap_paths = sorted(list((ROOT / "consumer" / scope).glob("**/*.sc.json")))
     else:
         # Root scope: only capsules in sc/, excluding consumer/
-        cap_paths = sorted(list((ROOT / "sc").glob("*.sc.json")))
+        cap_paths = sorted(list((ROOT / "sc").glob("**/*.sc.json")))
+
+    placeholder_errors: list[str] = []
+    for cap in cap_paths:
+        capsule_obj = json.loads(cap.read_text(encoding="utf-8"))
+        placeholder_errors.extend(validate_capsule_document_hashes(capsule_obj, cap))
+
+    if placeholder_errors:
+        joined = "\n".join(f"  - {err}" for err in placeholder_errors)
+        raise ValueError(
+            "append-pins refused: unresolved or invalid capsule document hashes detected:\n"
+            + joined
+        )
 
     referenced_docs: set[tuple[pathlib.Path, str]] = set()
     for cap in cap_paths:
@@ -391,8 +443,13 @@ def main() -> int:
         return 1 if failed else 0
 
     if args.command == "append-pins":
+        try:
+            candidates = digest_docs_and_capsules(args.scope)
+        except ValueError as exc:
+            print(str(exc))
+            return 1
         return append_entries(
-            candidates=digest_docs_and_capsules(args.scope),
+            candidates=candidates,
             ledger_path=ledger_path,
             allow_duplicates=args.allow_duplicates,
             dry_run=args.dry_run,
