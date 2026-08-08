@@ -1,4 +1,5 @@
 {
+  "scp_id": "sc-overview-itself.sc.json",
   "id": "COBBLEWRIGHT.v1.sc-overview-itself.2026-07-17.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "knowledge_management",
@@ -62,7 +63,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "5DZmtAEqrYEPxf4Eqg2w2cWRnTwLk0NuSThQsPccm1VCQvkDGrQH2q2MWYwQSRrXuLGvJSeibnpbx0q68eXJAQ=="
+    "value": "a4Ysk50Gnw4SGladIZ8qAKjLZrUH59a6c0FPQ79JLFMzdEZCyJWK4B153g9Dm8rjPorfbKb7cLe5XqMoSL6jDA=="
   },
   "extensions": {}
 }

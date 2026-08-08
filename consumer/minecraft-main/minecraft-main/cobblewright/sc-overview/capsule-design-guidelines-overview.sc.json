@@ -1,4 +1,5 @@
 {
+  "scp_id": "capsule-design-guidelines-overview.sc.json",
   "id": "COBBLEWRIGHT.v1.capsule-design-guidelines-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_protocol",
@@ -54,7 +55,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "y3ik1JeAekg1wKmHk06Qf4SMyGNmpZlmB+j6lm7IKq5L/PdGtxsLbeAcZzqEH+E1Ff3+rDWn/OmIfuDG8tEMDw=="
+    "value": "jsKFCeFL2Vaku8L7v2RC+G3GR/N8ZFqVKo5tGBsEUUqrKtrVNn9xg1t4zLUVhxDgE4vZbi14BaBoXMXuDJYfBA=="
   },
   "extensions": {}
 }

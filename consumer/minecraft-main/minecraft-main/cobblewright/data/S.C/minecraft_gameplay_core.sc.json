@@ -1,4 +1,5 @@
 {
+  "scp_id": "minecraft_gameplay_core.sc.json",
   "id": "COBBLEWRIGHT.v1.minecraft_gameplay_core.2026-07-16.JM",
   "scp_version": "1.2.0",
   "created_at": "2026-07-16T00:00:00Z",
@@ -144,7 +145,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "qNk98urqpheWTjXgAUekAKnVYh+7j2zIHn1albSDw3+yp55JzDVAprl9pqmtRR5TOgctV77w8YK93OY2QNUkDA=="
+    "value": "xX/6EXJCUeFlSnpJmcA3nlEcKBgaIL5VkeDuNN9Xb/ciY3lQ5UjhAzO2yxVhqixrrd9jpVM/Ye6N6d51yrdjBQ=="
   },
   "extensions": {}
 }

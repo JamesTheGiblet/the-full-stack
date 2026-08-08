@@ -35,6 +35,15 @@ PUB_FILE = ROOT / "forge-signing.pub"
 KEY_ID = "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ"
 
 
+def validate_capsule_schema(capsule: dict, path: pathlib.Path):
+    """Return a list of schema violations that must block signing/verifying."""
+    errors = []
+    scp_id = capsule.get("scp_id")
+    if not isinstance(scp_id, str) or not scp_id.strip():
+        errors.append(f"{path}: missing required non-empty string field 'scp_id'")
+    return errors
+
+
 def canonicalise(obj) -> str:
     return json.dumps(obj, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
 
@@ -117,6 +126,18 @@ def sign_all() -> int:
 
     capsule_paths = all_capsule_paths()
     referenced_docs = set()
+    schema_errors = []
+
+    # Preflight schema gate: do not sign anything if any capsule is invalid.
+    for path in capsule_paths:
+        capsule = json.loads(path.read_text(encoding="utf-8"))
+        schema_errors.extend(validate_capsule_schema(capsule, path))
+
+    if schema_errors:
+        print("schema gate failed; refusing to sign until all capsules are fixed:")
+        for err in schema_errors:
+            print(f"  - {err}")
+        return 1
 
     for path in capsule_paths:
         capsule = json.loads(path.read_text(encoding="utf-8"))
@@ -155,6 +176,12 @@ def verify_all() -> int:
 
     for path in all_capsule_paths():
         capsule = json.loads(path.read_text(encoding="utf-8"))
+        schema_errors = validate_capsule_schema(capsule, path)
+        if schema_errors:
+            for err in schema_errors:
+                print(f"FAILED  {err}")
+            failed += 1
+            continue
         sig = capsule.get("signature", {})
         body = {k: v for k, v in capsule.items() if k != "signature"}
         try:

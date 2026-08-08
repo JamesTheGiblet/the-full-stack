@@ -1,4 +1,5 @@
 {
+  "scp_id": "roadmap-overview.sc.json",
   "id": "COBBLEWRIGHT.v1.roadmap-overview.2026-07-17.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_strategic",
@@ -64,7 +65,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "VMfA0ccHRT254vhbu37vbjU58vcm/tzNaYm1a0wwo1BqgPqXr7qUxI/SiKT0BPCtg70GxiUfv7bKt9BjGyQkCQ=="
+    "value": "HGkECUTfY5PwY9uVQj5PnsKU3mgrqBbEgGCjatHAvYA0pd0jhwLcsNQPPmz+m5lx6i539f2iI5dTGGBua9xnDA=="
   },
   "extensions": {}
 }

@@ -1,4 +1,5 @@
 {
+  "scp_id": "collaboration.sc.json",
   "sc_version": "1.2-complete",
   "capsule_type": "collaboration",
   "intent": {
@@ -29,6 +30,6 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "hwTeFtzLQFfTHzBG4pq4dHvIbJwOwVyDXNsxU76udrDoErVvGQgtkTHHPNWVuRI63dhGMdVJSxjqtKd6xq7mAw=="
+    "value": "8eAPXYxXUhC3CFVV4IJruJSKQGU90ROWcK5KXeCV29u+0ACslQgPvO9zY4K0/FG1pAz40sL5WTbCW27K5wjrDA=="
   }
 }

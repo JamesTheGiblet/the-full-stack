@@ -1,4 +1,5 @@
 {
+  "scp_id": "data-overview.sc.json",
   "id": "COBBLEWRIGHT.v1.data-overview.2026-07-17.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "data_storage",
@@ -62,7 +63,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "0+R58NpJ1uWcVbJIrEkBkrBjMV+gwr3/VjfD9QCEGOaclfvW9CHDU5Z6tc7HO7Mf3wBu6HPkDlRDrsDsnbpNAw=="
+    "value": "1OsN6gmJJdq2NedU6V+KtAyNN3ye+vVncolwgzHeDIMA6yB8H+oef2tDH20B58MbDl5kKvD/gI9YNk0OIMcfBA=="
   },
   "extensions": {}
 }

@@ -1,4 +1,5 @@
 {
+  "scp_id": "lore-wright-universe-cosmology-overview.sc.json",
   "id": "COBBLEWRIGHT.v1.lore-wright-universe-cosmology-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_lore",
@@ -55,7 +56,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "AZSpThPNdpss4jPrH6F5OZ6/9IMsyvAXYNc0JbXFpXlbQSOsV2OfkfJlKoNtjUN2isHTK6tvpeAR99+Uin4LDA=="
+    "value": "OA+g/jxASAHOFlW4Wa9ZHWhYTThYJyBM/LNaH3Smm2hmUerMWmrWfrYSeCM8NKQV482ao2t9/o8nOEQtPdreAQ=="
   },
   "extensions": {}
 }

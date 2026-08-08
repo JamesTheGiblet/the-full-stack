@@ -1,4 +1,5 @@
 {
+  "scp_id": "agent-interaction-protocols-overview.sc.json",
   "id": "COBBLEWRIGHT.v1.agent-interaction-protocols-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_protocol",
@@ -53,7 +54,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "tojQkixzVkLXabbIpWQZNbbBbVsG92QJly8VionWxG+cvDVZtXKn0WKuiI6ik0oI3+1dRgrQ0otKGLfbVpRLAg=="
+    "value": "PErVzaKD5UPluJBwtgE3xHvz7zKjPReqObun9NrW4sIEPCQLfTS4OaBKmonTsovhmvStmjpgsnmu5UFzCfiVDA=="
   },
   "extensions": {}
 }

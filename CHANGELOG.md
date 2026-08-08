@@ -1,5 +1,29 @@
 # Changelog
 
+2026-08-08 11:31
+
+## The Good 1.9
+Confidence rating: 10/10
+
+- **Author-tier scope decision executed (option 2).** All `giblets-forge/style/*` capsules now live in a dedicated author consumer scope at `consumer/giblets-forge/sc/`.
+- **Governance now explicitly witnesses this policy.** Added `forge-stack/governance-v3`, superseding v2, to formalise that author-tier style capsules are canonical in the `giblets-forge` consumer scope.
+- **Dedicated author ledger created and verified.** `consumer/giblets-forge/ledger.jsonl` was created via `ledger.py append-pins --scope giblets-forge` and verifies cleanly.
+- **Root ledger remained append-only and truthful.** Root chain was not rewritten; it appended a new governance witness event (`forge-stack/governance-v3`) as sequence `#100`.
+- **Schema recurrence guard is now active.** `sign.py` now hard-fails signing/verifying when any capsule is missing a non-empty `scp_id`.
+
+## The Bad 1.9
+Risk rating: 2.5/10
+
+- **Historical root entries still include earlier author-tier pins.** This is expected and correct for immutable history, but readers need governance context to interpret legacy scope before v3.
+- **Path-coupled local references required one corrective update.** A remaining local persona source path had to be repointed to the new author scope location.
+
+## The Ugly 1.9
+Severity rating: 2.0/10
+
+- **Physical placement changed, identity did not.** The move can look visually disruptive in git status, but it represents a structural scope correction rather than semantic capsule replacement.
+
+---
+
 2026-08-08 12:00
 
 ## The Good 1.8

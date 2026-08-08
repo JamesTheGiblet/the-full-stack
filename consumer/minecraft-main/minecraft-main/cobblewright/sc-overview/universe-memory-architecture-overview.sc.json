@@ -1,4 +1,5 @@
 {
+  "scp_id": "universe-memory-architecture-overview.sc.json",
   "id": "COBBLEWRIGHT.v1.universe-memory-architecture-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_protocol",
@@ -54,7 +55,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "5vaLk+4VpLmuKLV1RlRGCPUNT1x9M53RGY9wVe1dxlmrMGUwhPzxtbI+1FfAO8Z3CqmlswGiSyZYfyjGCAroCA=="
+    "value": "MUvWtzGVgNAhF/q8503JE92/qW8BmVNEnNZHufkRHh8MpROReYJ+cpLx2EdvIWDg4k5C6Bl45wTYiavkXVf2BQ=="
   },
   "extensions": {}
 }
