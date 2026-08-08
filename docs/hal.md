@@ -2,6 +2,8 @@
 
 **Stage 5 of the Forge Stack spine: Act.** Terminology inherited from `docs/glossary.md` via `forge-stack/governance-v1`.
 
+Implementation definition: see `docs/hal-implementation-definition.md`.
+
 Named in reference to HAL 9000. Unlike the fictional HAL, this system's authority is earned through trust (λ) and can be revoked by decay. The name is homage, not aspiration.
 
 HAL is the stage where actions meet human authority. Humans hold Leighton Weight scores (λ) like every other entity in the stack, and occupy validator roles whose authority is earned, legible, and perishable.

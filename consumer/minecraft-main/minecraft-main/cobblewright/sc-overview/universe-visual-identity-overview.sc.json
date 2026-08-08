@@ -1,5 +1,6 @@
 {
-  "scp_id": "universe-visual-identity-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/universe-visual-identity-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.universe-visual-identity-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_lore",
@@ -53,7 +54,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "VGIC4P4ebT7d9/NDYSu2ZKuA+AKlaT+w6VKBzoxJDzIoNmGjMp034aV5vriUP/sKRoGFlUMGvMcPalOv95PKAw=="
+    "value": "/zmFOby2eFuSC8K94sX5y/WySjzFHoMf7xP7DBVx2U9XjX79zcgfGpVyjtqnf6a1iEGOptUoe8XxCitnAFwLAQ=="
   },
   "extensions": {}
 }

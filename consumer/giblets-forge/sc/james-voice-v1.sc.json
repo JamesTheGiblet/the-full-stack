@@ -1,6 +1,7 @@
 {
-  "scp_version": "0.1",
   "scp_id": "giblets-forge/style/james-voice-v1",
+  "created": "2026-07-19T00:00:00Z",
+  "scp_version": "0.1",
   "object_class": "Safe",
   "intent": "Capture James Gilbert's writing voice across his distinct registers so downstream AI systems (Mimir, BuddAI, LLM drafting tools) can generate text that reads as authentically his.",
   "containment": {
@@ -108,6 +109,6 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "nZ6ISIzdPf2z+2r6HsFkvCQpoACZEaGq1P30cnG76JD2ceci9mvf/x/lH/kw56hKzzYfXhjpgsAqyonC0PqlBg=="
+    "value": "EKJpzcqa387zqHllgVaeIvDxSNd5BRPMgj6J0x7yArW8D+x0O1GIWUG5w1DyqOYVVXXLJ0Je9DYtlDpobLxyAw=="
   }
 }

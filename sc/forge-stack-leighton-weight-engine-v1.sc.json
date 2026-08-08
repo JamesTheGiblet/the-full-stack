@@ -1,0 +1,22 @@
+{
+  "scp_id": "forge-stack/leighton-weight-engine-v1",
+  "scp_version": "1.2.0",
+  "created": "2026-08-08T12:10:00Z",
+  "inherits": "forge-stack/governance-v3",
+  "declaration": {
+    "intent": "Witness the canonical design document for the Leighton Weight Engine, the third stage of the Forge Stack spine. This capsule formally pins the principles, boundaries, and open questions for the trust-scoring component.",
+    "parameters": {
+      "document": "docs/leighton-weight-engine.md",
+      "document_sha256": "489923832539345224e758a08639529285a21e64388e5863d3856177af8991b9"
+    },
+    "constraints": {
+      "implementation_blocker": "The witnessed design document explicitly identifies that the 'Observe outcomes' mechanism is a required dependency that does not yet exist. Implementation of the engine is blocked pending the design of this subsystem."
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+    "algorithm": "Ed25519",
+    "value": "p1HtZugFf+DCDvZosh7yEdkRKpqbdoHURu783ImbW6ct/lMkyxFtNOPRuuQA9s13Fr4Kai2+6CxHQ80PA7TFAA=="
+  }
+}

@@ -1,5 +1,6 @@
 {
-  "scp_id": "capsule-design-guidelines-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/capsule-design-guidelines-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.capsule-design-guidelines-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_protocol",
@@ -55,7 +56,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "jsKFCeFL2Vaku8L7v2RC+G3GR/N8ZFqVKo5tGBsEUUqrKtrVNn9xg1t4zLUVhxDgE4vZbi14BaBoXMXuDJYfBA=="
+    "value": "r16IiMxjEb7BG/rf/erQ+F2WfxqgEi9q6s4OKjauEqiH4e/4Fx0qclZJwD/VaJKideLN37OpzDI+Y+BOcaF4Ag=="
   },
   "extensions": {}
 }

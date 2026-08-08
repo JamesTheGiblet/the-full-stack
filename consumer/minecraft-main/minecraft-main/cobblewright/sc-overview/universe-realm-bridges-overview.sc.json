@@ -1,5 +1,6 @@
 {
-  "scp_id": "universe-realm-bridges-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/universe-realm-bridges-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.universe-realm-bridges-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_lore",
@@ -54,7 +55,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "QHoYFczOgwB82vm5jy3bv5TN4cHQf6TK0+gW5Qk9LKnMCQWvwNFphPruep4a81+vh8pFEEKIluNux+aW/BM3Bg=="
+    "value": "avJNfXfgZEaO52by1CIqJHIhsSd4bl6BOe9L3MtRu0yzagduLk7XWbNDJnCiOJEYZgZh3q9i85bnBJMMAUC+CQ=="
   },
   "extensions": {}
 }

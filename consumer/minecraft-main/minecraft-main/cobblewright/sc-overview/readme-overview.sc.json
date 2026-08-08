@@ -1,5 +1,6 @@
 {
-  "scp_id": "readme-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/readme-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.readme-overview.2026-07-17.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation",
@@ -67,7 +68,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "rADdreE70UK+uDuVt2AziT/XYalp/CrW61JcaqK3Ho9Xx5LEwFCxx4RuNnwT4Whqj2yI6azmce/0ukFHP9SjBg=="
+    "value": "lbUcIe9Ie6ITYGaeSIFta1lRDBh9iLCI7XoaJtuIS3tn3pXRGjngsB5lXfNUU2fYJK/kG0iiBgkgTKsp13jQBw=="
   },
   "extensions": {}
 }

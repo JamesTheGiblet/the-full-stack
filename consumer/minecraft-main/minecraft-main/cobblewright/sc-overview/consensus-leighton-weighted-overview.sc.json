@@ -1,5 +1,6 @@
 {
-  "scp_id": "consensus-leighton-weighted-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/consensus-leighton-weighted-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.consensus-leighton-weighted-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_protocol",
@@ -54,7 +55,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "AoBicwQ356ynzvAQoCRcNT2cPJHCJmFPTR4jp093azSa6cfGedjynpQSU0keSht/4T3wAyYyGU+/dycMgxuACA=="
+    "value": "aVAxvEjTE0ri6y1KuXkL5x93UdapvE8FFGYPzC755c/EWXSaV+dzlXeka4KZHkWL7DwLQrFndaKR9M00PaZeCg=="
   },
   "extensions": {}
 }

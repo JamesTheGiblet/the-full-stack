@@ -1,5 +1,6 @@
 {
-  "scp_id": "file-tree-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/file-tree-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.file-tree-overview.2026-07-17.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "project_structure",
@@ -89,7 +90,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "I34qzp+pERAyMi5HMN4td7F3M/u2ihFr1CWXtReAfCHtjHio9lvjVfb6/3mzYzt/kEK6FsjUYayuw4G6pyMBBg=="
+    "value": "biDrTqUSmmBbczpQIOchgKeaxnDkeVUk5N+UPNjk95hlSXppHcBDTpEO9szNpGP7B7WAsn4vGDpeuM54RpPEBw=="
   },
   "extensions": {}
 }

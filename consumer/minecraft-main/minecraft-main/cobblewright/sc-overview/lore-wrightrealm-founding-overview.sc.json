@@ -1,5 +1,6 @@
 {
-  "scp_id": "lore-wrightrealm-founding-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/lore-wrightrealm-founding-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.lore-wrightrealm-founding-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_lore",
@@ -54,7 +55,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "WDwxX/cpk/I4cztzgVJWatXxB+Bu5LrYVo1F4v1JCkgokG/D9Xt9GJ1ZVnby+cNcBDPi1Y36Ab6v/kKQBz0hBg=="
+    "value": "97MznjHbKPVcK77Cm8kdCt6PhXfLcEEZDI2uPM/k9+ZIEYz0uuPvaXTAnTLpUFRk8lB6bidFGSHOXTZ7893+Cw=="
   },
   "extensions": {}
 }

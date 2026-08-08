@@ -1,5 +1,6 @@
 {
-  "scp_id": "agent-cobblewright-variants-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/agent-cobblewright-variants-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.agent-cobblewright-variants-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_agent",
@@ -55,7 +56,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "trf5M7jqvNIZ8pQ3p7Jk4u+kL/Gs0IQwINMSdLqLrjfY2GFyGJVscKqE6CDVHp8mkavjKa9nvK15UCgRWMcmBA=="
+    "value": "EZgKRvCBBR3A3Aocqm4rt31QW8JrLrkDb/e/BaLmnqvQOKac2ZKgWq8n22XEm2N5kGYVodbJBVNtG6jFr6/dBg=="
   },
   "extensions": {}
 }

@@ -170,6 +170,11 @@ def validate_candidate(entry: dict) -> None:
     if not SHA256_RE.match(str(entry["sha256"])):
         raise ValueError(f"sha256 must be lowercase 64-char hex: {entry['sha256']}")
 
+    # Attestations have an extra body that needs validation
+    if entry.get("event") == "event.attestation.issued":
+        if "body" not in entry or "outcome" not in entry["body"]:
+            raise ValueError("attestation entries must have a body with an outcome")
+
 
 def sign_body(key: Ed25519PrivateKey, body: dict) -> dict:
     sig = key.sign(canonicalise(body).encode("utf-8"))
@@ -190,12 +195,24 @@ def append_entries(candidates: Iterable[dict], ledger_path: pathlib.Path, allow_
     ledger_path.parent.mkdir(parents=True, exist_ok=True)
 
     # If creating a new consumer ledger, anchor it to the root ledger's head.
-    is_new_consumer_ledger = not ledger_path.exists() and ledger_path.name != "ledger.jsonl"
+    root_ledger_path = get_ledger_path(None)
+    is_root_ledger = ledger_path.resolve() == root_ledger_path.resolve()
+    is_new_consumer_ledger = not ledger_path.exists() and not is_root_ledger
+    effective_candidates = list(candidates)
+
     if is_new_consumer_ledger:
         print(f"New consumer ledger; anchoring to root ledger head...")
-        root_ledger_path = get_ledger_path(None)
         _, root_head, _, root_failed = verify_chain(root_ledger_path, print_rows=False)
-        next_seq, prev, seen, failed = 0, root_head, set(), root_failed
+        next_seq, prev, seen, failed = 0, "GENESIS", set(), root_failed
+        anchor_created = utc_now()
+        effective_candidates = [
+            {
+                "event": "event.ledger.anchor.root",
+                "subject": "ledger.jsonl",
+                "sha256": root_head,
+                "created": anchor_created,
+            }
+        ] + effective_candidates
     else:
         next_seq, prev, seen, failed = verify_chain(ledger_path, print_rows=False)
     if failed:
@@ -209,7 +226,7 @@ def append_entries(candidates: Iterable[dict], ledger_path: pathlib.Path, allow_
     skipped = 0
     new_lines: list[str] = []
 
-    for raw in candidates:
+    for raw in effective_candidates:
         validate_candidate(raw)
 
         ident = entry_identity(raw)
@@ -226,6 +243,11 @@ def append_entries(candidates: Iterable[dict], ledger_path: pathlib.Path, allow_
             "sha256": str(raw["sha256"]),
             "prev": prev,
         }
+        # For attestations, embed the attestation body inside the ledger entry body
+        # This makes the attestation's content part of the signed, auditable record.
+        if raw.get("event") == "event.attestation.issued" and "body" in raw:
+            body["body"] = raw["body"]
+
         signed = sign_body(key, body)
         line = canonicalise(signed)
         new_lines.append(line)
@@ -346,6 +368,15 @@ def build_parser() -> argparse.ArgumentParser:
         help="validate and preview append operations without writing to ledger.jsonl",
     )
 
+    p_attest = sub.add_parser("attest", help="issue an attestation about a prior ledger event")
+    p_attest.add_argument("--scope", help="Operate on a specific consumer ledger. Defaults to root.")
+    p_attest.add_argument("subject_event_hash", help="The SHA256 hash of the ledger entry being attested to.")
+    p_attest.add_argument("outcome", help="The outcome of the attestation (e.g., 'succeeded', 'failed', 'confirmed').")
+    p_attest.add_argument("--rationale", help="An optional, human-readable justification for the outcome.")
+    p_attest.add_argument("--dry-run", action="store_true", help="Preview the attestation without writing to the ledger.")
+    p_attest.add_argument("--allow-duplicates", action="store_true", help="Allow issuing a duplicate attestation.")
+
+
     return parser
 
 
@@ -362,6 +393,27 @@ def main() -> int:
     if args.command == "append-pins":
         return append_entries(
             candidates=digest_docs_and_capsules(args.scope),
+            ledger_path=ledger_path,
+            allow_duplicates=args.allow_duplicates,
+            dry_run=args.dry_run,
+        )
+
+    if args.command == "attest":
+        attestation_body = {
+            "attester_id": KEY_ID,
+            "outcome": args.outcome,
+        }
+        if args.rationale:
+            attestation_body["rationale"] = args.rationale
+
+        candidate = {
+            "event": "event.attestation.issued",
+            "subject": args.subject_event_hash,
+            "sha256": sha256_hex(canonicalise(attestation_body).encode("utf-8")),
+            "body": attestation_body,
+        }
+        return append_entries(
+            candidates=[candidate],
             ledger_path=ledger_path,
             allow_duplicates=args.allow_duplicates,
             dry_run=args.dry_run,

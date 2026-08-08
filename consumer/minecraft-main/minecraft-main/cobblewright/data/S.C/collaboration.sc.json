@@ -1,5 +1,6 @@
 {
-  "scp_id": "collaboration.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/collaboration-v1",
+  "created": "2026-07-19T00:00:00Z",
   "sc_version": "1.2-complete",
   "capsule_type": "collaboration",
   "intent": {
@@ -30,6 +31,6 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "8eAPXYxXUhC3CFVV4IJruJSKQGU90ROWcK5KXeCV29u+0ACslQgPvO9zY4K0/FG1pAz40sL5WTbCW27K5wjrDA=="
+    "value": "YkIxyVnu1ddyK6SfSmsqGepkIiwSh/A3m6hOofH3SjVCcj3JcABD+vy/37z7gvnqCqwX54iI33I7/zYp0VO2CA=="
   }
 }

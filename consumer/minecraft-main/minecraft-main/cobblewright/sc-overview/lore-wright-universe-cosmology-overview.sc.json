@@ -1,5 +1,6 @@
 {
-  "scp_id": "lore-wright-universe-cosmology-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/lore-wright-universe-cosmology-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.lore-wright-universe-cosmology-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_lore",
@@ -56,7 +57,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "OA+g/jxASAHOFlW4Wa9ZHWhYTThYJyBM/LNaH3Smm2hmUerMWmrWfrYSeCM8NKQV482ao2t9/o8nOEQtPdreAQ=="
+    "value": "B6RQ449tjO3rKcYuMHVTwNxUZ/aHmKKfh3BeOvgzdRImSakPxmb1rzXHMRm5z+gypbsZ7OMo1kK4qyAQOMxQAw=="
   },
   "extensions": {}
 }

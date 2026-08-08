@@ -1,5 +1,6 @@
 {
-  "scp_id": "sc-overview-itself.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/sc-overview-itself-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.sc-overview-itself.2026-07-17.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "knowledge_management",
@@ -63,7 +64,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "a4Ysk50Gnw4SGladIZ8qAKjLZrUH59a6c0FPQ79JLFMzdEZCyJWK4B153g9Dm8rjPorfbKb7cLe5XqMoSL6jDA=="
+    "value": "84EgqebZpRmHzO1nXFKdLBvPe73RMGvfc6eEGJmoDbZ8GlA5OJ4Qw3kuYgeYvCHfDGlKL6Op5i7HBFAtr56/Dw=="
   },
   "extensions": {}
 }

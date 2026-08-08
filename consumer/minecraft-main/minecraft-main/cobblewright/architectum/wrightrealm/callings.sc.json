@@ -1,6 +1,7 @@
 {
-  "capsule_schema_version": "0.1",
   "scp_id": "giblets-forge/forge-stack/callings-v1",
+  "created": "2026-07-19T00:00:00Z",
+  "capsule_schema_version": "0.1",
   "object_class": "Safe",
   "intent": "The callings of the village — open-ended desires that give agents purpose.",
   "containment": {
@@ -115,6 +116,6 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "Ib3Dk/+KTTSIfb1XvGfEs5JLcKilybL1bYbh6bZCoy0AhC2idELdEXf27jYjN2Z+f3fIKZa5KntJTKABuPhqBw=="
+    "value": "ss60z7Javb5Z6bp5+NHPilA3ICJzZ+ymW0pEJDgU2ygMp7dM1FFCz41KWO3/W2B/WcjUnMA2/pxw+PIWbQE9BA=="
   }
 }

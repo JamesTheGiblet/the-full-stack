@@ -1,5 +1,6 @@
 {
-  "scp_id": "build.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/build-v1",
+  "created": "2026-07-19T00:00:00Z",
   "sc_version": "1.2-complete",
   "capsule_type": "build",
   "intent": {
@@ -31,6 +32,6 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "5tt5QsdUMAYuQTcXAkDgijZaf07mHZv8/8hfHVNqmzozyWULf1xtv3Qfhopv3/PhK97pL6kDAiiOLp4aRVP/Aw=="
+    "value": "ztdUbmxwq3inNEEFiKR2j4CpWOxtdWvJIcX0hzTUzfQutta+1HLabCF2tIWC632OzbKHSeHUNIDJT3OXFABnCA=="
   }
 }

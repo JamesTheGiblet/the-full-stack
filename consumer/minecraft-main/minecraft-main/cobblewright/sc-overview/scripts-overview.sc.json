@@ -1,5 +1,6 @@
 {
-  "scp_id": "scripts-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/scripts-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.scripts-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "scripts",
@@ -31,6 +32,6 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "BkkEqB0X4vszO+u7cRkgHiHRq/0sjVZeNMkzMaXNQwxHerduefolH7CuYmulA/7yFPWfKc41Esyd6lIQMOaOAg=="
+    "value": "sQJYxY0HFjZP/QikuZL8cXZNgdgjOKGmdTRdJGA0689dBnLFtsnVwIxaUHq16xImV8dn4pQyXbLMnCdNILcADw=="
   }
 }

@@ -1,5 +1,6 @@
 {
-  "scp_id": "world-settlement-charter-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/world-settlement-charter-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.world-settlement-charter-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_lore",
@@ -54,7 +55,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "FPY1J+34knwuj8ew09wntNKFi+n8xU/UiDsl96+imC5fdRM2lXsNeOahI1Ekw6CMJ9Q5XJE20+F3cqzMLgVgAQ=="
+    "value": "7k6bpzuxcgh/AiyjUwVfWswS/SonfxaC5rUxfWDFnVcAE5qxnBpMCmfd92/iqFNLIeKLXHidUHpvkb8IGTJ9CQ=="
   },
   "extensions": {}
 }

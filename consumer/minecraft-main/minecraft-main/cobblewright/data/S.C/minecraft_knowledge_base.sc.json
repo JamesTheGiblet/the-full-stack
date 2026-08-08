@@ -1,5 +1,6 @@
 {
-  "scp_id": "minecraft_knowledge_base.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/minecraft-knowledge-base-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.minecraft_knowledge_base.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "knowledge_base",
@@ -212,6 +213,6 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "W8EoVgSD4wj5uEBk4jY6Qzv4UqVR3Um9M1J7S+Wj56UW0YgsVGs1ajLNoIkQCjaCp/kSe5ByBogpBQgrYeSNAw=="
+    "value": "SyjuqQLGCFhNdjEE7lKj9LQ94Ko3zkBspd5yyKjA2HGhk6py9cUXQurOPWYnuTK3dEeYYQzOGF/MBGv47/r7DA=="
   }
 }

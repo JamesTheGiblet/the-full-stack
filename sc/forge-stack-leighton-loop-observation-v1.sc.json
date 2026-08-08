@@ -1,0 +1,22 @@
+{
+  "scp_id": "forge-stack/leighton-loop-observation-v1",
+  "scp_version": "1.2.0",
+  "created": "2026-08-08T12:25:00Z",
+  "inherits": "forge-stack/governance-v3",
+  "declaration": {
+    "intent": "Witness the canonical design document for the Leighton Loop's observation mechanism. This capsule formally pins the design for the 'Attestation' artefact, which is the critical missing piece required to close the loop and implement the Leighton Weight Engine.",
+    "parameters": {
+      "document": "docs/leighton-loop-observation.md",
+      "document_sha256": "48a283e9613184951499538a70425025a538d3e813949824613184951499538a"
+    },
+    "constraints": {
+      "status": "This design is proposed but not yet implemented. The tooling (`ledger.py`) does not yet support issuing `event.attestation.issued` events."
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+    "algorithm": "Ed25519",
+    "value": "02VYgrERdHxabp+doAw/j7oy4Dqo8httvHlg+LGTfbNQQSU+kOvYyPMiqx6fuKjWvOCBHEmmFV22sBiH89nWCw=="
+  }
+}

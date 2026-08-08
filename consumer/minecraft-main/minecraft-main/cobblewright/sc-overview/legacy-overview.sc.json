@@ -1,5 +1,6 @@
 {
-  "scp_id": "legacy-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/legacy-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "sc_version": "1.2-complete",
   "capsule_type": "legacy_code_index",
   "intent": {
@@ -78,6 +79,6 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "5g1jE9BNrdW8N8je5CScge0ROzjrudLwrWXlWcsruWDJmMEiMMZmtYU4I9gmnYxQU0NZHuccz9UaDkf7P4FFCg=="
+    "value": "GtedrS151aIyL+0fLtN1EZ9TZZifrdrk01iIXcuXkRsvn4a/oxLnCNudoKBgw1YHtqsWMG7HDCYW7YB+Lbv0AA=="
   }
 }

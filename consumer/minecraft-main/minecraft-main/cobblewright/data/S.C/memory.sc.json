@@ -1,5 +1,6 @@
 {
-  "scp_id": "memory.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/memory-v1",
+  "created": "2026-07-19T00:00:00Z",
   "sc_version": "1.2-complete",
   "capsule_type": "memory",
   "intent": {
@@ -19,6 +20,6 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "yT6ca4uQgvSnuoPZ9gbi7rm3PbbXu3c2FHxLGJMGCxMr1auW2gpH3haL8nUwClxvyK0Im+2xNcKCjbOSke6iCw=="
+    "value": "DlVA1nSI+TjdeAmMn6kaHA9iOr7UzHDPzM4bNRKGYsE3gYNapalfEMyCOKptSMovIgfhRsOlrUwg1lksey4nDw=="
   }
 }

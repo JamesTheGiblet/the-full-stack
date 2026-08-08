@@ -1,5 +1,6 @@
 {
-  "scp_id": "project-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/project-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.project-overview.2026-07-17.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "project_architecture",
@@ -80,7 +81,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "cQ8rrfeR6W3TUUmAAQ0Qce0XIX2ODLbAGFN8R3oxx7oFuP2NybVQl2676Mm5RwdQYxTM6rk6hVJkLKg10/k9Dg=="
+    "value": "M1yVg14ceuzsed7nq/mH8B6/CH40Oui73grNCa3A1N2o/AY5vUevTrubjQ1HLJj+SiMbPDZwjQBsxG3axwLABQ=="
   },
   "extensions": {}
 }

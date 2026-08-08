@@ -1,5 +1,6 @@
 {
-  "scp_id": "test-execution-policy.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/test-execution-policy-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.test-execution-policy.2026-07-19.COPILOT",
   "sc_version": "1.2-complete",
   "capsule_type": "testing_policy",
@@ -108,7 +109,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "F7y0R4Aj1LfMSVl9M34cIijftWGg5BvrytVXTNgzrm4vbbvfmJa9rnKqadLRkROnXdP7QgTUalD1uNnds+H7Aw=="
+    "value": "Fdg9KlCLKHaovJO3ORp1o8blEbnW0+Y1nz0XfpwRpm2j+cicbt4bP2FoZsmX7tJuITnVc9IPuwFcWqPMShujBw=="
   },
   "extensions": {}
 }

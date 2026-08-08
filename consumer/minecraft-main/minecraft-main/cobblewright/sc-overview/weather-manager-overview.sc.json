@@ -1,5 +1,6 @@
 {
-  "scp_id": "weather-manager-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/weather-manager-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.weather-manager-overview.2026-07-18.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_plugin",
@@ -68,7 +69,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "Ic8/7XKUgf+sMEiGbY75uJJqmxlSLwyo8b80bQQP4D59aJoZMQ3sHcwhC4xnXMKLq/+8yFoH+/c3MLRBktJQDw=="
+    "value": "WNI2HnVfkvAJCxIA+iYM1Yv83AYg/9ZKFNxR7ovL+aHb0qmZqK8DbfvlvJgaDNT8GplOiITXAjfVDMqP4mSvAQ=="
   },
   "extensions": {}
 }

@@ -1,5 +1,6 @@
 {
-  "scp_id": "universe-wright-universe-expansion-framework-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/universe-wright-universe-expansion-framework-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.universe-wright-universe-expansion-framework-overview.2026-07-19.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "documentation_lore",
@@ -53,7 +54,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "RT87JHuI8sGKIl+1DPOpc27lsszOtMejT72bsG83QOpOz9StG8Vel7gQ1RucJsG8+lFdWKyxjZEFRyyebk8XDg=="
+    "value": "WTVSeHUZaZlDt/N/CL+itQTq+X33OSmbHBaEagPq6FOgitsYV9XfkO/R6O88wvJKeyo2dU68/oS+ALhFNsgOAw=="
   },
   "extensions": {}
 }

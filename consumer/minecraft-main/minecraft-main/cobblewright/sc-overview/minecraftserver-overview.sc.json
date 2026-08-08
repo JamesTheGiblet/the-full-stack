@@ -1,5 +1,6 @@
 {
-  "scp_id": "minecraftserver-overview.sc.json",
+  "scp_id": "minecraft-main/minecraft-main/cobblewright/sc-overview/minecraftserver-overview-v1",
+  "created": "2026-07-19T00:00:00Z",
   "id": "COBBLEWRIGHT.v1.minecraftserver-overview.2026-07-17.GEMINI",
   "sc_version": "1.2-complete",
   "capsule_type": "project_infrastructure",
@@ -71,7 +72,7 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "jg15u3UThI6hcA2Lfed5qxXAJ+m2MhKn49iYj6dSs7/pDSJw1GHi0wMUKZmbvPvbh5GFpV7YU8eTKXxkfaWyCg=="
+    "value": "iHP4wsahSGA3Yke8QxVFEH9ruvHOINV1IkI6EViRzmOKyYcO4Xuwk+0f2PPk6q/nlMqGcL4X4vCh8Rj/EPTuCg=="
   },
   "extensions": {}
 }
