@@ -1,5 +1,28 @@
 # Changelog
 
+2026-08-08 11:41
+
+## The Good 2.0
+Confidence rating: 10/10
+
+- **Full DataCube implementation shipped.** Added `datacube.py` with store writer, store verifier, deterministic projector, integrity+decay calculator, cube signing/verification, and ledger pin helper.
+- **Worked example proven end-to-end.** Generated and verified a complete example pipeline (`store -> cube -> verify -> deterministic re-projection`) with byte-identical cube output across repeated projections.
+- **Root ledger now witnesses the cube materialisation.** Appended `event.cube.pinned` at `#101` and `event.cube.store.checkpoint` at `#102` for `forge-stack/docs/datacube-v1-cube-v1`.
+- **Chain integrity remains green after witnessing.** Full `ledger.py verify` still passes with chain and signatures intact.
+
+## The Bad 2.0
+Risk rating: 2.0/10
+
+- **Integrity denominator policy is still a governance choice.** The implementation uses a configurable saturation model, but final ratification of denominator semantics remains a governance decision.
+- **Example decay constant remains provisional.** The worked example uses a chosen `k` value for demonstration and reproducibility; domain-specific calibration is still required per deployment.
+
+## The Ugly 2.0
+Severity rating: 1.5/10
+
+- **Implementation completed ahead of full ratification envelope.** This is intentional for momentum, but it means governance must now catch up explicitly to avoid implicit defaults becoming de facto policy.
+
+---
+
 2026-08-08 11:31
 
 ## The Good 1.9
