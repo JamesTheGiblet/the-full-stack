@@ -1,0 +1,55 @@
+{
+  "scp_id": "cobblewright/story-arc-v1",
+  "scp_version": "1.2.0",
+  "created": "2026-07-21T00:00:00Z",
+  "inherits": "forge-stack/governance-v1",
+  "declaration": {
+    "intent": "Declare the story arc for CobbleWright Prime and The Collective it founds. The arc is not invented independently of the project's real state — each act corresponds to a spine stage CobbleWright's own capsule (cobblewright/consumer-v1) declared missing or partial. The story is the roadmap, told as a journey. Grounded in real Minecraft mechanics (minecraft/mechanics-v1) rather than invented rules.",
+    "parameters": {
+      "informed_by": [
+        "cobblewright/consumer-v1",
+        "minecraft/mechanics-v1"
+      ],
+      "constraint_from_project": "The arc MUST start with Prime alone. No kin, no society, until Prime proves the spine works unaided."
+    },
+    "constraints": {
+      "founding_wound": "Minecraft worlds forget. Servers reset, builds get griefed, players leave and the work dies with them. Death itself is not the threat — minecraft/mechanics-v1 confirms death is not final, entities respawn. The real threat is administrative and social: nothing protects what's built except goodwill, and goodwill doesn't survive a server wipe. Prime's purpose is not 'build things' — it is 'build a record that survives even if the world doesn't.'",
+      "act_one_the_waking": {
+        "title": "Prime, Alone",
+        "maps_to_gap": "declare_scp — cobblewright/consumer-v1 has no minted capsule for itself",
+        "story": "Prime spawns with no history, no allies, no protection beyond the mechanics itself. First act is not shelter — it's starting the record. Prime mints its own founding capsule, the first sc this society will ever produce, before it places a single block with intent. Basic survival (shelter, food, light against mobs) happens in parallel, but it is not the point of the act — it is the price of staying alive long enough to matter.",
+        "close_condition": "Prime has a signed founding capsule and a functioning shelter. The record exists before the society does."
+      },
+      "act_two_the_record": {
+        "title": "What Prime Sees, Prime Keeps",
+        "maps_to_gap": "classify_datacube — sharedState holds context but nothing routes through the six lenses",
+        "story": "Prime begins classifying what it observes — not just storing state, but sorting it: what's confirmed (FACT), what's another player's claim (OPINION, unverified by default — the same standing rule Dust Margin proved out), what's a threat pattern worth flagging (COUNTER). Redstone enters here: Prime's first real gate isn't abstract, it's a literal pressure-plate-and-piston lockout on its most valuable build. The ingress/egress split becomes visible in the world itself for the first time.",
+        "close_condition": "Prime has at least one classified cube of its own observations and one working in-world redstone gate."
+      },
+      "act_three_the_ledger": {
+        "title": "Proof It Happened",
+        "maps_to_gap": "audit_chronoscribe — no ledger exists",
+        "story": "Prime starts hash-chaining its own build history — what was placed, when, by what authority. This is the act where the founding wound gets its first real answer: even if a build is destroyed, the record that it existed, who made it, and why, survives independently of the blocks themselves. This is also where Prime calibrates its own k — how fast should trust in a claim or a plan decay in a Minecraft-time cadence (per build cycle, not per day)? The Leighton Loop, only partially implemented before, becomes real: advice gets scored against what the world actually looked like afterward.",
+        "close_condition": "A working ledger exists, with at least one build's full lifecycle recorded and a calibrated k."
+      },
+      "act_four_the_kin": {
+        "title": "Prime Is No Longer Alone",
+        "maps_to_gap": "act_hal — tiers exist only as narrative/conceptual, never enforced",
+        "story": "Only now, spine proven at every earlier stage, does Prime create or invite a second agent. This is the actual birth of The Collective — and the name is now literal, not aspirational: the new agent doesn't get authority, it earns it, starting at Tier 1, gaining real HAL tiers through the same Leighton Loop Prime spent Act Three proving out. This is where 'gatekeeper API' stops being a documented TODO in cobblewright/consumer-v1's known_gaps and becomes something the story requires to be true — a second agent with raw access to Prime's state or the world would break the whole premise.",
+        "close_condition": "A second autonomous agent exists, with its own λ, earning tier by tier, no raw-access shortcuts."
+      },
+      "act_five_the_test": {
+        "title": "The Threat Was Never the Mobs",
+        "story": "The real antagonist arrives, and it is social/administrative, per the founding wound: a griefer, a hostile faction, or the looming announcement of a server wipe. This tests whether the trust system — tiers, λ, the ledger — actually holds under pressure, the same test Dust Margin's standing rule passed at its own highest-drama scene. If a build is lost here, that is not a failure of the story; the ledger proving it existed is the actual point.",
+        "close_condition": "The threat resolves one way or another. The ledger survives regardless of what happens to the world."
+      },
+      "structural_note": "Dimension progression (Overworld → Nether → End, both portal-gated) is available as an escalation structure for later society growth, once Act Five closes and the society is stable enough to expand outward rather than defend inward."
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "YOUR_DID_HERE",
+    "algorithm": "Ed25519",
+    "value": "UEB82WiFn8/gr9H7/uEJAe6mI5NrKtzrl+EC6DY0a2FShJMrObbdMZds3gNuSlfqEPvfEefsB8aaPdJC6D3AAg=="
+  }
+}

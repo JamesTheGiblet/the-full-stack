@@ -1,0 +1,31 @@
+{
+  "scp_id": "forge-stack/governance-v1",
+  "scp_version": "1.2.0",
+  "created": "2026-07-21T00:00:00Z",
+  "declaration": {
+    "intent": "Define the authority, immutability, conventions, and scope of the Forge Stack. All stack documents inherit this capsule; no stack document may override its terms.",
+    "constraints": {
+      "terminology_authority": {
+        "document": "docs/glossary.md",
+        "document_sha256": "df361a3292fe59396db60dfd411d8dfddd9056d182365f6cea4277dc3cda8f76",
+        "rule": "The glossary defines all stack terms. A glossary revision is a new capsule identity and requires a new governance capsule version pinning it."
+      },
+      "immutability": "Documents are never edited in place. A revision is a new capsule identity (-vN suffix bump) inheriting from its predecessor. Every document hash lands in the ledger.",
+      "licence_default": "Lite scs may omit licence; they inherit MSL-1.0 from this root. Full capsules must declare licence explicitly or cite this root.",
+      "conventions": {
+        "language": "British English, no exceptions. -ise, not -ize.",
+        "capitalisation": "All-caps names are acronyms with stated expansion. Ordinary words are lowercase unless proper nouns.",
+        "system_artefact_symmetry": "SCP→sc, DataCube→cube, ChronoSCRIBE→ledger, HAL→seal; Leighton Weight's output is λ."
+      },
+      "scope_principle": "The glossary defines the stack, not the builds. Projects built on the stack are consumers; their internal terminology lives in their own repositories.",
+      "persona": "Consumer-level only. The root capsule explicitly does not define a stack-wide persona.",
+      "multi_agent": "Spine-level. The Spine governs stage interaction and agent coordination; not root-level."
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "YOUR_DID_HERE",
+    "algorithm": "Ed25519",
+    "value": "URtWxAS6vvhaKwkZoZljv72D8p4/0kLuB1LL1VZqYo5RVBqktiiQi3cA33VyR+M/Dyl3KkmcdWUwNRADB6erCg=="
+  }
+}

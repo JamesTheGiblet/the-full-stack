@@ -1,0 +1,46 @@
+{
+  "scp_id": "cobblewright/consumer-v1",
+  "scp_version": "1.2.0",
+  "created": "2026-07-21T00:00:00Z",
+  "inherits": "forge-stack/governance-v1",
+  "declaration": {
+    "intent": "Declare CobbleWright as a Forge Stack consumer: a Minecraft AI companion bot demonstrating the spine and gate pattern in a live, adversarial-ish environment. This capsule records an honest self-assessment of spine compliance as of first minting, not an aspirational target.",
+    "parameters": {
+      "domain": "Minecraft companion bot / player-facing agent",
+      "focus_areas": [
+        "honest monetization",
+        "build-in-public documentation",
+        "gate pattern demonstration"
+      ]
+    },
+    "constraints": {
+      "spine_compliance": {
+        "declare_scp": "NOT YET COMPLIANT — this capsule is CobbleWright's first sc; no prior capsule existed",
+        "classify_datacube": "NOT IMPLEMENTED — sharedState holds runtime context but does not route through DataCube's six lenses; no cubes exist for this project",
+        "trust_score_leighton_weight": "PARTIAL — the Leighton Loop is implemented (advice scored against observed before/after world state); no confirmed domain-specific k calibration yet",
+        "audit_chronoscribe": "NOT IMPLEMENTED — no ledger; no hash-chained or signed history of state changes or gate decisions",
+        "act_hal": "CONCEPTUAL ONLY — tier-to-consequence mapping exists in forge_stack's own hal.md using CobbleWright as the worked example; not yet enforced or implemented within CobbleWright itself"
+      },
+      "gate_pattern_compliance": {
+        "status": "IMPLEMENTED, faithful to spec",
+        "detail": "Ingress gates (blueprint validation, vision/screenshot hardening, memory retention pruning) and egress gates (structure protection, placement safety limits, tool availability checks) both exist. Egress correctly weighted as more consequential, per gate-pattern.md."
+      },
+      "known_gaps": {
+        "plugin_trust_hole": "Raw sharedState and the raw mineflayer bot object are both accessible to plugins, bypassing every gate. This violates gate-pattern.md's own stated guarantee: 'the gate guarantee only holds if gates are the only path.' Interim mitigation: documented trusted-plugin-context caveat. Long-term fix: gatekeeper API wrapping both state and world-action access. Not yet implemented.",
+        "naming_inconsistency": "Naming inconsistencies across CobbleWright's own docs are an acknowledged, unresolved blocker — not yet reconciled against the frozen forge_stack glossary. Direct violation of the one-term-one-home discipline."
+      },
+      "self_assessment": {
+        "date": "2026-07-21",
+        "performance_score": "58/100 — gate architecture and Leighton Loop are real and functioning; three of five spine stages unimplemented; the one documented security hole means existing gates are not yet fully load-bearing",
+        "alignment_score": "47/100 — no prior capsule, unresolved naming inconsistency, three spine stages absent; gate pattern and partial trust-scoring are the strongest compliant areas",
+        "overall": "52/100 — early-lifecycle consumer with a real foundation and real, named gaps, not a failing one"
+      }
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "YOUR_DID_HERE",
+    "algorithm": "Ed25519",
+    "value": "tVR7uwxK4k7h/aq+c2xnZziVCCdBnIOiHtbMxd/OVsEWTMUFoKUE9zMr6X7Xe1k00hNf7Bo/Tqp334B3HUHSBg=="
+  }
+}

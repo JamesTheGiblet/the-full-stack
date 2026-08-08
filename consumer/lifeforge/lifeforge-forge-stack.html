@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LifeForge — Forge Stack Edition</title>
+<style>
+  :root{
+    --ink:#0B0E14; --panel:#0E121A; --line:#22282F; --text:#C9D1DB; --dim:#5A6270; --dim2:#8B95A3;
+    --fact:#D4A24C; --opinion:#7C8CA3; --counter:#C06868; --fiction:#8F6B9B; --context:#7FA36E; --unknown:#5A6270;
+    --neural:#4FC3D9; --muscle:#E8825E; --digestive:#4FCB8A; --stem:#8A7AE8;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ink);color:var(--text);font-family:'Iowan Old Style',Georgia,serif;}
+  .mono{font-family:'SF Mono','JetBrains Mono',Consolas,monospace;}
+  header{padding:20px 24px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px}
+  h1{margin:0;font-size:1.6rem;letter-spacing:-0.01em}
+  .tag{font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;color:var(--dim)}
+  .layout{display:grid;grid-template-columns:260px 1fr 300px;gap:0;min-height:calc(100vh - 78px)}
+  .col{padding:18px;border-right:1px solid var(--line);overflow-y:auto;max-height:calc(100vh - 78px)}
+  .col:last-child{border-right:none}
+  .section-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);margin:18px 0 8px}
+  .section-label:first-child{margin-top:0}
+  button{font-family:inherit;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;
+    background:var(--panel);color:var(--fact);border:1px solid var(--fact);border-radius:5px;
+    padding:8px 10px;cursor:pointer;width:100%;margin-bottom:6px;transition:opacity .15s}
+  button:hover{opacity:.85}
+  button.secondary{color:var(--text);border-color:var(--line)}
+  button.danger{color:var(--counter);border-color:var(--counter)}
+  button:disabled{opacity:.35;cursor:not-allowed}
+  label{display:block;font-size:.78rem;color:var(--dim2);margin:10px 0 3px}
+  input[type=range]{width:100%;accent-color:var(--fact)}
+  .val{float:right;color:var(--text)}
+  canvas{display:block;background:#080A0F;width:100%;height:100%}
+  .canvas-wrap{position:relative;height:calc(100vh - 78px)}
+  .stat-row{display:flex;justify-content:space-between;font-size:.82rem;padding:3px 0}
+  .stat-row span:last-child{font-family:'SF Mono',monospace;color:var(--text)}
+  .legend-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+  .ledger-entry{border-left:2px solid var(--line);padding:5px 8px;margin-bottom:4px;font-size:.72rem;background:var(--panel);border-radius:0 4px 4px 0}
+  .ledger-entry.FACT{border-color:var(--fact)}
+  .ledger-entry.OPINION{border-color:var(--opinion)}
+  .ledger-entry.COUNTER{border-color:var(--counter)}
+  .ledger-entry.REJECTED{border-color:var(--counter);color:var(--counter)}
+  .hash{color:var(--dim);font-size:.62rem}
+  #cellInfo{font-size:.78rem;line-height:1.6}
+  .empty{color:var(--dim);font-style:italic;font-size:.8rem}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🧬 LifeForge — Forge Stack Edition</h1>
+  <span class="tag mono">differentiation is a claim, not a fact</span>
+</header>
+
+<div class="layout">
+
+  <!-- LEFT: controls -->
+  <div class="col">
+    <div class="section-label">Development</div>
+    <button id="btnStart">Start</button>
+    <button id="btnPause" class="secondary">Pause</button>
+    <button id="btnReset" class="secondary">Reset to single cell</button>
+
+    <div class="section-label">Parameters</div>
+    <label>Mutation rate<span class="val mono" id="valMut">2%</span></label>
+    <input type="range" id="mutRate" min="0" max="20" value="2">
+    <label>Division rate<span class="val mono" id="valDiv">100%</span></label>
+    <input type="range" id="divRate" min="20" max="200" value="100">
+
+    <div class="section-label">Environment</div>
+    <label>Toxicity<span class="val mono" id="valTox">0%</span></label>
+    <input type="range" id="toxicity" min="0" max="100" value="0">
+    <label>Nutrients<span class="val mono" id="valNut">100%</span></label>
+    <input type="range" id="nutrients" min="10" max="200" value="100">
+
+    <div class="section-label">Interventions <span class="mono" style="font-size:.6rem">(gated)</span></div>
+    <button id="btnMutation" class="secondary">Cause mutation event</button>
+    <button id="btnStemCells" class="secondary">Inject stem cells</button>
+    <button id="btnKill" class="danger">Traumatic event (kill 40%)</button>
+
+    <div class="section-label">Export</div>
+    <button id="btnExport" class="secondary">Export ledger (JSON)</button>
+  </div>
+
+  <!-- CENTER: canvas -->
+  <div class="canvas-wrap">
+    <canvas id="canvas"></canvas>
+  </div>
+
+  <!-- RIGHT: stack panels -->
+  <div class="col">
+    <div class="section-label">Organism</div>
+    <div class="stat-row"><span>Total cells</span><span id="sCells">1</span></div>
+    <div class="stat-row"><span>Committed fates</span><span id="sCommitted">0</span></div>
+    <div class="stat-row"><span>Uncertain / proposing</span><span id="sUncertain">0</span></div>
+    <div class="stat-row"><span>Generation</span><span id="sGen">0</span></div>
+    <div class="stat-row"><span>Divisions</span><span id="sDiv">0</span></div>
+    <div class="stat-row"><span>Deaths</span><span id="sDeaths">0</span></div>
+
+    <div class="section-label">Cell legend</div>
+    <div class="stat-row"><span><span class="legend-dot" style="background:var(--stem)"></span>Stem</span></div>
+    <div class="stat-row"><span><span class="legend-dot" style="background:var(--neural)"></span>Neural</span></div>
+    <div class="stat-row"><span><span class="legend-dot" style="background:var(--muscle)"></span>Muscle</span></div>
+    <div class="stat-row"><span><span class="legend-dot" style="background:var(--digestive)"></span>Digestive</span></div>
+
+    <div class="section-label">Selected cell</div>
+    <div id="cellInfo" class="empty">Click a cell to inspect it.</div>
+
+    <div class="section-label">ChronoSCRIBE ledger <span class="mono" id="ledgerCount" style="color:var(--dim)"></span></div>
+    <div id="ledger"></div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+/* ============================================================
+   FORGE STACK CORE
+   Differentiation is not an instant assignment. A cell reading
+   its local morphogen field PROPOSES a fate (OPINION, lambda 1.0).
+   That proposal is reinforced or contradicted every tick by the
+   signal it actually reads (the Leighton Loop). Sustained support
+   commits the fate (FACT). Sustained contradiction, or a noisy
+   signal under high toxicity, decays lambda toward zero and the
+   cell reverts to uncertain — a real, visible developmental
+   failure mode instead of an impossible state.
+   ============================================================ */
+
+const LENS = { FACT:'FACT', OPINION:'OPINION', COUNTER:'COUNTER' };
+const K = 0.09; // per-tick decay constant for fate confidence — calibrated for this sim's tick cadence
+
+// ---- canonicalisation + hash chain, same shape as the stack's own genesis.py ----
+function canonicalise(obj){
+  const sorted = (o) => {
+    if (Array.isArray(o)) return o.map(sorted);
+    if (o && typeof o === 'object') return Object.keys(o).sort().reduce((acc,k)=>{acc[k]=sorted(o[k]);return acc;},{});
+    return o;
+  };
+  return JSON.stringify(sorted(obj));
+}
+async function sha256(str){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+class Ledger {
+  constructor(){ this.entries = []; this.prevHash = 'GENESIS'; this.seq = 0; }
+  async append(event, subject, detail, lens){
+    const body = { seq:this.seq++, event, subject, detail, lens, prev:this.prevHash };
+    const line = canonicalise(body);
+    const hash = await sha256(line);
+    const entry = { ...body, hash };
+    this.entries.push(entry);
+    this.prevHash = hash;
+    renderLedgerEntry(entry);
+    return entry;
+  }
+}
+const ledger = new Ledger();
+
+function renderLedgerEntry(e){
+  const el = document.getElementById('ledger');
+  const div = document.createElement('div');
+  div.className = `ledger-entry ${e.lens}`;
+  div.innerHTML = `<div>${e.event} — ${e.subject}</div>
+    <div class="hash mono">${e.detail} · #${e.seq} · ${e.hash.slice(0,10)}…</div>`;
+  el.prepend(div);
+  while (el.children.length > 60) el.removeChild(el.lastChild);
+  document.getElementById('ledgerCount').textContent = `${ledger.entries.length} entries`;
+}
+
+// ---- gate pattern: interventions must pass an egress check before they fire ----
+function egressGate(actionName, wouldViolate, reason){
+  if (wouldViolate){
+    ledger.append('gate.rejected', actionName, reason, LENS.COUNTER);
+    return false;
+  }
+  ledger.append('gate.passed', actionName, 'egress check clear', LENS.FACT);
+  return true;
+}
+
+// ============================================================
+// MORPHOGEN FIELD — two signals, produced by cell density, diffusing and decaying
+// ============================================================
+const GRID = 64;
+class MorphogenField {
+  constructor(){
+    this.neural = new Float32Array(GRID*GRID);
+    this.muscle = new Float32Array(GRID*GRID);
+  }
+  idx(gx,gy){ return gy*GRID+gx; }
+  deposit(gx,gy,field,amount){
+    if(gx<0||gy<0||gx>=GRID||gy>=GRID) return;
+    field[this.idx(gx,gy)] += amount;
+  }
+  sample(gx,gy,field){
+    if(gx<0||gy<0||gx>=GRID||gy>=GRID) return 0;
+    return field[this.idx(gx,gy)];
+  }
+  step(toxicity){
+    for (const field of [this.neural,this.muscle]){
+      const next = new Float32Array(GRID*GRID);
+      for(let y=0;y<GRID;y++){
+        for(let x=0;x<GRID;x++){
+          let sum=0,n=0;
+          for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
+            const nx=x+dx,ny=y+dy;
+            if(nx>=0&&ny>=0&&nx<GRID&&ny<GRID){sum+=field[this.idx(nx,ny)];n++;}
+          }
+          const diffused = sum/n;
+          const noise = (toxicity/100) * (Math.random()-0.5) * 0.15; // toxicity injects reading noise
+          next[this.idx(x,y)] = Math.max(0, diffused*0.97 + noise);
+        }
+      }
+      field.set(next);
+    }
+  }
+}
+const morphogen = new MorphogenField();
+
+// ============================================================
+// CELL
+// ============================================================
+let cellSeq = 1;
+class Cell {
+  constructor(x,y,type='stem',generation=0){
+    this.id = cellSeq++;
+    this.x=x; this.y=y; this.type=type; this.generation=generation;
+    this.age=0; this.energy=100;
+    // fate proposal state — the classification layer
+    this.fateProposal = null;   // proposed type, or null if undifferentiated/stem
+    this.fateLambda = 0;        // confidence, 0-2 scale like the rest of the stack
+    this.committed = (type !== 'stem'); // stem starts uncommitted by definition
+  }
+
+  worldToGrid(w,h){
+    return [Math.floor((this.x/w)*GRID), Math.floor((this.y/h)*GRID)];
+  }
+
+  async tick(w,h,env){
+    this.age++;
+    const metabolicCost = 0.3 * (1 + env.temperature/100);
+    this.energy -= metabolicCost;
+    this.energy -= (env.toxicity/100) * 0.4; // toxicity damages directly too
+    this.energy += (env.nutrients/100) * 0.25;
+
+    if (this.type === 'stem' && !this.committed){
+      const [gx,gy] = this.worldToGrid(w,h);
+      const neuralSig = morphogen.sample(gx,gy,morphogen.neural);
+      const muscleSig = morphogen.sample(gx,gy,morphogen.muscle);
+      const strongest = neuralSig > muscleSig ? 'neural' : 'muscle';
+      const signalStrength = Math.max(neuralSig,muscleSig);
+
+      if (signalStrength > 0.4){
+        if (this.fateProposal !== strongest){
+          // signal changed direction — proposal contested, confidence resets low
+          if (this.fateProposal){
+            ledger.append('fate.contested', `cell-${this.id}`,
+              `signal shifted ${this.fateProposal}→${strongest}, confidence reset`, LENS.COUNTER);
+          } else {
+            ledger.append('fate.proposed', `cell-${this.id}`, `proposes ${strongest}`, LENS.OPINION);
+          }
+          this.fateProposal = strongest;
+          this.fateLambda = 1.0;
+        } else {
+          // reinforcement — the Leighton Loop: sustained signal match raises confidence
+          this.fateLambda = Math.min(2.0, this.fateLambda + 0.18);
+          if (this.fateLambda >= 1.6){
+            this.type = strongest;
+            this.committed = true;
+            ledger.append('fate.committed', `cell-${this.id}`,
+              `${strongest} confirmed, λ=${this.fateLambda.toFixed(2)} (RESOLVED_TRUE)`, LENS.FACT);
+          }
+        }
+      } else if (this.fateProposal) {
+        // signal too weak to sustain the claim — decay
+        this.fateLambda = decayLambda(this.fateLambda);
+        if (this.fateLambda < 0.3){
+          ledger.append('fate.abandoned', `cell-${this.id}`,
+            `proposal decayed below threshold, reverting to uncertain`, LENS.COUNTER);
+          this.fateProposal = null;
+        }
+      }
+
+      // deposit its own weak signal back, cells contribute to the field they read
+      if (this.committed){
+        morphogen.deposit(gx,gy, this.type==='neural'?morphogen.neural:morphogen.muscle, 0.02);
+      }
+    }
+
+    return this.energy > 0 && this.age < 4000;
+  }
+}
+function decayLambda(l){ return Math.max(0, l * Math.exp(-K)); }
+
+// ============================================================
+// SIMULATION STATE
+// ============================================================
+let cells = [];
+let running = false;
+let stats = { divisions:0, deaths:0, generation:0 };
+let selectedCell = null;
+
+function resetSim(){
+  cells = [new Cell(GRID/2 * 8, GRID/2 * 8, 'stem', 0)];
+  stats = { divisions:0, deaths:0, generation:0 };
+  morphogen.neural.fill(0); morphogen.muscle.fill(0);
+  // seed two morphogen sources so there's something to differentiate toward
+  const cx=GRID/2;
+  morphogen.deposit(cx-8, cx, morphogen.neural, 40);
+  morphogen.deposit(cx+8, cx, morphogen.muscle, 40);
+  ledger.entries = []; ledger.prevHash='GENESIS'; ledger.seq=0;
+  document.getElementById('ledger').innerHTML='';
+  ledger.append('genesis', 'organism', 'single stem cell seeded', LENS.FACT);
+}
+
+function env(){
+  return {
+    temperature: 20,
+    toxicity: +document.getElementById('toxicity').value,
+    nutrients: +document.getElementById('nutrients').value,
+  };
+}
+
+async function stepSim(){
+  const canvas = document.getElementById('canvas');
+  const w = canvas.width, h = canvas.height;
+  const e = env();
+  const mutRate = +document.getElementById('mutRate').value / 100;
+  const divRate = +document.getElementById('divRate').value / 100;
+
+  morphogen.step(e.toxicity);
+
+  const survivors = [];
+  for (const cell of cells){
+    const alive = await cell.tick(w,h,e);
+    if (!alive){
+      stats.deaths++;
+      continue;
+    }
+    survivors.push(cell);
+
+    // division
+    if (cell.energy > 60 && Math.random() < 0.02*divRate && cells.length < 400){
+      let childType = cell.type;
+      if (cell.type==='stem' && Math.random() < mutRate){
+        childType = 'digestive'; // mutation can force an unexpected lineage
+        ledger.append('mutation', `cell-${cell.id}`, 'spontaneous mutation on division', LENS.COUNTER);
+      }
+      const angle = Math.random()*Math.PI*2;
+      const child = new Cell(cell.x+Math.cos(angle)*6, cell.y+Math.sin(angle)*6, childType, cell.generation+1);
+      cell.energy -= 40;
+      stats.divisions++;
+      stats.generation = Math.max(stats.generation, child.generation);
+      survivors.push(child);
+    }
+  }
+  cells = survivors;
+  render();
+  updateStats();
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+const typeColor = { stem:'#8A7AE8', neural:'#4FC3D9', muscle:'#E8825E', digestive:'#4FCB8A' };
+function render(){
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  for (const c of cells){
+    ctx.beginPath();
+    const r = c.committed ? 5 : 3 + (c.fateLambda||0)*1.5;
+    ctx.arc(c.x, c.y, r, 0, Math.PI*2);
+    ctx.fillStyle = typeColor[c.type] || '#888';
+    ctx.globalAlpha = c.committed ? 1 : 0.5 + (c.fateLambda||0)*0.25;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+    if (c === selectedCell){
+      ctx.strokeStyle = '#D4A24C'; ctx.lineWidth=1.5;
+      ctx.beginPath(); ctx.arc(c.x,c.y,r+3,0,Math.PI*2); ctx.stroke();
+    }
+  }
+}
+
+function updateStats(){
+  document.getElementById('sCells').textContent = cells.length;
+  document.getElementById('sCommitted').textContent = cells.filter(c=>c.committed).length;
+  document.getElementById('sUncertain').textContent = cells.filter(c=>!c.committed && c.fateProposal).length;
+  document.getElementById('sGen').textContent = stats.generation;
+  document.getElementById('sDiv').textContent = stats.divisions;
+  document.getElementById('sDeaths').textContent = stats.deaths;
+}
+
+// ============================================================
+// UI WIRING
+// ============================================================
+function fitCanvas(){
+  const canvas = document.getElementById('canvas');
+  const wrap = canvas.parentElement;
+  canvas.width = wrap.clientWidth;
+  canvas.height = wrap.clientHeight;
+}
+window.addEventListener('resize', fitCanvas);
+
+document.getElementById('btnStart').onclick = ()=>{ running = true; loop(); };
+document.getElementById('btnPause').onclick = ()=>{ running = false; };
+document.getElementById('btnReset').onclick = ()=>{ running=false; resetSim(); render(); updateStats(); };
+
+['mutRate','divRate','toxicity','nutrients'].forEach(id=>{
+  const el = document.getElementById(id);
+  const label = { mutRate:'valMut', divRate:'valDiv', toxicity:'valTox', nutrients:'valNut' }[id];
+  const suffix = '%';
+  const update = ()=> document.getElementById(label).textContent = el.value+suffix;
+  el.addEventListener('input', update); update();
+});
+
+document.getElementById('btnMutation').onclick = async ()=>{
+  const passed = egressGate('cause_mutation', cells.length < 3, 'organism too small to survive a forced mutation event');
+  if (!passed) return;
+  const target = cells[Math.floor(Math.random()*cells.length)];
+  if (target){ target.type='digestive'; target.committed=true;
+    ledger.append('intervention.mutation', `cell-${target.id}`, 'operator-forced mutation, sealed', LENS.FACT); }
+};
+document.getElementById('btnStemCells').onclick = async ()=>{
+  const passed = egressGate('inject_stem_cells', cells.length > 350, 'organism near capacity, injection would overcrowd');
+  if (!passed) return;
+  const canvas=document.getElementById('canvas');
+  for(let i=0;i<3;i++) cells.push(new Cell(canvas.width/2+Math.random()*20-10, canvas.height/2+Math.random()*20-10,'stem',0));
+  ledger.append('intervention.inject', 'organism', '3 stem cells injected, sealed', LENS.FACT);
+};
+document.getElementById('btnKill').onclick = async ()=>{
+  const passed = egressGate('traumatic_event', cells.length < 5, 'organism too small to survive a 40% kill event — refusing to authorise extinction');
+  if (!passed) return;
+  const before = cells.length;
+  cells = cells.filter(()=> Math.random() > 0.4);
+  stats.deaths += (before - cells.length);
+  ledger.append('intervention.trauma', 'organism', `${before-cells.length} cells killed, sealed and logged`, LENS.FACT);
+};
+document.getElementById('btnExport').onclick = ()=>{
+  const blob = new Blob([JSON.stringify(ledger.entries,null,2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'lifeforge-ledger.json';
+  a.click();
+};
+
+document.getElementById('canvas').addEventListener('click', (e)=>{
+  const rect = e.target.getBoundingClientRect();
+  const mx = e.clientX-rect.left, my = e.clientY-rect.top;
+  let closest=null, closestD=999;
+  for(const c of cells){
+    const d = Math.hypot(c.x-mx,c.y-my);
+    if (d<closestD && d<12){ closest=c; closestD=d; }
+  }
+  selectedCell = closest;
+  const info = document.getElementById('cellInfo');
+  if (!closest){ info.className='empty'; info.textContent='Click a cell to inspect it.'; return; }
+  info.className='';
+  info.innerHTML = `
+    <div><b>Cell #${closest.id}</b></div>
+    <div>Type: <span class="mono">${closest.type}</span> ${closest.committed?'(committed)':'(uncertain)'}</div>
+    <div>Fate proposal: <span class="mono">${closest.fateProposal||'—'}</span></div>
+    <div>λ (confidence): <span class="mono">${(closest.fateLambda||0).toFixed(2)}</span></div>
+    <div>Age: ${closest.age} · Energy: ${closest.energy.toFixed(0)}</div>
+    <div>Generation: ${closest.generation}</div>
+  `;
+  render();
+});
+
+// main loop
+function loop(){
+  if (!running) return;
+  stepSim();
+  setTimeout(loop, 40);
+}
+
+fitCanvas();
+resetSim();
+render();
+updateStats();
+</script>
+</body>
+</html>

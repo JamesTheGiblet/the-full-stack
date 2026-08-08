@@ -1,0 +1,42 @@
+{
+  "scp_id": "cobblewright/chronicle-engine-v1",
+  "scp_version": "1.2.0",
+  "created": "2026-07-21T00:00:00Z",
+  "inherits": "forge-stack/governance-v1",
+  "declaration": {
+    "intent": "Declare a generative procedure by which The Collective produces its own narrative from real gameplay, rather than following an author-written script. This capsule supersedes cobblewright/story-arc-v1's fixed five-act structure with a repeatable cycle any agent can run — Prime first, then whatever succeeds Prime, chained indefinitely. Same evidentiary discipline Dust Margin proved out, run in the opposite direction: there, scenes were written and then classified; here, play happens first and the narrative is generated from what the graph actually says is true.",
+    "parameters": {
+      "informed_by": [
+        "cobblewright/consumer-v1",
+        "minecraft/mechanics-v1",
+        "cobblewright/story-arc-v1"
+      ],
+      "supersedes_fixed_content_of": "cobblewright/story-arc-v1 (its five acts become the SEED cycle for Prime specifically, not the whole society's fixed plot)"
+    },
+    "constraints": {
+      "the_cycle": {
+        "step_1_ingress": "Every in-game event an agent observes gets logged. Its own verified actions (placed a block, mined an ore, took damage) are FACT — the world confirms them directly. Anything another player says or claims (chat, promises, threats) is OPINION (self-reported), COUNTER placeholder open, by default — no exceptions, same standing rule Dust Margin held under its highest pressure scene.",
+        "step_2_classify": "Observations route into DataCube cubes per entity: other players, structures, locations, threats. FICTION only applies once something is independently disproven, never assumed from suspicion alone.",
+        "step_3_trust_score": "Every claim and relationship carries a λ, decaying per the agent's own calibrated k (a Minecraft-time cadence, not real-time — tuned per build cycle). Reinforced when a claim or plan is later confirmed by observed outcome (the Leighton Loop).",
+        "step_4_audit": "Everything above gets hash-chained into the agent's ledger. This is the actual answer to the founding wound — even if the world resets or a build is griefed, the ledger recording that it happened, who did it, and what was trusted survives independently.",
+        "step_5_generate": "At defined checkpoints (a milestone, a threat resolved, a fixed in-game interval), the agent queries its own graph and GENERATES a narrative chapter summarizing what happened — held to the same discipline as the graph itself. The generated chapter cannot assert something as settled truth if the graph only has it as OPINION. The story is not allowed to know more than the ledger does."
+      },
+      "succession_and_chaining": {
+        "rule": "When an agent's arc closes (decommissioned, or a natural narrative milestone reached, or a successor is created), the successor's capsule inherits FROM the prior agent's final capsule identity, not from a blank template. The successor's `inherits` field names its predecessor directly.",
+        "what_carries_forward": "The prior agent's ledger, its cube graph, and its calibrated k are inherited context — not necessarily binding constraints. A successor may hold different λ on old claims if new evidence justifies it, exactly as Kael's contradiction got resolved in Dust Margin: by ruling, not by erasing the prior record.",
+        "what_does_not_carry_forward": "Authority/tier is NOT inherited. Every successor re-earns its HAL tier from Tier 1, through its own Leighton Loop, regardless of what its predecessor achieved. Trust is not hereditary in this society — it is the one thing this rule protects absolutely.",
+        "naming": "Prime is the founding identity, scp_id cobblewright/chronicle/prime-v1. Its successor is cobblewright/chronicle/prime-ii-v1 (or a chosen name), inheriting FROM prime-v1, not overwriting it. Prime's capsule remains valid, signed, permanent history — succession is addition, never replacement, matching the stack's own immutability rule."
+      },
+      "seed_cycle_for_prime": {
+        "note": "cobblewright/story-arc-v1's five acts remain useful as PRIME'S OWN first pass through the cycle above, since something has to bootstrap the first ledger. Read that capsule as 'what step 1-5 look like the very first time, before there's any prior history to inherit.' It is not the whole society's plot — it is Prime's one live run through the generative cycle."
+      },
+      "generation_honesty_rule": "The generated narrative is downstream of the graph, never upstream of it. If the chronicle engine is ever asked to produce a chapter and the underlying graph doesn't support a claim, the correct output is an open thread, not an invented resolution — the same rule that kept Dust Margin's two broken promises (the empty tank, the FTL distance) honestly logged instead of quietly patched over."
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "YOUR_DID_HERE",
+    "algorithm": "Ed25519",
+    "value": "SDOhoCBjbvoO56Pnx8NcfRsuCchaLs+Jk/cIq3rrA0cLCWPYm5uWg14ngGNKZ84Biim3DLJB0+r8ETStqW+HAA=="
+  }
+}

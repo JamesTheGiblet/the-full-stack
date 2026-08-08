@@ -1,0 +1,47 @@
+{
+  "scp_id": "dust-margin/consumer-v1",
+  "scp_version": "1.2.0",
+  "created": "2026-07-21T00:00:00Z",
+  "inherits": "forge-stack/governance-v1",
+  "declaration": {
+    "intent": "Declare The Dust Margin as a Forge Stack consumer: a canon-engine-native space western proving the spine's evidentiary discipline generalises beyond code to fiction. Distinct from dust-margin/universe-v1, which declares the fictional world's own hard rules — this capsule grades the project's actual compliance with the stack that built it.",
+    "parameters": {
+      "domain": "Interactive fiction / canon-engine consumer",
+      "artefacts": [
+        "the-dust-margin.md (manuscript, 41 scenes)",
+        "dust-margin-canon.md (canon graph, 13 cubes)"
+      ]
+    },
+    "constraints": {
+      "spine_compliance": {
+        "declare_scp": "WEAK — no cube was materialised as a real .sc.json capsule during the 41-scene arc; all cube data lived in markdown tables until this session's file-compilation pass",
+        "classify_datacube": "STRONG IN SPIRIT, INCOMPLETE IN FORM — the six lenses were applied with real rigour for the full arc (COUNTER held only contradicting material, FICTION only confirmed lies); the formal integrity grading scale (CRYSTALLINE/COHERENT/FORMING/SPARSE) was never applied to any cube",
+        "trust_score_leighton_weight": "ABANDONED IN PRACTICE — λ defaults and per-chapter decay were planned at the outset and never mechanically used again; no cube entry carries an actual numeric λ across the arc",
+        "audit_chronoscribe": "ABSENT — no ledger; nothing hash-chained or signed for the story itself",
+        "act_hal": "NARRATIVE ONLY — Tier 5 overrides and λ 2.0 hard rules exist as in-universe lore, not as an enforced mechanism; never triggered, since no hard rule was ever broken"
+      },
+      "gate_pattern_compliance": {
+        "status": "EXCEPTIONAL — the strongest-executed component of either Forge Stack consumer to date",
+        "detail": "41 consecutive egress checks against the universe's four hard rules, zero violations. The ingress side produced a genuine process refinement not yet reflected in gate-pattern.md itself: any claim attributed to a speaker via dialogue defaults to OPINION with a COUNTER placeholder open, no exceptions for dramatic momentum — arrived at through six real corrections, then held clean through the story's highest-pressure confrontation scene."
+      },
+      "known_gaps": {
+        "unfulfilled_promise": "Two threads (the empty water tank and the unmeasured FTL distance, both from Scene One) were explicitly promised resolution before the arc closed and were not delivered. Logged honestly as carried-forward debt rather than silently dropped.",
+        "unresolved_contradiction": "Corvus's accusation that Voss lost the pod rather than found it (Scene 30) directly disputes her own account (Scene 13) and was never reconciled — the largest open thread at Part One's close.",
+        "no_persisted_capsules": "None of the 13 named cubes exist as individual signed sc artefacts; all cube data is markdown-table only."
+      },
+      "self_assessment": {
+        "date": "2026-07-21",
+        "performance_score": "84/100 — the mechanism that was used worked exceptionally well across 41 scenes; docked for the unfulfilled promise and for not persisting cube data as real capsules until prompted",
+        "alignment_score": "58/100 — implements roughly two of six documented spine components (Classify in spirit, gate pattern in full) at a high standard; Declare, Trust-score, Audit, and Act are unbuilt or purely narrative",
+        "overall": "68/100 — the philosophically truest consumer built so far, and the mechanically thinnest one; a real, worth-naming tension rather than a simple pass/fail"
+      },
+      "recommendation": "The standing ingress rule this arc produced (dialogue-attributed claims default to OPINION, no exceptions) is a candidate for formal adoption into gate-pattern.md — it is a genuine refinement discovered by a consumer, which is exactly what the stack's iterative relationship with its own builds is supposed to produce."
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "YOUR_DID_HERE",
+    "algorithm": "Ed25519",
+    "value": "via89xqjVo3NwPMBmoMgoZ/l7XNb8cf+mzahvIT2o20mko3Yl4qEq+iAsn+JBoqv+A+H4P0mh/wasvfnTKarDA=="
+  }
+}

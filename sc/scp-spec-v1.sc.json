@@ -1,0 +1,19 @@
+{
+  "scp_id": "forge-stack/docs/scp-spec-v1",
+  "scp_version": "1.2.0",
+  "created": "2026-07-21T00:00:00Z",
+  "inherits": "forge-stack/governance-v1",
+  "declaration": {
+    "intent": "Specify the Semantic Capsule Protocol v1.2: the sc artefact schema, SCP Lite, signature, inheritance, immutability, and bindings.",
+    "parameters": {
+      "document": "docs/scp-spec-v1.2.md",
+      "document_sha256": "36885746f245b961396a6ed104aeb605a1a3d92a7c499a3d54345c8801a274e7"
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "YOUR_DID_HERE",
+    "algorithm": "Ed25519",
+    "value": "UeV0PZ//r3RxNB6nQ0TFy88AT2lctXnxYydTC2LXUKcQdG1ILDjqAX+G9W4Hdh9L3ryafWNx0h8FEZTe8F6iBw=="
+  }
+}

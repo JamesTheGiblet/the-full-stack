@@ -1,0 +1,19 @@
+{
+  "scp_id": "forge-stack/docs/gate-pattern-v1",
+  "scp_version": "1.2.0",
+  "created": "2026-07-21T00:00:00Z",
+  "inherits": "forge-stack/governance-v1",
+  "declaration": {
+    "intent": "Specify the knowledge gate pattern: ingress and egress gates, current state, and how the five spine stages are enforced at runtime.",
+    "parameters": {
+      "document": "docs/gate-pattern.md",
+      "document_sha256": "fd17c6ebd8f48380ada1d4079cbcd24b61bb002e5e2b324b4055737ee30b4d7e"
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "YOUR_DID_HERE",
+    "algorithm": "Ed25519",
+    "value": "zNCFqjVJnwenOnvJBnlHQQxci/Nv7CIjfhXmYV6f1uLU1SKvHxMPm2s6dfHC3dLvuZZv3CUKzXPHhp7ZtG8cCQ=="
+  }
+}

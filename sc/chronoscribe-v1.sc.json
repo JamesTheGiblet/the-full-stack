@@ -1,0 +1,19 @@
+{
+  "scp_id": "forge-stack/docs/chronoscribe-v1",
+  "scp_version": "1.2.0",
+  "created": "2026-07-21T00:00:00Z",
+  "inherits": "forge-stack/governance-v1",
+  "declaration": {
+    "intent": "Specify ChronoSCRIBE, the Audit stage: the ledger artefact, hash chaining, signing, and W3C PROV export.",
+    "parameters": {
+      "document": "docs/chronoscribe.md",
+      "document_sha256": "ea870798380cce44d84a81e110cf2d51662154f867abb66436a2636b812c66d0"
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "YOUR_DID_HERE",
+    "algorithm": "Ed25519",
+    "value": "GGciu/O1xKm3eKU4W8iOJA9/E44k6nSSigjqO4s4FIstlFSg3pPy6HA44oqEgppQgS/dYWNCg9aNKZ56geGyDA=="
+  }
+}
