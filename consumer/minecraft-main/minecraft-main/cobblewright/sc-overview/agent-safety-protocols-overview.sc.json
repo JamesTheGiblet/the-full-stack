@@ -51,7 +51,7 @@
     "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\agents\\safety-protocols.md"
   ],
   "signature": {
-    "key_id": "YOUR_DID_HERE",
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
     "value": "4kKws7ZmRJeajQbeYjfIYldcTlUuBRnhc/xY8texB1KvJdKMrZFka0lBi9Wx/oYd3lraU0ZsC3N3TGDN+6QVCg=="
   },

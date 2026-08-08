@@ -52,7 +52,7 @@
     "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\agents\\cobblewright-prime.md"
   ],
   "signature": {
-    "key_id": "YOUR_DID_HERE",
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
     "value": "f4dSpuQI8FE9xG5Zbc7DYmYBFnPl4zd9HaOPBjluttP4FSWLAWfwGEcgzQlfe2+hhAirjp+r9PydarDNZ4tcAw=="
   },

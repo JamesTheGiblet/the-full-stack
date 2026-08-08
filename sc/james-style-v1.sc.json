@@ -16,7 +16,7 @@
   },
   "licence": "MSL-1.0",
   "signature": {
-    "key_id": "YOUR_DID_HERE",
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
     "value": "QPMGzi5bPNFMjxiXZSnBo02X0W9tz+thQFkaot59NfN6oZrKcDpGY5RvwcUctCYTJyavIe4OyiZM/3N4B8AMCQ=="
   }

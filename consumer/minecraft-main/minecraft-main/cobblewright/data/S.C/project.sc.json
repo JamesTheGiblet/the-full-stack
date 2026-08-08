@@ -28,7 +28,7 @@
     ]
   },
   "signature": {
-    "key_id": "YOUR_DID_HERE",
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
     "value": "mNQLbfID4/p0F0ckVAFORh/OfaegED4C49jaNG4OSVhxA4Lz7VXIhb4P6L2G5slHzbmL0sA+qEZ6G7xCutNmCA=="
   }

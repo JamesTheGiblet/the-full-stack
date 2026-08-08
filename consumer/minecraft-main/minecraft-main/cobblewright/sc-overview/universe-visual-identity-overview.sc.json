@@ -50,7 +50,7 @@
     "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\universe\\visual-identity.md"
   ],
   "signature": {
-    "key_id": "YOUR_DID_HERE",
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
     "value": "tYTa8PeR9fDEructovteNsu/bdkJjGdVWyBRooZjQv8tDTEO/psMe30E2UZIK0OwIRwKFZ5fBOX9aYAtC7FABw=="
   },

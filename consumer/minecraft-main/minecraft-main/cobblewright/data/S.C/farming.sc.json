@@ -28,7 +28,7 @@
     "knowledge_bias": "prioritize replanting over maximizing harvest yield to ensure sustainability"
   },
   "signature": {
-    "key_id": "YOUR_DID_HERE",
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
     "value": "EAKL1ZGczHcP1zVas3rSZ1IdXwAQ+uv757ctWiQcEjGdA3PqgjyU/jf0eF60nNMS86F8m34zFWui+kJeD3/gAw=="
   }

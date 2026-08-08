@@ -209,7 +209,7 @@
     "note": "This capsule is a high-confidence consolidation of previously separate, trusted knowledge files. It should be considered authoritative for core Minecraft game knowledge."
   },
   "signature": {
-    "key_id": "YOUR_DID_HERE",
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
     "value": "VxdHosPShNCFSqy1GKYGXB2ikPS0VhAG4zaUk1LhJEQrYowTHsf6sJj0Y1Y2Le8uK+lcrRbwnwmmCexTd7gwBQ=="
   }

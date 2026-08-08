@@ -1,0 +1,23 @@
+{
+  "scp_id": "forge-stack/docs/axiom-v1",
+  "scp_version": "1.2.0",
+  "created": "2026-08-08T00:00:00Z",
+  "inherits": "forge-stack/governance-v1",
+  "declaration": {
+    "intent": "Document AXIOM as a standalone accountability tool referenced by Forge Stack materials while explicitly outside the enforced spine.",
+    "parameters": {
+      "document": "docs/AXIOM.md",
+      "document_sha256": "e5e7dc590007d2a874adf059191f6fe0cf17844f5aea8335e4062140f6fe64e6"
+    },
+    "constraints": {
+      "status": "standalone-tool",
+      "spine_membership": "out-of-scope"
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+    "algorithm": "Ed25519",
+    "value": "GOq7WzNEomOeNyiOfUpt9xtAqY+dr8K1bTiSTkYbE16NDQyO43wryvKEx1PXK15l4MtPloxTFOeYkYogw+NuCg=="
+  }
+}

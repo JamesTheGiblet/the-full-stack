@@ -32,7 +32,7 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import (
 ROOT = pathlib.Path(__file__).parent
 KEY_FILE = pathlib.Path(os.environ.get("FORGE_KEY_PATH", str(ROOT / "forge-signing.key")))
 PUB_FILE = ROOT / "forge-signing.pub"
-KEY_ID = "YOUR_DID_HERE"
+KEY_ID = "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ"
 
 
 def canonicalise(obj) -> str:

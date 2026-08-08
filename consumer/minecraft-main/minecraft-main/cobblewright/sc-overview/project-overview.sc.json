@@ -77,7 +77,7 @@
     "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\sc-overview\\roadmap-overview.sc.json"
   ],
   "signature": {
-    "key_id": "YOUR_DID_HERE",
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
     "value": "v9itHFbfxEBW0bbw/K25d9b46eQmltUm1vAknP1/MlD0UO4WCDmss2W0nkb/C1by9UtIaATTjD1z75H+B3XOCw=="
   },
