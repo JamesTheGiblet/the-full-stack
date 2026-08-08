@@ -1,0 +1,47 @@
+{
+  "scp_id": "forge-stack/governance-v2",
+  "scp_version": "1.2.0",
+  "created": "2026-08-08T10:35:00Z",
+  "inherits": null,
+  "declaration": {
+    "intent": "Defines the foundational rules, conventions, and scope for the Forge Stack. This capsule is the root of the inheritance chain. v2 introduces explicit ledger scoping to separate stack-level history from consumer-level history.",
+    "parameters": {
+      "supersedes": "forge-stack/governance-v1",
+      "terminology_authority": {
+        "document": "docs/glossary.md",
+        "document_sha256": "e1a7943a2875a83a4419d645a422e8333f86b36d32835339f85955cd349c232c"
+      }
+    },
+    "constraints": {
+      "ledger_scope": {
+        "rule": "The Forge Stack maintains a two-tier ledger system: a single root ledger for the stack's own history, and separate consumer ledgers for each project built upon it. This prevents consumer-specific events from cluttering the foundational audit trail.",
+        "root_ledger_scope": {
+          "path": "ledger.jsonl",
+          "description": "The root ledger tracks the integrity and evolution of the Forge Stack itself. It is the authoritative history for core components and governance.",
+          "includes": [
+            "All capsules and referenced documents within the `sc/` directory.",
+            "Stack-level manifests (e.g., `forge-stack/manifest-v*`).",
+            "HAL seals related to root governance and stack-wide policy.",
+            "State-change events from core stack components."
+          ],
+          "excludes": [
+            "Any capsule, document, or event originating from the `consumer/` directory."
+          ]
+        },
+        "consumer_ledger_scope": {
+          "path": "consumer/{consumer_name}/ledger.jsonl",
+          "description": "Each consumer project maintains its own independent ledger, tracking its own history, capsules, and domain-specific events.",
+          "rule": "A consumer's ledger is governed by the root stack governance but managed within the consumer's own scope. The `ledger.py` tool should be run with a scope appropriate to the target ledger."
+        }
+      },
+      "immutability": "Documents and capsules are never edited in place. A revision is a new capsule identity inheriting from its predecessor. All such changes are recorded in the appropriate ledger.",
+      "conventions": "British English (-ise). Capitalisation must be earned (acronyms). System/artefact symmetry (SCP/sc)."
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+    "algorithm": "Ed25519",
+    "value": "pzADRq1MT/4yfmYUI2sIrv6vLcNUO73RJkO6Q7ZP5PLAc5nDG2qpJg2pBMFlmARcbWXt1aLWRIXUtRa92tvCCA=="
+  }
+}

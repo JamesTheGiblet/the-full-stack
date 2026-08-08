@@ -2,13 +2,13 @@
   "scp_id": "cobblewright/story-arc-v1",
   "scp_version": "1.2.0",
   "created": "2026-07-21T00:00:00Z",
-  "inherits": "forge-stack/governance-v1",
+  "inherits": "forge-stack/governance-v2",
   "declaration": {
     "intent": "Declare the story arc for CobbleWright Prime and The Collective it founds. The arc is not invented independently of the project's real state — each act corresponds to a spine stage CobbleWright's own capsule (cobblewright/consumer-v1) declared missing or partial. The story is the roadmap, told as a journey. Grounded in real Minecraft mechanics (minecraft/mechanics-v1) rather than invented rules.",
     "parameters": {
       "informed_by": [
-        "cobblewright/consumer-v1",
-        "minecraft/mechanics-v1"
+        "consumer/cobblewright/consumer-v1",
+        "consumer/cobblewright/minecraft/mechanics-v1"
       ],
       "constraint_from_project": "The arc MUST start with Prime alone. No kin, no society, until Prime proves the spine works unaided."
     },
@@ -50,6 +50,6 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "UEB82WiFn8/gr9H7/uEJAe6mI5NrKtzrl+EC6DY0a2FShJMrObbdMZds3gNuSlfqEPvfEefsB8aaPdJC6D3AAg=="
+    "value": "l8jtec1c2DNsDX/LzwVnuIbn9FiGBjROcUNi1TbRFlA1squiiaTTp1dPTtk2x7OlTuTc+L7kQj+bggocPpbOCw=="
   }
 }
