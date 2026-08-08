@@ -66,10 +66,13 @@ Without a mechanism that closes this arrow, the engine is a decay function appli
 
 λ runs 0.00–2.00, with quarantine below 0.60 and Tier 1 beginning there.
 
-Two things need ratifying:
+Ratified policy:
 
-- **What N₀ is for a new entity.** If a new entity starts at 0.00, it is quarantined until it earns its way out — which is defensible ("authority remains earned") but means a new participant can do nothing at all, including the things that would generate the observations that raise their λ. That is a deadlock, and it needs an explicit answer: either a sponsored entry (an existing Tier 4+ entity vouches, generating an initial observation), or a provisional band below Tier 1 where limited action generates history.
-- **What 1.00 means.** The scale is not a probability and not a percentage. If 1.00 is "neutral, no evidence either way", then decay toward 0 is decay toward distrust, which is a strong claim — an entity that simply goes quiet becomes untrusted rather than unknown. If instead decay pulls toward a neutral floor, absence is treated as absence. Pick one and write it down; the difference changes what the whole stage means.
+- **N₀ for a new entity is 1.00.** New entities start from neutral, not from trust and not from quarantine.
+- **1.00 means neutral / unknown.** It is explicitly "insufficient evidence either way," not an endorsement.
+- **Authority remains earned via participation floor.** Until an entity has at least 3 corroborated non-self observations in-window, it is treated as provisional and capped at Tier 1 for HAL consequence authorisation regardless of raw λ.
+
+This resolves the onboarding deadlock while preserving the design principle that high-consequence authority is earned from observed outcomes rather than granted at join time.
 
 ## 6. Calibrating k
 

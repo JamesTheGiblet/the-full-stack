@@ -1,0 +1,22 @@
+{
+  "scp_id": "forge-stack/leighton-weight-engine-v2",
+  "scp_version": "1.2.0",
+  "created": "2026-08-08T14:05:00Z",
+  "inherits": "forge-stack/governance-v3",
+  "declaration": {
+    "intent": "Witness the updated canonical design document for the Leighton Weight Engine, ratifying N0 and 1.00 semantics and the provisional participation floor for Stage 3 implementation readiness.",
+    "parameters": {
+      "document": "docs/leighton-weight-engine.md",
+      "document_sha256": "c6e155f80dc9c8ef5bb313fc8ce2b1339e87d507cffcbddd1b4a18243f2d1ccd"
+    },
+    "constraints": {
+      "supersedes": "forge-stack/leighton-weight-engine-v1"
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+    "algorithm": "Ed25519",
+    "value": "AljWAFc5bCgPEs2JkEdqt/7P6u1h9UtmjMaLYvWL10Yin4N5BQkwpTi0phcTThcbC44QKCeTRYORMpUhtqgbAw=="
+  }
+}

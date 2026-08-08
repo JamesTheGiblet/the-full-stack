@@ -112,7 +112,11 @@ def load_or_create_key() -> Ed25519PrivateKey:
 
 
 def all_capsule_paths():
-    return sorted(list(ROOT.glob("sc/*.sc.json")) + list(ROOT.glob("consumer/**/*.sc.json")))
+    return sorted(
+        list(ROOT.glob("sc/**/*.sc.json"))
+        + list(ROOT.glob("consumer/**/*.sc.json"))
+        + list(ROOT.glob("sc/**/*.sc.json.SUPERSEDED"))
+    )
 
 
 def sig_path(target: pathlib.Path) -> pathlib.Path:
