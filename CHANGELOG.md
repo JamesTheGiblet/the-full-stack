@@ -1,5 +1,27 @@
 # Changelog
 
+2026-08-08 11:45
+
+## The Good 1.6
+Confidence rating: 10/10
+
+- **Migration fix completed and committed.** The remaining consumer style capsule was moved out of root scope, and both style capsules now live in the consumer scope folder.
+- **Root scope cleaned.** Root `sc/` now contains stack-level capsules only; consumer style capsules are no longer mixed into root scope.
+- **Verification restored.** Signature verification was re-run after migration, and the full verification pass is green.
+- **Commit recorded.** Changes were committed as `a3da281` with the message: "migrate consumer style capsules to consumer scope and refresh signatures".
+
+## The Bad 1.6
+Risk rating: 2.0/10
+
+- **Unstaged follow-up work remains.** Additional changes outside the migration commit still exist in the working tree and require a separate review/commit decision.
+
+## The Ugly 1.6
+Severity rating: 3.0/10
+
+- **Migration needed a corrective pass.** The first migration state still left one consumer-level capsule in root scope, so a second targeted move and re-sign step was required before the state was actually clean.
+
+---
+
 2026-08-08 11:35
 
 ## The Good 1.5
