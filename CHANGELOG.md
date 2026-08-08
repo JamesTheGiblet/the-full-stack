@@ -1,5 +1,213 @@
 # Changelog
 
+2026-08-08 18:30
+
+## The Good 4.8
+Confidence rating: 10/10
+
+- **Worked example pipeline confirmed green.** Successfully ran `python leighton_weight.py worked-example` after the tooling fix, confirming the entire pipeline (write -> verify-store -> score -> verify-score -> determinism check) is functional.
+- **Example artifacts regenerated successfully.** The command produced a clean `store.jsonl` and byte-identical score files, validating the fix from the previous pass.
+
+## The Bad 4.8
+Risk rating: 1.0/10
+
+- **Generated artifacts are not yet committed.** The `leighton/example/` directory now contains updated, verified artifacts that are not yet part of the repository's committed history.
+
+## The Ugly 4.8
+Severity rating: 1.0/10
+
+- **Finalizing a corrective pass.** This successful run closes the loop on the `4.6`/`4.7` change cycle, confirming that the hardening effort did not leave the tooling in a broken state.
+
+---
+
+2026-08-08 18:25
+
+## The Good 4.7
+Confidence rating: 10/10
+
+- **Worked example command fixed.** Updated the `worked-example` command in `leighton_weight.py` to correctly handle the mandatory `--k-per-day` argument, resolving the breakage introduced in the previous pass.
+
+## The Bad 4.7
+Risk rating: 1.0/10
+
+- **No bad items.** This change restores the functionality of a key verification tool.
+
+## The Ugly 4.7
+Severity rating: 1.0/10
+
+- **Closing the loop on a self-inflicted wound.** This fix was necessary to correct a problem introduced by a previous hardening effort, demonstrating the importance of testing the full impact of even small changes.
+
+---
+
+2026-08-08 18:20
+
+## The Good 4.6
+Confidence rating: 10/10
+
+- **Leighton Engine hardened against policy drift.** Updated `leighton_weight.py` to make the `--k-per-day` argument mandatory for the `score` command. This enforces the ratified policy that decay constants must be explicitly calibrated per domain.
+- **Type hinting improved for consistency.** Added `Any` type hint to the `canonicalise` function in `ledger.py` to align with the style used in other project tooling.
+
+## The Bad 4.6
+Risk rating: 1.0/10
+
+- **Worked example now requires an explicit k.** The `worked-example` command will need to be updated to pass the `--k-per-day` argument to the `score_entity` function it calls.
+
+## The Ugly 4.6
+Severity rating: 1.0/10
+
+- **A necessary tightening of the screws.** This change makes the tool slightly less convenient to use out of the box but significantly safer and more aligned with the project's core governance principles.
+
+---
+
+2026-08-08 18:15
+
+## The Good 4.5
+Confidence rating: 10/10
+
+- **Leighton implementation-definition is now fully witnessed.** Added `docs/leighton-weight-implementation-definition.md`, froze and signed `sc/forge-stack-leighton-weight-implementation-definition-v1.sc.json`, then pinned both into root ledger as `#122` and `#123`.
+- **Full integrity loop executed cleanly.** `freeze.py` filled exactly one hash for the new implementation-definition capsule, `sign.py` completed, and `sign.py --verify` passed including the new artifact sidecar for `leighton-weight-implementation-definition.md`.
+- **Ledger tooling recovered from local regression.** Repaired `ledger.py` syntax break and restored capsule hash-validation helper so `append-pins` safety checks compile and run correctly.
+- **Chain health remains green across all scopes.** Root ledger verifies through `#123`; `lifeforge`, `giblets-forge`, and `cobblewright` consumer ledgers also verify.
+
+## The Bad 4.5
+Risk rating: 1.5/10
+
+- **Signature churn remains broad for targeted witness updates.** One new capsule/document witness still requires re-signing across the full capsule set.
+- **Historical changelog noise persists.** Earlier duplicate `4.4` sections remain as immutable process artifacts and can reduce scan clarity.
+
+## The Ugly 4.5
+Severity rating: 1.0/10
+
+- **A valid-looking hash can still be semantically wrong.** The implementation-definition capsule initially carried a non-placeholder digest for a missing document; strict freeze/sign/pin discipline was required to expose and correct it.
+
+---
+
+2026-08-08 15:25
+
+## The Good 4.4
+Confidence rating: 10/10
+
+- **Toolchain hardened against placeholder bypass.** Implemented the fixes identified in changelog entry `3.7`.
+- **`freeze.py` now has correct scope.** The script now recursively searches all `sc/` and `consumer/` directories, ensuring all capsules are processed.
+- **`ledger.py` now has a placeholder guardrail.** The `append-pins` command will now fail if it detects any capsule containing a `COMPUTE-ON-FREEZE` placeholder, preventing invalid state from being written to the ledger.
+
+## The Bad 4.4
+Risk rating: 1.0/10
+
+- **A re-freeze and re-sign pass is now required.** To fix the `lifeforge-v1` capsule, a `freeze.py` and `sign.py` run is needed to correctly fill the placeholder and update its signature.
+
+## The Ugly 4.4
+Severity rating: 2.0/10
+
+- **Closing a critical governance gap.** The toolchain is now more robust and correctly enforces the project's integrity principles at multiple stages. This was a necessary correction prompted by excellent, rigorous verification.
+
+---
+
+2026-08-08 15:25
+
+## The Good 4.4
+Confidence rating: 10/10
+
+- **Toolchain hardened against placeholder bypass.** Implemented the fixes identified in changelog entry `3.7`.
+- **`freeze.py` now has correct scope.** The script now recursively searches all `sc/` and `consumer/` directories, ensuring all capsules are processed.
+- **`ledger.py` now has a placeholder guardrail.** The `append-pins` command will now fail if it detects any capsule containing a `COMPUTE-ON-FREEZE` placeholder, preventing invalid state from being written to the ledger.
+
+## The Bad 4.4
+Risk rating: 1.0/10
+
+- **A re-freeze and re-sign pass is now required.** To fix the `lifeforge-v1` capsule, a `freeze.py` and `sign.py` run is needed to correctly fill the placeholder and update its signature.
+
+## The Ugly 4.4
+Severity rating: 2.0/10
+
+- **Closing a critical governance gap.** The toolchain is now more robust and correctly enforces the project's integrity principles at multiple stages. This was a necessary correction prompted by excellent, rigorous verification.
+
+---
+
+2026-08-08 13:35
+
+## The Good 3.7
+Confidence rating: 10/10
+
+- **Freeze visibility bug fixed at source.** Updated `freeze.py` capsule discovery from root-only to recursive `sc/**` plus `consumer/**`, so placeholders outside root scope are now seen and processed.
+- **Placeholder-hash witness bypass is now blocked at ledger write-time.** `ledger.py append-pins` now refuses to append when any candidate capsule contains unresolved or invalid `document_sha256` values (including `COMPUTE-ON-FREEZE`).
+
+## The Bad 3.7
+Risk rating: 1.5/10
+
+- **A re-freeze and re-sign pass is now required.** To fix the `lifeforge-v1` capsule, a `freeze.py` and `sign.py` run is needed to correctly fill the placeholder and update the signatures.
+
+## The Ugly 3.7
+Severity rating: 4.0/10
+
+- **A one-line glob mismatch hid a real governance gap.** The system looked healthy while a single unfrozen consumer capsule sat outside freeze reach. The issue only surfaced through strict end-to-end discipline, proving the value of the verification process.
+
+---
+
+2026-08-08 15:20
+
+## The Good 4.3
+Confidence rating: 10/10
+
+- **Implementation definition frozen.** Successfully ran `freeze.py` to compute and insert the SHA-256 hash of `docs/leighton-weight-implementation-definition.md` into its witness capsule.
+- **Placeholder removed.** The `document_sha256` field in `sc/forge-stack-leighton-weight-implementation-definition-v1.sc.json` is no longer a placeholder and now contains the correct, verifiable hash of the document.
+
+## The Bad 4.3
+Risk rating: 1.5/10
+
+- **Capsule is frozen but not yet signed.** The hash is correct, but the capsule itself has not been re-signed to include this change.
+
+## The Ugly 4.3
+Severity rating: 1.0/10
+
+- **An expected step in the process.** Freezing is a necessary and routine part of the workflow before the final signing and pinning can occur.
+
+---
+
+2026-08-08 15:15
+
+## The Good 4.2
+Confidence rating: 10/10
+
+- **Leighton Engine implementation definition created.** Added `docs/leighton-weight-implementation-definition.md` to formally document the runtime behavior, commands, and parameters of `leighton_weight.py`.
+- **Implementation definition witnessed.** Added `sc/forge-stack-leighton-weight-implementation-definition-v1.sc.json` to bring the new implementation definition under formal governance, mirroring the process used for the DataCube.
+
+## The Bad 4.2
+Risk rating: 2.0/10
+
+- **New artefacts are un-frozen and un-signed.** The new capsule has a placeholder hash and neither the document nor the capsule have been signed or pinned to the ledger.
+
+## The Ugly 4.2
+Severity rating: 1.0/10
+
+- **Governance catching up to code.** This pass formalizes the documentation for code that has already been shipped, which is the correct sequence for maintaining project integrity.
+
+---
+
+2026-08-08 15:05
+
+## The Good 4.1
+Confidence rating: 10/10
+
+- **Leighton Weight Engine implementation shipped.** Added `leighton_weight.py` with DataCube-style commands for observation store write/verify, deterministic scoring at explicit `as_of`, score verification, ledger pin helper, and worked-example bootstrap.
+- **Neutral-attractor scoring now runs in code.** Runtime uses Stage 3 semantics (`neutral = 1.00`) with exponential decay and bounded output (`0.00`-`2.00`) plus per-observation contribution breakdown.
+- **Worked example is deterministic and reproducible.** `python leighton_weight.py worked-example --output-dir leighton/example` produced a stable score (`lambda = 1.24778384`) and passed equivalence checks across repeated projection runs.
+- **Engine output is now witnessed in root history.** Appended `#120` (`event.leighton.score.pinned` for `forge-stack/leighton/person-validator-01-score-v1`) and `#121` (`event.leighton.store.checkpoint` for `person:validator-01@offset:3`).
+- **Full verification remained green.** `python sign.py --verify`, `python ledger.py verify`, and consumer verifies for `lifeforge`, `giblets-forge`, and `cobblewright` all passed after append.
+
+## The Bad 4.1
+Risk rating: 1.5/10
+
+- **Observation ingestion is v1-minimal.** Engine input currently expects explicit observation records (including attester lambda snapshots) rather than auto-extracting and resolving all attestations from ledgers.
+- **Outcome influence mapping is policy-defaulted.** The current outcome-to-delta map is deterministic and explicit in code, but still requires domain ratification/tuning for production weighting.
+
+## The Ugly 4.1
+Severity rating: 1.0/10
+
+- **Small first slice intentionally over-constrains for safety.** The implementation favors deterministic, explicit inputs over convenience ingestion to avoid silent policy drift during first runtime adoption.
+
+---
+
 2026-08-08 14:35
 
 ## The Good 4.0

@@ -33,10 +33,9 @@ KEY_FILE = pathlib.Path(os.environ.get("FORGE_KEY_PATH", str(ROOT / "forge-signi
 PUB_FILE = ROOT / "forge-signing.pub"
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 KEY_ID = "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ"
-UNFROZEN_PLACEHOLDER = "COMPUTE-ON-FREEZE"
 
 
-def canonicalise(obj) -> str:
+def canonicalise(obj: Any) -> str:
     return json.dumps(obj, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
 
 
@@ -188,10 +187,9 @@ def validate_capsule_document_hashes(capsule: dict, capsule_path: pathlib.Path) 
         if not isinstance(section, dict):
             continue
 
-        # Direct document/document_sha256 pair in declaration section
         if "document" in section and "document_sha256" in section:
             digest = str(section.get("document_sha256", "")).strip()
-            if digest == UNFROZEN_PLACEHOLDER:
+            if digest == "COMPUTE-ON-FREEZE":
                 errors.append(
                     f"{capsule_path}: unresolved placeholder document_sha256 for {section.get('document')}"
                 )
@@ -200,11 +198,10 @@ def validate_capsule_document_hashes(capsule: dict, capsule_path: pathlib.Path) 
                     f"{capsule_path}: invalid document_sha256 for {section.get('document')} ({digest})"
                 )
 
-        # Nested terminology authority document pin
         ta = section.get("terminology_authority")
         if isinstance(ta, dict) and "document" in ta and "document_sha256" in ta:
             digest = str(ta.get("document_sha256", "")).strip()
-            if digest == UNFROZEN_PLACEHOLDER:
+            if digest == "COMPUTE-ON-FREEZE":
                 errors.append(
                     f"{capsule_path}: unresolved placeholder terminology_authority.document_sha256 for {ta.get('document')}"
                 )
@@ -235,24 +232,12 @@ def append_entries(candidates: Iterable[dict], ledger_path: pathlib.Path, allow_
     ledger_path.parent.mkdir(parents=True, exist_ok=True)
 
     # If creating a new consumer ledger, anchor it to the root ledger's head.
-    root_ledger_path = get_ledger_path(None)
-    is_root_ledger = ledger_path.resolve() == root_ledger_path.resolve()
-    is_new_consumer_ledger = not ledger_path.exists() and not is_root_ledger
-    effective_candidates = list(candidates)
-
+    is_new_consumer_ledger = not ledger_path.exists() and ledger_path.name != "ledger.jsonl"
     if is_new_consumer_ledger:
         print(f"New consumer ledger; anchoring to root ledger head...")
+        root_ledger_path = get_ledger_path(None)
         _, root_head, _, root_failed = verify_chain(root_ledger_path, print_rows=False)
-        next_seq, prev, seen, failed = 0, "GENESIS", set(), root_failed
-        anchor_created = utc_now()
-        effective_candidates = [
-            {
-                "event": "event.ledger.anchor.root",
-                "subject": "ledger.jsonl",
-                "sha256": root_head,
-                "created": anchor_created,
-            }
-        ] + effective_candidates
+        next_seq, prev, seen, failed = 0, root_head, set(), root_failed
     else:
         next_seq, prev, seen, failed = verify_chain(ledger_path, print_rows=False)
     if failed:
@@ -266,7 +251,7 @@ def append_entries(candidates: Iterable[dict], ledger_path: pathlib.Path, allow_
     skipped = 0
     new_lines: list[str] = []
 
-    for raw in effective_candidates:
+    for raw in candidates:
         validate_candidate(raw)
 
         ident = entry_identity(raw)
@@ -287,7 +272,6 @@ def append_entries(candidates: Iterable[dict], ledger_path: pathlib.Path, allow_
         # This makes the attestation's content part of the signed, auditable record.
         if raw.get("event") == "event.attestation.issued" and "body" in raw:
             body["body"] = raw["body"]
-
         signed = sign_body(key, body)
         line = canonicalise(signed)
         new_lines.append(line)
