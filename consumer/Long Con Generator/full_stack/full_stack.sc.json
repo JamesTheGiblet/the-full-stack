@@ -1,0 +1,117 @@
+{
+  "scp_id": "forge-stack/docs/tools-reference-v1",
+  "scp_version": "1.2.0",
+  "created": "2026-08-09T00:00:00Z",
+  "inherits": "forge-stack/governance-v3",
+  "declaration": {
+    "intent": "Define what each of the five Forge Stack tools is and how it is actually used, as a factual reference for anyone or anything (including an AI editing assistant) writing or updating documentation about them. This capsule describes behaviour, not house style — pair it with forge-stack/docs/documentation-style-v1 for how to write about these tools, and with giblets-forge/style/readme-style-v1 for README structure.",
+    "parameters": {
+
+      "authority_note": "If a tool's actual CLI flags or behaviour have changed since this capsule was signed, the running code is correct and this capsule is stale — check the tool's own --help output and its implementation-definition doc (where one exists) before trusting this capsule for anything operational.",
+
+      "scp": {
+        "full_name": "Semantic Capsule Protocol",
+        "system_vs_artefact": "SCP is the protocol (system). sc is the artefact it produces — always lowercase, always .sc.json.",
+        "what_it_is": "A declarative protocol for stating intent, parameters, and constraints in a signed, versioned, inheritable document. Every other stage of the stack — DataCube, Leighton Weight, ChronoSCRIBE, HAL — is bound and governed through sc capsules.",
+        "what_it_produces": "sc — a JSON document with root fields scp_id, scp_version, created, inherits, declaration, licence, signature. A content revision bumps the -vN suffix on scp_id, which creates a new identity, never a mutation of the old one.",
+        "how_used": [
+          "Author a capsule by hand or by copying an existing one as a template, editing declaration.intent and declaration.parameters.",
+          "Leave document_sha256 as the literal placeholder COMPUTE-ON-FREEZE if the capsule references an external document.",
+          "Run freeze.py to compute and fill any COMPUTE-ON-FREEZE placeholders from the referenced document's actual bytes.",
+          "Run sign.py to sign the capsule (and, where it references a non-JSON document via the document field, sign that document too as a detached .sig sidecar).",
+          "Run sign.py --verify to confirm the capsule and any referenced artefacts verify.",
+          "Pin it: run ledger.py append-pins (optionally --scope <consumer>) to witness the capsule and its document into the appropriate ledger."
+        ],
+        "tooling": "freeze.py, sign.py — no dedicated scp.py; SCP is the substrate every other tool sits on, not a separately invoked tool.",
+        "rules_that_matter": [
+          "A capsule's inherits field records which governance was in force at signing — it is never updated later to point at newer governance.",
+          "SCP Lite is a signed minimal subset (scp_id, scp_version, created, declaration, signature only — no inherits or licence) for lightweight bindings.",
+          "\"Capsule\" is prose-only. Never write .scp.json, never call it a capsule in code, a schema field, or a filename."
+        ]
+      },
+
+      "datacube": {
+        "system_vs_artefact": "DataCube is the system (camel case). cube is the artefact it produces (lowercase).",
+        "what_it_is": "The Classify stage. Scores knowledge about a subject across six lenses — FACT, COUNTER, OPINION, FICTION, CONTEXT, UNKNOWN — which are bins, not scores. An empty COUNTER lens means disconfirmation was not sought, not that no counterevidence exists.",
+        "what_it_produces": "cube — a signed, deterministic snapshot of everything currently known and classified about a subject, computed from an append-only store rather than hand-edited.",
+        "how_used": [
+          "Write observations into the store: python datacube.py write (or equivalent store-write command) — records go under namespaces event.*, state.*, domain.*, behaviour.*, independent of which lens they're classified into.",
+          "Verify the store: python datacube.py verify-store — checks the append-only chain hasn't been tampered with.",
+          "Project a cube: python datacube.py project (or score/classify) — deterministically computes the current cube from the store; running this twice on the same store state produces a byte-identical cube.",
+          "Sign and pin: sign.py signs the cube, ledger.py append-pins witnesses it plus a store checkpoint event."
+        ],
+        "tooling": "datacube.py",
+        "rules_that_matter": [
+          "DataCube keeps a store. The word \"ledger\" is reserved for ChronoSCRIBE — never call DataCube's store a ledger.",
+          "The integrity denominator (how \"complete\" a cube's classification is judged to be) is currently a configurable saturation model, not yet a governance-ratified formula — treat any integrity percentage as provisional.",
+          "A cube is a snapshot at a point in the store's history, not a live view — re-project it after new observations land if you need the current picture."
+        ]
+      },
+
+      "leighton_weight_engine": {
+        "system_vs_artefact": "Leighton Weight Engine is the system/stage. Leighton Weight (λ) is the artefact/value it produces — a trust score, 0.00–2.00.",
+        "what_it_is": "The Trust-score stage. Computes how much an entity's word is currently worth, based on an observation stream of attestations about that entity's past claims and actions.",
+        "what_it_produces": "λ — never stored, always computed fresh from the observation stream at an explicit as_of time using the neutral-attractor decay curve: λ(t) = 1.00 + (λ0 − 1.00) × e^(−kt). Decay pulls toward neutral (1.00), not toward zero — an entity that goes quiet drifts toward \"unknown\", not \"distrusted\".",
+        "how_used": [
+          "Record an observation/attestation into the entity's observation stream (event.attestation.issued via ledger.py attest, or a direct store write depending on context).",
+          "Score an entity: python leighton_weight.py score --k-per-day <value> — --k-per-day is mandatory, there is no default, because k must always be calibrated per domain and the tool refuses to guess.",
+          "Verify a score: python leighton_weight.py verify-score.",
+          "Run the worked example end-to-end: python leighton_weight.py worked-example --output-dir <dir> --k-per-day <value> — useful for confirming the pipeline (write, verify-store, score, verify-score, determinism check) is healthy before scoring something real.",
+          "Pin a score: ledger.py append-pins witnesses the score and a store checkpoint."
+        ],
+        "tooling": "leighton_weight.py, ledger.py (for attest)",
+        "rules_that_matter": [
+          "k is the decay constant. It is never called λ. It is always per-domain — the value used in worked examples is a demonstration constant, not a calibrated production value.",
+          "Disputes over an attestation are resolved using the disputing party's λ as it stood strictly before the attestation was made, never their current λ — this stops winning a dispute from retroactively inflating the standing that won it.",
+          "The outcome-to-λ-delta mapping (how much a given observed outcome moves the score) is currently hardcoded in the tool, not yet ratified as governance policy."
+        ]
+      },
+
+      "chronoscribe": {
+        "full_name": "Signed Chronological Record of Immutable Behavioural Events",
+        "system_vs_artefact": "ChronoSCRIBE is the system. ledger is the artefact — never shortened to \"Chrono\" or \"Scribe\" in formal documentation.",
+        "what_it_is": "The Audit stage. A hash-chained, append-only, signed record of events. Every other stage's outputs get witnessed here — document pins, capsule pins, cube materialisations, scores, seals.",
+        "what_it_produces": "ledger.jsonl — one JSON line per event, each entry's prev field carrying the hash of the previous line, each entry individually Ed25519-signed.",
+        "how_used": [
+          "First-ever creation of a ledger: python genesis.py — mints the first immutable batch. genesis.py refuses to run if a ledger already exists at that path; it is genesis-only, never an append tool.",
+          "All subsequent additions: python ledger.py append-pins (optionally --scope <consumer>) — scans capsules/documents for anything not yet pinned and witnesses them; refuses to append anything with an unresolved placeholder hash (e.g. literal COMPUTE-ON-FREEZE).",
+          "A single custom event: python ledger.py append --event <name> --subject <id> --sha256 <hash>.",
+          "Record an attestation: python ledger.py attest --subject-hash <hash> --outcome <value> [--rationale <text>].",
+          "Verify: python ledger.py verify (optionally --scope <consumer>) — walks the full chain and every signature; use --dry-run on append-pins to preview before writing.",
+          "A new consumer's first ledger entry is event.ledger.anchor.root, which pins the root ledger's current head hash so the consumer chain is provably rooted in a specific state of the constitution, not just asserted to be related to it."
+        ],
+        "tooling": "genesis.py (root ledger creation only), ledger.py (everything after: verify, append, append-pins, attest)",
+        "rules_that_matter": [
+          "The root ledger records the constitution only. Consumer-specific capsules belong in that consumer's own ledger, created via --scope, not the root.",
+          "Unpublished, local-only ledger rows may be safely discarded if something goes wrong. Once a ledger has been pushed/published, its rows are permanent — never delete a published entry, even to fix an error; append a correcting entry instead.",
+          "A capsule pin records scp_id + sha256, not a file path — moving a capsule's file location does not invalidate its existing pins."
+        ]
+      },
+
+      "hal": {
+        "full_name": "Human Accountability Layer",
+        "system_vs_artefact": "HAL is the system. seal is the artefact it produces.",
+        "what_it_is": "The Act stage. The gate through which any consequential action must pass a named human authoriser, whose standing (λ) is checked against a tier requirement before the action is permitted.",
+        "what_it_produces": "seal — a signed record of an authorisation decision, including the authoriser's identity, their λ at the time, the tier requested, and — critically — refusals as well as approvals.",
+        "how_used": [
+          "Seal a decision: python hal.py seal --authoriser-score-file <path> --tier <n> [other action-specific args] — the authoriser's λ is read from a verified score file (produced by leighton_weight.py score), never entered manually; the command refuses to seal if that λ is insufficient for the requested tier.",
+          "Verify a seal: python hal.py verify-seal.",
+          "Pin a seal: python hal.py pin-seal (or via ledger.py append-pins, depending on current wiring) — witnesses the seal into the ledger."
+        ],
+        "tooling": "hal.py",
+        "rules_that_matter": [
+          "Every seal carries a separation field: none means the authoriser's score file was signed by the same key as the seal itself; verified means a distinct identity issued the score. Right now this project runs single-operator, so every seal currently reads none — that is stated honestly in the seal itself, not hidden.",
+          "A single-operator seal records deliberation and intent. It does not yet prove independence, because there isn't any yet — don't describe single-operator seals as providing the separation-of-concerns guarantee the tier system is ultimately designed to give.",
+          "Tiers 1–5 map to λ thresholds, with quarantine below 0.60. Which real-world consequence class sits on which tier is defined by the consumer, not by HAL itself — HAL provides the ladder, not the mapping.",
+          "HAL currently has no multi-validator flow and no answer for what a Tier 5 quorum means with more than one signer — this is blocked on having a second real operator, not on more code."
+        ]
+      }
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+    "algorithm": "Ed25519",
+    "value": ""
+  }
+}

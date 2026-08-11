@@ -1,0 +1,31 @@
+{
+  "scp_id": "forge-stack/manifest-v7",
+  "scp_version": "1.2.0",
+  "created": "2026-08-10T05:11:00Z",
+  "inherits": "forge-stack/governance-v4",
+  "declaration": {
+    "intent": "Witness the ratification of DataCube policies by inheriting from and pinning forge-stack/governance-v4. This manifest supersedes forge-stack/manifest-v6.",
+    "parameters": {
+      "members": [
+        "forge-stack/docs/glossary-v1",
+        "forge-stack/docs/scp-spec-v1",
+        "forge-stack/docs/datacube-v1",
+        "forge-stack/leighton-weight-engine-v3",
+        "forge-stack/leighton-loop-observation-v2",
+        "forge-stack/docs/chronoscribe-v1",
+        "forge-stack/docs/hal-v1",
+        "forge-stack/docs/gate-pattern-v1",
+        "forge-stack/docs/axiom-v1"
+      ],
+      "governance": "forge-stack/governance-v4",
+      "example": "forge-stack/examples/minimal-v1",
+      "supersedes": "forge-stack/manifest-v6"
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+    "algorithm": "Ed25519",
+    "value": "yA30GwTfBQtVNZXh+E0JXpeDdhi3hGBjXih/MQrAFe65y8aAkY3tUxdlPRWwKP3gjI5zz1YyLrHfLTYZQ2msAQ=="
+  }
+}
