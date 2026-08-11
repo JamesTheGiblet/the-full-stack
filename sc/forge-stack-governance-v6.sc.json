@@ -1,0 +1,73 @@
+{
+  "scp_id": "forge-stack/governance-v6",
+  "scp_version": "1.2.0",
+  "created": "2026-08-10T05:17:00Z",
+  "inherits": null,
+  "declaration": {
+    "intent": "Defines the foundational rules, conventions, and scope for the Forge Stack. This capsule is the root of the inheritance chain. v6 ratifies the policy of shipping a reference implementation for each stack stage.",
+    "parameters": {
+      "supersedes": "forge-stack/governance-v5",
+      "terminology_authority": {
+        "document": "docs/glossary.md",
+        "document_sha256": "e1a7943a2875a83a4419d645a422e8333f86b36d32835339f85955cd349c232c"
+      }
+    },
+    "constraints": {
+      "ledger_scope": {
+        "rule": "The Forge Stack maintains a multi-scope ledger system: a single root ledger for stack-level history, and separate consumer ledgers for each downstream scope (including dedicated author scopes). This preserves truthful history while preventing root-scope drift.",
+        "root_ledger_scope": {
+          "path": "ledger.jsonl",
+          "description": "The root ledger tracks the integrity and evolution of the Forge Stack itself. It is the authoritative history for core components and governance.",
+          "includes": [
+            "All capsules and referenced documents within the `sc/` directory.",
+            "Stack-level manifests (for example `forge-stack/manifest-v*`).",
+            "HAL seals related to root governance and stack-wide policy.",
+            "State-change events from core stack components."
+          ],
+          "excludes": [
+            "Any capsule, document, or event originating from the `consumer/` directory.",
+            "Author-tier style capsules (`giblets-forge/style/*`) when stored under consumer scope."
+          ]
+        },
+        "consumer_ledger_scope": {
+          "path": "consumer/{consumer_name}/ledger.jsonl",
+          "description": "Each consumer scope maintains its own independent ledger, tracking its own history, capsules, and domain-specific events.",
+          "rule": "A consumer ledger is governed by root stack governance but managed within its own scope. The `ledger.py` tool should be run with a scope appropriate to the target ledger."
+        },
+        "author_scope": {
+          "consumer_name": "giblets-forge",
+          "capsule_path": "consumer/giblets-forge/sc/",
+          "rule": "All author-tier style capsules with `scp_id` prefix `giblets-forge/style/` are canonical in the dedicated `giblets-forge` consumer scope and are ledgered in `consumer/giblets-forge/ledger.jsonl`."
+        }
+      },
+      "datacube_artefacts": {
+        "rule": "Defines ratified policies for DataCube artifacts, as proposed in docs/datacube-implementation-definition.md.",
+        "file_extension": {
+          "value": ".cube.json",
+          "description": "The canonical file extension for DataCube projection artifacts."
+        },
+        "manifest_membership": {
+          "policy": "pin-only",
+          "description": "Cubes are considered pin-only artifacts. They are witnessed by pinning their hash to a ledger but are not included as members of a stack manifest. This parallels the handling of consumer-scope capsules."
+        }
+      },
+      "implementation_policy": {
+        "rule": "Defines the project's stance on providing reference implementations versus protocol-only specifications.",
+        "reference_implementations": {
+          "policy": "required",
+          "description": "The Forge Stack project commits to shipping a reference implementation for each of its core spine stages (SCP, DataCube, Leighton Weight, ChronoSCRIBE, HAL). While the stack is protocol-first, providing a working, verifiable implementation is a required deliverable for each stage to ensure clarity, testability, and a baseline for interoperability."
+        }
+      },
+      "immutability": "Documents and capsules are never edited in place. A revision is a new capsule identity inheriting from its predecessor. All such changes are recorded in the appropriate ledger.",
+      "conventions": {
+        "rule": "Defines house style for language and identifiers.",
+        "language": "British English (-ise).",
+        "capitalisation": "Capitalisation must be earned (acronyms).",
+        "symmetry": "System/artefact symmetry (SCP/sc).",
+        "separators": "scp_id values MUST use hyphens (-) as separators, not underscores (_)."
+      }
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": null
+}

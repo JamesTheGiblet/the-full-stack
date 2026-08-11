@@ -1,0 +1,93 @@
+{
+  "scp_id": "forge-stack/consumer-onboarding-v1",
+  "scp_version": "1.0.0",
+  "description": "A foundational capsule for new consumers, explaining their place, responsibilities, and available stack infrastructure.",
+  "declaration": {
+    "intent": "To provide a clear, machine-readable, and human-friendly guide for developers creating a new consumer within the Forge Stack.",
+    "scope": {
+      "summary": "This capsule outlines the expected directory structure, integration points with core stack services, and the governance model a consumer must adhere to.",
+      "keywords": [
+        "consumer",
+        "onboarding",
+        "architecture",
+        "governance",
+        "stack"
+      ]
+    }
+  },
+  "lineage": {
+    "inspiration": [
+      "docs/gate-pattern.md",
+      "consumer/keystone_gate/README.md",
+      "consumer/minecraft-main/minecraft-main/cobblewright/doc/DEVELOPER_GUIDE.md"
+    ]
+  },
+  "content": {
+    "title": "Forge Stack Consumer Onboarding Protocol",
+    "sections": [
+      {
+        "title": "1. Your Place in the Stack",
+        "body": "As a consumer, you are a self-contained project that lives in the `consumer/` directory. You leverage the core Forge Stack infrastructure for governance, but you have your own mission, roadmap, and ledger. You are a citizen, not a subject."
+      },
+      {
+        "title": "2. Expected Directory Structure",
+        "body": "A well-formed consumer should follow this structure to ensure compatibility and discoverability.",
+        "code_block": "consumer/\n└── your-consumer-name/\n    ├── README.md            # Your project's overview\n    ├── ROADMAP.md           # Your strategic vision\n    ├── ledger.jsonl         # Your consumer-specific audit ledger\n    ├── config.json          # Configuration, including stack paths\n    ├── src/                 # Your core source code\n    └── tests/               # Your tests"
+      },
+      {
+        "title": "3. Available Stack Infrastructure",
+        "body": "The stack provides the following core services and tools. You are expected to integrate with them, not replicate them. They are your inheritance.",
+        "list": [
+          {
+            "term": "SCP (Semantic Capsule Protocol)",
+            "definition": "The foundation for all knowledge. Use `freeze.py` to create content-addressed IDs and `sign.py` to attest to your capsules. Your own project should be defined by a set of semantic capsules."
+          },
+          {
+            "term": "ChronoSCRIBE",
+            "definition": "The immutable ledger. Use `ledger.py` to create and verify your own `ledger.jsonl`. All significant actions your consumer takes (e.g., creating a new capsule, a major state change) must be pinned to your ledger."
+          },
+          {
+            "term": "DataCube",
+            "definition": "The classification engine. When your consumer makes claims or gathers knowledge, it should be stored in an append-only store and projected into cubes. This separates evidence from judgment."
+          },
+          {
+            "term": "Leighton Weight Engine",
+            "definition": "The trust-scoring mechanism. It operates on DataCubes to produce a lambda (λ) score, quantifying the confidence in a given subject. Your consumer doesn't calculate lambda; it provides the input."
+          },
+          {
+            "term": "HAL (Human Accountability Layer)",
+            "definition": "The mechanism for human oversight. For actions with significant consequences, your consumer's egress gates should require a HAL seal from a qualified validator."
+          }
+        ]
+      },
+      {
+        "title": "4. The Gate Pattern: Your Responsibility",
+        "body": "You must implement the Gate Pattern (`docs/gate-pattern.md`) to protect your consumer's state and the world from invalid actions. Your ingress gates validate incoming data (e.g., from an LLM or user). Your egress gates validate actions before they cause a world mutation (e.g., writing a file, making an API call).",
+        "example": "The `CobbleWright` consumer uses an ingress gate to validate AI-generated blueprints before storing them and an egress gate to check for protected player structures before allowing the bot to harvest blocks."
+      },
+      {
+        "title": "5. Governance and Autonomy",
+        "body": "Your consumer has its own ledger, anchored to the root ledger. This gives you autonomy. However, you are governed by the stack's protocols. Your `README.md` must include a 'Single-operator disclosure' if you are running in a stack without multiple independent validators, as per the ethical use guidelines.",
+        "reference": "See `consumer/keystone_gate/README.md` for a reference implementation of a governed consumer."
+      },
+      {
+        "title": "6. First Steps",
+        "steps": [
+          "Copy this capsule into your consumer's root directory as `onboarding.sc.json`.",
+          "Create your `README.md` and `ROADMAP.md`.",
+          "Initialize your consumer ledger using `ledger.py genesis --scope your-consumer-name`.",
+          "Begin building your core logic, implementing the Gate Pattern for all external interactions.",
+          "Define your consumer's core principles and knowledge in its own set of semantic capsules."
+        ]
+      }
+    ]
+  },
+  "validation": {
+    "schema": "forge-stack/schema/documentation-v1",
+    "self_consistency_check": "All paths and tool names are consistent with the root of the `the-full-stack` repository as of 2026-08-10."
+  },
+  "signature": {
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+    "signature_value": null
+  }
+}

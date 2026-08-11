@@ -36,7 +36,7 @@ KEY_FILE = pathlib.Path(os.environ.get("FORGE_KEY_PATH", str(ROOT / "forge-signi
 PUB_FILE = ROOT / "forge-signing.pub"
 KEY_ID = "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ"
 ISO_UTC_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
-SCP_ID_RE = re.compile(r"^[a-z0-9][a-z0-9/-]*-v[0-9]+$")
+SCP_ID_RE = re.compile(r"^[a-z0-9-]+(?:/[a-z0-9-]+)*-v[0-9]+$")
 FULL_SCP_VERSION_RE = re.compile(r"^[0-9]+\.[0-9]+\.[0-9]+$")
 
 
@@ -59,7 +59,7 @@ def validate_capsule_schema(capsule: dict, path: pathlib.Path):
         errors.append(f"{path}: missing required non-empty string field 'scp_id'")
     elif not SCP_ID_RE.match(scp_id):
         errors.append(
-            f"{path}: scp_id must follow '<namespace>/<name>-vN' lowercase convention: {scp_id}"
+            f"{path}: scp_id must use lowercase, hyphens, and slashes, and end in -vN: {scp_id}"
         )
 
     created = capsule.get("created")

@@ -1,0 +1,76 @@
+{
+  "scp_id": "forge-stack/docs/roadmap-process-v1",
+  "scp_version": "1.2.0",
+  "created": "2026-08-09T00:00:00Z",
+  "inherits": "forge-stack/governance-v3",
+  "declaration": {
+    "intent": "Define the mandatory process every roadmap phase must follow, and the structure of ROADMAP.md itself. No phase is considered complete on 'the code runs' alone — testing, validation, and documentation updates are part of the definition of done, not optional follow-up work. This capsule governs the process; the roadmap_conventions section of forge-stack/docs/documentation-style-v1 governs the document's prose style.",
+    "parameters": {
+
+      "phase_completion_criteria": {
+        "rule": "A roadmap item may only be marked complete once ALL of the following have happened, in this order. Marking something complete because the code works, with these steps deferred to 'later', is itself a process violation and must be logged as one in the changelog.",
+        "steps": [
+          {
+            "step": 1,
+            "name": "Build",
+            "requirement": "The implementation exists and runs."
+          },
+          {
+            "step": 2,
+            "name": "Testing",
+            "requirement": "The implementation has been exercised — a worked example, a deterministic re-run check, or an equivalent — not just eyeballed once. Where the tool is meant to be deterministic (signing, cube projection, λ scoring), re-running it must be shown to produce identical output."
+          },
+          {
+            "step": 3,
+            "name": "Validation",
+            "requirement": "The result has been independently verified, not just locally: sign.py --verify, ledger.py verify (and --scope where relevant), and — for anything touching git — a genuinely fresh clone, not a re-clone into an existing directory. A local pass alone does not satisfy this step."
+          },
+          {
+            "step": 4,
+            "name": "Documentation update",
+            "requirement": "README.md, ROADMAP.md, and any relevant docs/*.md or implementation-definition are updated to reflect what was actually built — including moving the item off ROADMAP.md if it's now shipped, and updating README.md's Status table and Known Limitations if either changed. A stale doc after a completed phase is a defect, not a formatting nicety."
+          },
+          {
+            "step": 5,
+            "name": "Changelog entry",
+            "requirement": "CHANGELOG.md gets a new entry, in Good/Bad/Ugly form with Confidence/Risk/Severity ratings on the ratified 0-10 scale, appended (never edited into an existing entry, never backdated). This step is not optional even when everything went smoothly — a phase with nothing to report under Bad or Ugly still gets an entry stating that plainly, it does not get skipped."
+          }
+        ]
+      },
+
+      "why_this_order": [
+        "Testing before validation: testing catches whether the thing works at all; validation catches whether it's provably correct to someone who isn't you. Skipping straight to validation risks validating something broken in a way that isn't yet worth checking.",
+        "Documentation before changelog: the changelog records that a change happened and what it cost; the documentation records what is now true. Writing the changelog first risks describing work whose consequences for the docs haven't actually been thought through yet.",
+        "This mirrors the pattern already established in the stack's own defects this session: every incident that caused real damage (the deleted ledger, the unfrozen placeholder, the line-ending bug) happened because a step further down this list was skipped or assumed rather than actually done."
+      ],
+
+      "roadmap_md_structure": {
+        "grouping": "By spine stage or governance area, never by calendar date — see documentation-style-v1's roadmap_conventions for the full prose-style rules.",
+        "each_item_states": [
+          "What is missing.",
+          "Why it matters.",
+          "What currently blocks it — and explicitly which of the two kinds of blocked it is: a decision not yet made (cheap, no external dependency) or a capability not yet buildable (needs a second operator, needs real usage/calibration data, etc.)."
+        ],
+        "on_completion": "The item is removed from ROADMAP.md and a matching entry lands in CHANGELOG.md in the same pass, per phase_completion_criteria step 4/5 above. A roadmap listing already-shipped work is a defect."
+      },
+
+      "testing_and_validation_definitions": {
+        "testing_means": "Running the thing and observing it behave as intended, including at least one deliberate re-run to check determinism where determinism is a design property (signing, projection, scoring).",
+        "validation_means": "An independent check that doesn't rely on the same local state that produced the result — sign.py --verify, ledger.py verify, and a fresh-clone check for anything published. 'It worked when I ran it' is testing. 'It still works from a clean checkout, verified by the tooling rather than by me reading the output' is validation."
+      },
+
+      "explicitly_forbidden": [
+        "Marking a roadmap item done before its documentation and changelog entry are written.",
+        "A changelog entry that only records the Good — every entry states Bad and Ugly honestly even when the Bad is minor and the Ugly is 'no issues found'.",
+        "Leaving a shipped item on ROADMAP.md 'for visibility' instead of moving it to CHANGELOG.md.",
+        "Treating a local sign.py --verify pass as sufficient validation for anything that has been or will be pushed to the remote."
+      ]
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+    "algorithm": "Ed25519",
+    "value": ""
+  }
+}

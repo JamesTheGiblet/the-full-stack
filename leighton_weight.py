@@ -16,6 +16,7 @@ Usage examples:
     --score-id forge-stack/leighton/person-validator-01-score-v1 \
     --as-of 2026-08-08T15:00:00Z --output leighton/scores/validator-01.score.json
   python leighton_weight.py verify-score --score leighton/scores/validator-01.score.json
+  python leighton_weight.py verify-score --score leighton/scores/validator-01.score.json 
   python leighton_weight.py pin-score --score leighton/scores/validator-01.score.json
   python leighton_weight.py worked-example --output-dir leighton/example
 """
@@ -132,6 +133,56 @@ def read_jsonl(path: pathlib.Path) -> list[dict[str, Any]]:
         out.append(obj)
     return out
 
+
+def scan_ledger_for_observations(ledger_path: pathlib.Path) -> list[dict[str, Any]]:
+    """
+    Scans a ledger file for attestation events and transforms them into observation records.
+
+    This is the first step toward automated observation ingestion. It makes a key
+    simplifying assumption: the original event being attested to must contain a
+    `body.actor_id` field to identify the entity whose score is affected.
+
+    Args:
+        ledger_path: The path to the ledger.jsonl file.
+
+    Returns:
+        A list of observation record bodies.
+    """
+    if not ledger_path.exists():
+        return []
+
+    lines = ledger_path.read_text(encoding="utf-8").splitlines()
+    entries_by_hash: dict[str, dict[str, Any]] = {}
+    for line in lines:
+        entry = json.loads(line)
+        entry_hash = sha256_hex(line.encode("utf-8"))
+        entries_by_hash[entry_hash] = entry
+
+    observations: list[dict[str, Any]] = []
+    for entry_hash, entry in entries_by_hash.items():
+        if entry.get("event") != "event.attestation.issued":
+            continue
+
+        attestation_body = entry.get("body", {})
+        subject_event_hash = entry.get("subject")
+        original_event = entries_by_hash.get(subject_event_hash)
+
+        if not original_event or "body" not in original_event or "actor_id" not in original_event["body"]:
+            continue  # Cannot determine the entity_id, so we skip this attestation.
+
+        observation = {
+            "observation_id": f"obs-from-{entry_hash[:12]}",
+            "entity_id": original_event["body"]["actor_id"],
+            "kind": "attestation",
+            "outcome": attestation_body.get("outcome"),
+            "attester_id": attestation_body.get("attester_id"),
+            "attester_lambda": 1.0,  # Placeholder: This needs to be resolved dynamically.
+            "confidence": 1.0,  # Placeholder: Confidence is not yet in attestations.
+            "created": entry["created"],
+            "source_event_hash": subject_event_hash,
+        }
+        observations.append(observation)
+    return observations
 
 def validate_observation_body(body: dict[str, Any]) -> None:
     required = [
@@ -616,6 +667,11 @@ def build_parser() -> argparse.ArgumentParser:
     we.add_argument("--output-dir", default="leighton/example", help="where to write example files")
     we.add_argument("--k-per-day", type=float, default=0.1009, help="decay constant for the example")
 
+    sl = sub.add_parser("scan-ledger", help="[EXPERIMENTAL] scan a ledger for observations")
+    sl.add_argument("--ledger", required=True, help="ledger JSONL path")
+    sl.add_argument("--output-file", help="optional file to write found observations to")
+
+
     return p
 
 
@@ -658,6 +714,17 @@ def main() -> int:
 
     if args.cmd == "worked-example":
         return worked_example(pathlib.Path(args.output_dir), args.k_per_day)
+
+    if args.cmd == "scan-ledger":
+        observations = scan_ledger_for_observations(pathlib.Path(args.ledger))
+        print(f"Found {len(observations)} observations from ledger.")
+        if args.output_file:
+            out_path = pathlib.Path(args.output_file)
+            out_path.write_text(json.dumps(observations, indent=2), encoding="utf-8")
+            print(f"Wrote observations to {display_path(out_path)}")
+        else:
+            print(json.dumps(observations, indent=2))
+        return 0
 
     return 1
 
