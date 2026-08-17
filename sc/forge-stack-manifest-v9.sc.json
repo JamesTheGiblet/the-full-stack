@@ -23,5 +23,9 @@
     }
   },
   "licence": "MSL-1.0",
-  "signature": null
+  "signature": {
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+    "algorithm": "Ed25519",
+    "value": "nc8aMBmdlLgaxUHbY2xI47E0+/b5t+rjhS6A4s41HSJ1Dyqv1/o/HB0Xhif5Cypsw+Tc9qxtR2wm9F+W6NNeAA=="
+  }
 }

@@ -1,0 +1,28 @@
+# Rust
+target/
+**/*.rs.bk
+Cargo.lock
+
+# WASM
+pkg/
+wasm-pack.log
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+*.bak
+*.bak[0-9]
+rust/target/
+__pycache__/
+*.db-shm
+*.db-wal
+*.db

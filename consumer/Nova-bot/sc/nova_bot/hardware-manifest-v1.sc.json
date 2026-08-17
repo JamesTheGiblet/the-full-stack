@@ -1,0 +1,30 @@
+{
+  "scp_id": "nova-bot/hardware-manifest-v1",
+  "created": "2026-08-16T19:23:00Z",
+  "scp_version": "1.2.0",
+  "capsule_type": "hardware_manifest",
+  "inherits": "forge-stack/governance-v3",
+  "declaration": {
+    "intent": "To declare the physical components and capabilities of the Nova_bot v1 prototype.",
+    "parameters": {
+      "mcu": "ESP32",
+      "chassis": "round-2wd-tt",
+      "power": "7.4V-series-18650",
+      "sensors": [
+        "ultrasonic-HC-SR04",
+        "photoresistor-gl5528",
+        "motor-encoder-tt"
+      ],
+      "actuators": [
+        "motor-tt",
+        "h-bridge-l298n"
+      ]
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+    "algorithm": "Ed25519",
+    "value": "eWbKhOdFFKn9TtwpQtCrir31tcMRJEzMp2s4gBIjkYTAMyyKwzGQgAM6aNm1qJeqVno+krehHYN5JZxacNKhBA=="
+  }
+}

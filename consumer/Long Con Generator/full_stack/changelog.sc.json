@@ -8,9 +8,12 @@
     "parameters": {
       "document": "CHANGELOG.md",
       "document_sha256": "COMPUTE-ON-FREEZE",
-
       "entry_format": {
-        "sections_per_entry": ["The Good", "The Bad", "The Ugly"],
+        "sections_per_entry": [
+          "The Good",
+          "The Bad",
+          "The Ugly"
+        ],
         "ratings": {
           "good": "Confidence rating, 0-10",
           "bad": "Risk rating, 0-10",
@@ -19,15 +22,12 @@
         "scale_rule": "0-10, never 0.00-2.00 — that range is reserved for the Leighton Weight (λ) and must never be reused for anything else, including changelog self-assessment, to avoid a reader mistaking a confidence rating for a trust score.",
         "mandatory_even_when_clean": "An entry with nothing to report under Bad or Ugly still states that plainly ('No bad items. <one sentence why>') rather than being omitted. A phase is not exempt from a changelog entry because it went well."
       },
-
       "append_only_discipline": {
         "rule": "Once an entry is written, it is never edited to change what it originally said. A correction is a new, later entry that says what was wrong and what the true state is — the same principle as the ledger's own append-only chain.",
         "duplicate_or_error_handling": "If an entry needs to be removed (an exact duplicate from a bad bulk-edit, for example), the removal itself is recorded in a new entry naming what was removed and why — never a silent deletion.",
         "ordering": "Entries run oldest-first, version-ordered, so the file reads as the build's actual journey rather than a reverse-chronological release log. A header note at the top of the file states this and flags any entries whose original recorded timestamp is known-unreliable — version order is authoritative over any such timestamp."
       },
-
       "relationship_to_roadmap": "Every roadmap phase's completion, per forge-stack/docs/roadmap-process-v1, ends with a changelog entry. The changelog is therefore the definitive record of what has actually shipped; ROADMAP.md should never disagree with it about whether something is done.",
-
       "ai_assisted_disclosure": "The changelog documents an AI-assisted build: architecture, decisions, and verification are James's; implementation velocity comes from working alongside AI. This is stated once, in the file's header note, not re-asserted per entry."
     }
   },
@@ -35,6 +35,6 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": ""
+    "value": "UgYcpc0LWgjA0MrwM1iGS6Xgzh/3nvHZrb/7WLWCDD5YAlJClt/5eYSud5eYcW+NlzWDk/bCA0coo/4kv69ZBQ=="
   }
 }

@@ -1,0 +1,31 @@
+{
+  "scp_id": "nova-bot/pin-configuration-v1",
+  "created": "2026-08-16T20:15:00Z",
+  "scp_version": "1.2.0",
+  "capsule_type": "hardware_configuration",
+  "inherits": "forge-stack/governance-v3",
+  "declaration": {
+    "intent": "To define the specific GPIO pin assignments for the Nova_bot v1 hardware manifest.",
+    "parameters": {
+      "maps_hardware_manifest": "nova-bot/hardware-manifest-v1",
+      "pinout": {
+        "motor_a_left": {
+          "ena": 14,
+          "in1": 25,
+          "in2": 26
+        },
+        "motor_b_right": {
+          "enb": 12,
+          "in3": 27,
+          "in4": 13
+        }
+      }
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+    "algorithm": "Ed25519",
+    "value": "3ZgMG4SgynEsfcJeoaZw0s0x+nWxAo1lDa6nEeJQFRI1cITnC+eUEOu16xhycFP46zNoB2OlkcCn2AnSDe/cDw=="
+  }
+}

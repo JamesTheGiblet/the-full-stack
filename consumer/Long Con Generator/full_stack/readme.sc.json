@@ -6,13 +6,11 @@
   "declaration": {
     "intent": "Define how any contributor or AI tool must write and edit repo-level meta-documentation (README.md, ROADMAP.md, CHANGELOG.md) for the Forge Stack. This is an operational instruction capsule — hand it directly to an editing assistant (e.g. Gemini in VS Code) alongside the current README.md and ROADMAP.md so edits stay consistent with the rest of the repo rather than drifting into generic AI-README style.",
     "parameters": {
-
       "authority_order": [
         "Where this capsule conflicts with docs/glossary.md or a governance capsule, the glossary/governance wins — this capsule describes presentation, not the underlying terminology.",
         "Where this capsule conflicts with CHANGELOG.md's recorded history, the changelog wins — never rewrite past entries to make current prose look better; add a new entry instead.",
         "This capsule does not override giblets-forge/style/readme-style-v1, which governs James's personal README conventions across all his repos. This capsule is the Forge-Stack-specific layer on top of that."
       ],
-
       "hard_terminology_rules": [
         "SCP = protocol, sc = artefact, lowercase, .sc.json, never '.scp.json'. 'Capsule' is prose-only, never in code/schema/filenames.",
         "DataCube = system (camel case), cube = artefact, lowercase.",
@@ -22,7 +20,6 @@
         "British English throughout, including in code identifiers: authorise not authorize, artefact not artifact, -ise not -ize, with no exceptions for generated prose.",
         "'sovereign AI stack', not 'AI framework', 'AI platform', or 'AI system' — the project's own self-description is fixed and should not be rephrased for variety."
       ],
-
       "readme_specific": {
         "inherits_structure_from": "giblets-forge/style/readme-style-v1",
         "additional_rules": [
@@ -32,7 +29,6 @@
           "Verification commands shown in the README must be runnable as literally written against the current tooling — if a flag, script name, or command has changed, the README example changes with it in the same edit."
         ]
       },
-
       "roadmap_conventions": {
         "purpose": "ROADMAP.md states what is not yet built and what is intentionally deferred — it is the forward-looking complement to CHANGELOG.md's backward-looking record. The two must never contradict each other.",
         "structure": [
@@ -54,7 +50,6 @@
           "HAL multi-validator flow and Tier 5 quorum — blocked on having more than one operator, not on more code"
         ]
       },
-
       "tone_and_scope_guardrails": [
         "An editing assistant working on README.md or ROADMAP.md must not invent new terminology, rename existing concepts for readability, or add marketing language not already present in the project's own docs.",
         "If asked to make something 'sound more finished' or 'more impressive', the correct response is to improve clarity and structure, not to overstate status — see readme-style-v1's explicitly_forbidden list, which applies here without exception.",
@@ -66,6 +61,6 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": ""
+    "value": "9EyPZAvbRqIno5Gghnc7lsbtNO8QMeUIL4dvdN7PP7HOxxOSf3544OcckGs5u6IhibH6xAstGKSBAkfbw1O0Aw=="
   }
 }

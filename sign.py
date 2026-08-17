@@ -37,8 +37,6 @@ PUB_FILE = ROOT / "forge-signing.pub"
 KEY_ID = "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ"
 ISO_UTC_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
 SCP_ID_RE = re.compile(r"^[a-z0-9-]+(?:/[a-z0-9-]+)*-v[0-9]+$")
-FULL_SCP_VERSION_RE = re.compile(r"^[0-9]+\.[0-9]+\.[0-9]+$")
-
 
 def is_full_v12_capsule(capsule: dict) -> bool:
     # Full capsules are identified by explicit declaration structure.
@@ -59,7 +57,8 @@ def validate_capsule_schema(capsule: dict, path: pathlib.Path):
         errors.append(f"{path}: missing required non-empty string field 'scp_id'")
     elif not SCP_ID_RE.match(scp_id):
         errors.append(
-            f"{path}: scp_id must use lowercase, hyphens, and slashes, and end in -vN: {scp_id}"
+            f"{path}: scp_id contains illegal characters — only a-z, 0-9, hyphen and slash allowed, "
+            f"and must end in -vN: {scp_id!r}"
         )
 
     created = capsule.get("created")
@@ -132,7 +131,7 @@ def sign_artifact(key: Ed25519PrivateKey, target: pathlib.Path, pub_b64: str):
         "signed_file": target.name,
         "file_sha256_hint": hashlib.sha256(data).hexdigest(),
         "algorithm": "Ed25519",
-        "key_id": pub_b64,
+        "key_id": KEY_ID,
         "value": base64.b64encode(signature).decode(),
         "note": "Detached signature over signed_file's exact raw bytes at sign time. "
                 "Same key as every capsule in this repo. Automatically produced because "
@@ -268,8 +267,7 @@ def verify_all(skip_schema: bool = False) -> int:
         sidecar = json.loads(sig_file.read_text())
         target = sig_file.with_name(sidecar["signed_file"])
         try:
-            pub2 = Ed25519PublicKey.from_public_bytes(base64.b64decode(sidecar["key_id"]))
-            pub2.verify(base64.b64decode(sidecar["value"]), target.read_bytes())
+            pub.verify(base64.b64decode(sidecar["value"]), target.read_bytes())
             print(f"OK      {target.name}  (artifact)")
         except Exception:
             print(f"FAILED  {target.name}  (artifact)")
@@ -287,5 +285,10 @@ if __name__ == "__main__":
         action="store_true",
         help="skip schema gate (temporary migration escape hatch)",
     )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="preview signing operations without writing any files",
+    )
     args = parser.parse_args()
-    sys.exit(verify_all(skip_schema=args.skip_schema) if args.verify else sign_all(skip_schema=args.skip_schema))
+    sys.exit(verify_all(skip_schema=args.skip_schema) if args.verify else sign_all(skip_schema=args.skip_schema, dry_run=args.dry_run))

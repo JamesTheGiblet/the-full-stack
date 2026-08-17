@@ -6,9 +6,7 @@
   "declaration": {
     "intent": "Define what each of the five Forge Stack tools is and how it is actually used, as a factual reference for anyone or anything (including an AI editing assistant) writing or updating documentation about them. This capsule describes behaviour, not house style — pair it with forge-stack/docs/documentation-style-v1 for how to write about these tools, and with giblets-forge/style/readme-style-v1 for README structure.",
     "parameters": {
-
       "authority_note": "If a tool's actual CLI flags or behaviour have changed since this capsule was signed, the running code is correct and this capsule is stale — check the tool's own --help output and its implementation-definition doc (where one exists) before trusting this capsule for anything operational.",
-
       "scp": {
         "full_name": "Semantic Capsule Protocol",
         "system_vs_artefact": "SCP is the protocol (system). sc is the artefact it produces — always lowercase, always .sc.json.",
@@ -29,7 +27,6 @@
           "\"Capsule\" is prose-only. Never write .scp.json, never call it a capsule in code, a schema field, or a filename."
         ]
       },
-
       "datacube": {
         "system_vs_artefact": "DataCube is the system (camel case). cube is the artefact it produces (lowercase).",
         "what_it_is": "The Classify stage. Scores knowledge about a subject across six lenses — FACT, COUNTER, OPINION, FICTION, CONTEXT, UNKNOWN — which are bins, not scores. An empty COUNTER lens means disconfirmation was not sought, not that no counterevidence exists.",
@@ -47,7 +44,6 @@
           "A cube is a snapshot at a point in the store's history, not a live view — re-project it after new observations land if you need the current picture."
         ]
       },
-
       "leighton_weight_engine": {
         "system_vs_artefact": "Leighton Weight Engine is the system/stage. Leighton Weight (λ) is the artefact/value it produces — a trust score, 0.00–2.00.",
         "what_it_is": "The Trust-score stage. Computes how much an entity's word is currently worth, based on an observation stream of attestations about that entity's past claims and actions.",
@@ -66,7 +62,6 @@
           "The outcome-to-λ-delta mapping (how much a given observed outcome moves the score) is currently hardcoded in the tool, not yet ratified as governance policy."
         ]
       },
-
       "chronoscribe": {
         "full_name": "Signed Chronological Record of Immutable Behavioural Events",
         "system_vs_artefact": "ChronoSCRIBE is the system. ledger is the artefact — never shortened to \"Chrono\" or \"Scribe\" in formal documentation.",
@@ -87,7 +82,6 @@
           "A capsule pin records scp_id + sha256, not a file path — moving a capsule's file location does not invalidate its existing pins."
         ]
       },
-
       "hal": {
         "full_name": "Human Accountability Layer",
         "system_vs_artefact": "HAL is the system. seal is the artefact it produces.",
@@ -112,6 +106,6 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": ""
+    "value": "PUT2ZkE4ZEK/TvsmrlwULmfkFkSmlAJpQr63powQsxboJTKeb1/8cmAykvSQCI/VjquxtWcoTZSgLXU02b/KDA=="
   }
 }

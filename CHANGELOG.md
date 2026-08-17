@@ -1040,3 +1040,76 @@ Risk rating: 1.0/10
 Severity rating: 1.0/10
 
 - **A process correcting itself.** The need to record the removal of duplicate entries, and to be explicit about pace and method, demonstrates a commitment to the project's principles even where it means documenting the changelog's own procedural deviations.
+
+---
+
+## The Good 5.6
+Confidence rating: 10/10
+
+- **Ledger append logic hardened.** Refactored the `append_entries` function in `ledger.py` to be fully atomic. It now reads existing content, appends new entries in memory, and overwrites the file, eliminating a class of file corruption bugs.
+- **New consumer onboarding is now robust.** The process of creating a new consumer and its ledger is now significantly more reliable, as proven by the successful (and eventually stable) creation of the `Nova_bot` consumer ledger.
+
+## The Bad 5.6
+Risk rating: 2.0/10
+
+- **Core tooling regression identified.** A recurring data corruption bug was discovered in `ledger.py` during the bootstrapping of the new `Nova_bot` consumer. The bug caused invalid JSONL and broken hash chains, requiring multiple manual repair and rollback cycles.
+
+## The Ugly 5.6
+Severity rating: 4.0/10
+
+- **A simple append was not simple.** The root cause was subtle file I/O behavior in Python's append mode (`"a"`) that failed to guarantee correct newline handling, leading to corrupted entries. This was a sharp reminder that even the most basic tooling operations require rigorous, atomic logic when dealing with immutable, hash-chained data structures. The bug was only found through the process of creating a new consumer, proving the value of expanding the stack's use cases.
+
+---
+
+## The Good 5.7
+Confidence rating: 10/10
+
+- **Ledger anchoring mechanism fixed.** Corrected a critical design flaw in `ledger.py` where new consumer ledgers were being created with an invalid `prev` hash. New ledgers are now correctly started with an explicit `event.ledger.anchor.root` as entry `#0`, making them verifiable.
+- **File I/O for ledger append hardened.** Reverted the `append_entries` function from a full-file rewrite to use append mode (`"a"`), making it crash-safe and eliminating git diff noise from line-ending normalization.
+- **Attestation validation added.** The `ledger.py attest` command now verifies that the subject event hash exists in the target ledger before issuing an attestation, closing a validation gap.
+
+## The Bad 5.7
+Risk rating: 1.0/10
+
+- **Corrupted consumer ledger required deletion.** The `nova-bot` ledger was created with the flawed anchoring logic and had to be deleted. This is the correct procedure for an unpublished, corrupted artifact.
+
+## The Ugly 5.7
+Severity rating: 5.0/10
+
+- **A dead code branch hid a fundamental design error.** The logic for anchoring new consumer ledgers was not only using the wrong mechanism (`prev` hash instead of an anchor event) but was also unreachable due to a faulty conditional check. This was a significant, multi-layered failure in the tooling that was only uncovered through rigorous analysis.
+
+---
+
+## The Good 5.8
+Confidence rating: 10/10
+
+- **Full-project re-sign successful.** After extensive file system and schema corrections for the `nova-bot` consumer, a full `python sign.py` pass completed successfully, re-signing all capsules and artifacts.
+- **Project integrity confirmed.** A subsequent `python sign.py --verify` pass confirmed that all signatures across the entire project are valid, marking the successful completion of the structural cleanup.
+
+## The Bad 5.8
+Risk rating: 1.0/10
+
+- **No bad items.** This pass successfully restored the project to a fully verifiable state.
+
+## The Ugly 5.8
+Severity rating: 1.0/10
+
+- **Finalizing a long and painful recovery.** This successful sign and verify pass marks the end of a significant and error-prone cleanup process. The project is now structurally sound and ready for forward progress.
+
+---
+
+## The Good 5.9
+Confidence rating: 10/10
+
+- **Full project verification successful.** A full `python sign.py --verify` pass completed successfully, confirming that all capsule and artifact signatures across the entire project are valid.
+- **Project integrity confirmed.** This pass validates the successful cleanup and re-signing of the project, bringing it to a fully verifiable and consistent state.
+
+## The Bad 5.9
+Risk rating: 1.0/10
+
+- **No bad items.** This pass confirms the project is in a clean state.
+
+## The Ugly 5.9
+Severity rating: 1.0/10
+
+- **Finalizing a long and painful recovery.** This successful verification pass marks the end of a significant and error-prone cleanup process. The project is now structurally sound and ready for forward progress.
