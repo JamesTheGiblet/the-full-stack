@@ -96,6 +96,10 @@ def get_ledger_path(scope: Optional[str]) -> pathlib.Path:
     return ROOT / "consumer" / scope / "ledger.jsonl"
 
 
+def get_root_ledger_path() -> pathlib.Path:
+    return get_ledger_path(None)
+
+
 def read_ledger_lines(ledger_path: pathlib.Path) -> list[str]:
     if not ledger_path.exists():
         return []
@@ -105,12 +109,12 @@ def read_ledger_lines(ledger_path: pathlib.Path) -> list[str]:
     return text.splitlines()
 
 
-def verify_chain(ledger_path: pathlib.Path, print_rows: bool = True) -> tuple[int, str, set[tuple[str, str, str]], int]:
+def verify_chain(ledger_path: pathlib.Path, print_rows: bool = True) -> tuple[int, str, set[tuple[str, str, str]], int, dict[str, Any]]:
     # If a ledger file doesn't exist, it's not an error; it's a new chain.
     # Return the genesis state.
     if not ledger_path.exists():
-        return 0, "GENESIS", set(), 0
-    if not PUB_FILE.exists():
+        return 0, "GENESIS", set(), 0, {}
+    if not PUB_FILE.exists() and ledger_path.exists() and ledger_path.read_text():
         raise FileNotFoundError("forge-signing.pub not found")
 
     pub = Ed25519PublicKey.from_public_bytes(base64.b64decode(PUB_FILE.read_text().strip()))
@@ -119,6 +123,7 @@ def verify_chain(ledger_path: pathlib.Path, print_rows: bool = True) -> tuple[in
     entries = parse_entries(lines)
     prev = "GENESIS"
     failed = 0
+    entries_by_hash: dict[str, Any] = {}
     seen: set[tuple[str, str, str]] = set()
 
     for i, entry in enumerate(entries):
@@ -150,7 +155,9 @@ def verify_chain(ledger_path: pathlib.Path, print_rows: bool = True) -> tuple[in
         if print_rows:
             print(f"{status}  #{format_seq(seq)}  {event:24s}  {subject}")
 
-        prev = sha256_hex(lines[i].encode("utf-8"))
+        line_hash = sha256_hex(lines[i].encode("utf-8"))
+        entries_by_hash[line_hash] = entry
+        prev = line_hash
         seen.add(entry_identity(body))
 
     if print_rows:
@@ -160,7 +167,7 @@ def verify_chain(ledger_path: pathlib.Path, print_rows: bool = True) -> tuple[in
             print(f"{failed} entries FAILED.")
 
     next_seq = (entries[-1].get("seq", -1) + 1) if entries else 0
-    return next_seq, prev, seen, failed
+    return next_seq, prev, seen, failed, entries_by_hash
 
 
 def validate_candidate(entry: dict) -> None:
@@ -229,20 +236,31 @@ def append_entries(candidates: Iterable[dict], ledger_path: pathlib.Path, allow_
         print(f"key file not found: {KEY_FILE}")
         return 1
 
-    ledger_path.parent.mkdir(parents=True, exist_ok=True)
+    is_new_consumer_ledger = (
+        not ledger_path.exists()
+        and ledger_path.resolve() != get_root_ledger_path().resolve()
+    )
 
-    # If creating a new consumer ledger, anchor it to the root ledger's head.
-    is_new_consumer_ledger = not ledger_path.exists() and ledger_path.name != "ledger.jsonl"
     if is_new_consumer_ledger:
         print(f"New consumer ledger; anchoring to root ledger head...")
-        root_ledger_path = get_ledger_path(None)
-        _, root_head, _, root_failed = verify_chain(root_ledger_path, print_rows=False)
-        next_seq, prev, seen, failed = 0, root_head, set(), root_failed
+        root_ledger_path = get_root_ledger_path()
+        _, root_head, _, root_failed, _ = verify_chain(root_ledger_path, print_rows=False)
+        if root_failed or not SHA256_RE.match(root_head):
+            print("refusing: root ledger empty or failing verify; cannot anchor")
+            return 1
+        # Prepend the anchor event to the candidates
+        candidates = [{
+            "event": "event.ledger.anchor.root",
+            "subject": "ledger.jsonl",
+            "sha256": root_head,
+        }, *candidates]
+        # Start this new chain from a clean genesis state
+        next_seq, prev, seen, failed = 0, "GENESIS", set(), 0
     else:
-        next_seq, prev, seen, failed = verify_chain(ledger_path, print_rows=False)
-    if failed:
-        print("refusing append: ledger verify failed; repair chain first")
-        return 1
+        next_seq, prev, seen, failed, _ = verify_chain(ledger_path, print_rows=False)
+        if failed:
+            print("refusing append: ledger verify failed; repair chain first")
+            return 1
 
     key = Ed25519PrivateKey.from_private_bytes(KEY_FILE.read_bytes())
 
@@ -250,7 +268,6 @@ def append_entries(candidates: Iterable[dict], ledger_path: pathlib.Path, allow_
     appended = 0
     skipped = 0
     new_lines: list[str] = []
-
     for raw in candidates:
         validate_candidate(raw)
 
@@ -284,10 +301,15 @@ def append_entries(candidates: Iterable[dict], ledger_path: pathlib.Path, allow_
         appended += 1
 
     if new_lines and not dry_run:
-        with ledger_path.open("a", encoding="utf-8", newline="\n") as fh:
-            for line in new_lines:
-                fh.write(line + "\n")
+        # Ensure the parent directory exists, especially for new consumer ledgers.
+        ledger_path.parent.mkdir(parents=True, exist_ok=True)
 
+        # Open in append mode to be crash-safe and reduce git diff noise.
+        # The logic ensures there's always a preceding newline if the file is not empty.
+        prefix = "\n" if ledger_path.exists() and ledger_path.stat().st_size > 0 else ""
+        content_to_write = prefix + "\n".join(new_lines) + "\n"
+        with ledger_path.open("a", encoding="utf-8", newline="\n") as fh:
+            fh.write(content_to_write)
     mode = "dry-run" if dry_run else "live"
     print(f"append complete for {ledger_path.relative_to(ROOT)} ({mode}): {appended} {'would append' if dry_run else 'appended'}, {skipped} skipped")
     return 0
@@ -423,7 +445,7 @@ def main() -> int:
     ledger_path = get_ledger_path(args.scope)
 
     if args.command == "verify":
-        _, _, _, failed = verify_chain(ledger_path, print_rows=True)
+        _, _, _, failed, _ = verify_chain(ledger_path, print_rows=True)
         return 1 if failed else 0
 
     if args.command == "append-pins":
@@ -440,6 +462,12 @@ def main() -> int:
         )
 
     if args.command == "attest":
+        # Verify the subject event hash actually exists in the target ledger
+        _, _, _, failed, entries_by_hash = verify_chain(ledger_path, print_rows=False)
+        if failed or args.subject_event_hash not in entries_by_hash:
+            print(f"FAILED  subject event hash not found in ledger: {args.subject_event_hash}")
+            return 1
+
         attestation_body = {
             "attester_id": KEY_ID,
             "outcome": args.outcome,
