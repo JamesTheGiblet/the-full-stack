@@ -6,7 +6,7 @@
 
 ## **2026-08-28 — v0.5.0 — Build Loop: Templated Tier**
 
-**The Good (Confidence: 9)**
+## The Good (Confidence: 9)
 
 - **`create_file`/`edit_file` can now be pure substitution.** `interpreter/templates.py` (a registry of `params -> content` functions: `npm/package_json`, `text/gitignore_node`) and `interpreter/patches.py` (a registry of `(text, params) -> new_text` functions: `set_json_field`, supporting dotted key paths) let a step name a known pattern instead of hardcoding content — still zero model calls.
 - **`03-edge-cases`'s `edit_file` step went from "always errors" to actually passing.** Before this tier existed, any `edit_file` step with free-text `content` hit a hard "needs the generative tier" wall — there was nothing else it could do. Its `add-debug-flag` step now uses `patch: {type: set_json_field, ...}` and the whole three-step example runs end to end for the first time.
@@ -14,12 +14,12 @@
 - **Measured the fraction of steps needing generation, as the roadmap asked for**: across the three examples' 6 content-bearing steps, 0 currently hit the generative-tier wall — reported honestly in `step-spec.md` as a sample-size artefact (n=6, hand-picked), not evidence the generative tier is unnecessary.
 - **47 unit tests, all passing** — 26 new ones covering the template/patch registries and the parser's content/template and content/patch exclusivity rules.
 
-**The Bad (Risk: 2)**
+## The Bad (Risk: 2)
 
 - **A real design bug caught mid-implementation, not after.** The first cut of the exclusivity rule required *exactly one* of `content`/`template` (and `content`/`patch`), which silently closed off the "neither is set, defer to the generative tier" case roadmap step 4 depends on — `create_file` could never have reached the generative tier at all under that rule. Caught by re-reading the validation against the roadmap before moving on, not by a test failing; fixed to "at most one; both is a parse error; neither is valid and defers." Recorded here because it's the kind of bug that would have been invisible until step 4 tried to use it.
 - **Only two templates and one patch type exist.** Enough to prove the tier works and to convert the two examples that had genuine boilerplate; real coverage numbers need more real specs, not more templates written speculatively.
 
-**The Ugly (Severity: 1)**
+## The Ugly (Severity: 1)
 
 - **None.** Clean addition on top of the v0.4.0 interpreter; no schema fields removed, only extended.
 
@@ -27,19 +27,19 @@
 
 ## **2026-08-28 — v0.4.0 — Build Loop: Deterministic Interpreter**
 
-**The Good (Confidence: 9)**
+## The Good (Confidence: 9.1)
 
 - **Step-walker implemented.** `build_loop/interpreter/` (`spec.py` parser, `executor.py` executor, `cli.py`/`__main__.py` entry point) reads a step-spec README and executes `create_file` / `edit_file` / `run_command` / `run_test` steps in order, checking each against its acceptance test. No model calls anywhere in this path, as planned — this is the known-good baseline the templated and generative tiers (roadmap steps 3-4) get built on top of.
 - **21 unit tests, all passing**, covering the parser's validation rules and the executor's action/acceptance/unverified-step behaviour.
 - **Proved end-to-end, not just unit-tested.** Ran the interpreter for real against both example READMEs in a scratch working directory — `01-hello-npm` (mkdir → write `package.json` → real `npm install`) and `02-python-hello-test` (two unverified writes → a real `pytest` gate) — both completed 3/3 steps.
 - **Two real bugs caught by actually running the examples**, not by reasoning about them: an unquoted YAML colon in `03-edge-cases`'s `content` field broke the parser (fixed, and turned into a documented quoting rule in `step-spec.md` so the next author doesn't hit it blind); `01-hello-npm`'s acceptance check assumed `npm install` creates `node_modules/`, which modern npm (v11+) doesn't do for a package with zero declared dependencies (fixed to check `package-lock.json` instead). Both are exactly the class of thing the "prove it end-to-end before adding AI" step was for.
 
-**The Bad (Risk: 2)**
+## The Bad (Risk: 2.1)
 
 - **`edit_file` is a hard stop for anything but a unified diff.** A free-text edit instruction raises `StepExecutionError` explaining it needs the generative tier — correct for this phase, but it means no example spec can exercise `edit_file` end-to-end yet.
 - **`on_fail` is recorded, not acted on.** Both `retry_local` and `escalate` currently just stop the run with a log line naming which one would fire — the retry loop and the escalation path are roadmap steps 5 and 6.
 
-**The Ugly (Severity: 1)**
+## The Ugly (Severity: 1.1)
 
 - **PyYAML added as a dependency** (`build_loop/requirements.txt`) to parse the step blocks. A deliberate, minimal addition — not a departure from the "rule-based, no AI in the loop" intent, just a parsing library.
 
