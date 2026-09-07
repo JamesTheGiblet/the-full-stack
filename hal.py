@@ -17,20 +17,20 @@ from __future__ import annotations
 
 import argparse
 import base64
-import hashlib
 import json
 import os
 import pathlib
 import re
 import subprocess
 import sys
-from datetime import datetime, timezone
 from typing import Any, Optional
 
 from cryptography.hazmat.primitives.asymmetric.ed25519 import (
     Ed25519PrivateKey,
     Ed25519PublicKey,
 )
+
+import forge_core
 
 ROOT = pathlib.Path(__file__).parent
 KEY_FILE = pathlib.Path(os.environ.get("FORGE_KEY_PATH", str(ROOT / "forge-signing.key")))
@@ -48,16 +48,12 @@ TIER_MIN_LAMBDA = {
 }
 
 
-def canonicalise(obj: Any) -> str:
-    return json.dumps(obj, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
-
-
-def utc_now() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-
-
-def sha256_hex(data: bytes) -> str:
-    return hashlib.sha256(data).hexdigest()
+# CORE_CONSOLIDATION_ROADMAP.md Phase 1: these three used to be defined
+# here directly; now sourced from forge_core, the same copy sign.py/
+# datacube.py/leighton_weight.py/ledger.py use too.
+canonicalise = forge_core.canonicalise
+utc_now = forge_core.utc_now
+sha256_hex = forge_core.sha256_hex
 
 
 def display_path(path: pathlib.Path) -> str:
@@ -69,15 +65,11 @@ def display_path(path: pathlib.Path) -> str:
 
 
 def load_private_key() -> Ed25519PrivateKey:
-    if not KEY_FILE.exists():
-        raise FileNotFoundError(f"key file not found: {KEY_FILE}")
-    return Ed25519PrivateKey.from_private_bytes(KEY_FILE.read_bytes())
+    return forge_core.load_private_key(KEY_FILE)
 
 
 def load_public_key() -> Ed25519PublicKey:
-    if not PUB_FILE.exists():
-        raise FileNotFoundError("forge-signing.pub not found")
-    return Ed25519PublicKey.from_public_bytes(base64.b64decode(PUB_FILE.read_text(encoding="utf-8").strip()))
+    return forge_core.load_public_key(PUB_FILE)
 
 
 def sign_body(body: dict[str, Any], key: Ed25519PrivateKey) -> dict[str, Any]:

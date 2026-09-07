@@ -25,15 +25,12 @@ from __future__ import annotations
 
 import argparse
 import base64
-import hashlib
 import json
 import math
 import os
 import pathlib
-import re
 import subprocess
 import sys
-from datetime import datetime, timezone
 from typing import Any, Optional
 
 from cryptography.hazmat.primitives.asymmetric.ed25519 import (
@@ -41,12 +38,21 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import (
     Ed25519PublicKey,
 )
 
+import forge_core
+
 ROOT = pathlib.Path(__file__).parent
 KEY_FILE = pathlib.Path(os.environ.get("FORGE_KEY_PATH", str(ROOT / "forge-signing.key")))
 PUB_FILE = ROOT / "forge-signing.pub"
 KEY_ID = "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ"
 
-ISO_UTC_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
+# CORE_CONSOLIDATION_ROADMAP.md Phase 1: these five used to be defined
+# here directly; now sourced from forge_core, the same copy sign.py/
+# datacube.py/hal.py/ledger.py use too.
+ISO_UTC_RE = forge_core.ISO_UTC_RE
+canonicalise = forge_core.canonicalise
+utc_now = forge_core.utc_now
+parse_iso_utc = forge_core.parse_iso_utc
+sha256_hex = forge_core.sha256_hex
 
 
 OUTCOME_INFLUENCE = {
@@ -57,24 +63,6 @@ OUTCOME_INFLUENCE = {
     "broke": -0.20,
     "refuted": -0.20,
 }
-
-
-def canonicalise(obj: Any) -> str:
-    return json.dumps(obj, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
-
-
-def utc_now() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-
-
-def parse_iso_utc(value: str) -> datetime:
-    if not ISO_UTC_RE.match(value):
-        raise ValueError(f"created/as_of must be ISO 8601 UTC with Z suffix: {value}")
-    return datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
-
-
-def sha256_hex(data: bytes) -> str:
-    return hashlib.sha256(data).hexdigest()
 
 
 def clamp(value: float, lower: float, upper: float) -> float:
@@ -90,15 +78,11 @@ def display_path(path: pathlib.Path) -> str:
 
 
 def load_private_key() -> Ed25519PrivateKey:
-    if not KEY_FILE.exists():
-        raise FileNotFoundError(f"key file not found: {KEY_FILE}")
-    return Ed25519PrivateKey.from_private_bytes(KEY_FILE.read_bytes())
+    return forge_core.load_private_key(KEY_FILE)
 
 
 def load_public_key() -> Ed25519PublicKey:
-    if not PUB_FILE.exists():
-        raise FileNotFoundError("forge-signing.pub not found")
-    return Ed25519PublicKey.from_public_bytes(base64.b64decode(PUB_FILE.read_text(encoding="utf-8").strip()))
+    return forge_core.load_public_key(PUB_FILE)
 
 
 def sign_body(body: dict[str, Any], key: Ed25519PrivateKey) -> dict[str, Any]:

@@ -23,7 +23,6 @@ import json
 import pathlib
 import sys
 import os
-import re
 
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric.ed25519 import (
@@ -31,12 +30,17 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import (
     Ed25519PublicKey,
 )
 
+import forge_core
+
 ROOT = pathlib.Path(__file__).parent
 KEY_FILE = pathlib.Path(os.environ.get("FORGE_KEY_PATH", str(ROOT / "forge-signing.key")))
 PUB_FILE = ROOT / "forge-signing.pub"
 KEY_ID = "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ"
-ISO_UTC_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
-SCP_ID_RE = re.compile(r"^[a-z0-9-]+(?:/[a-z0-9-]+)*-v[0-9]+$")
+# CORE_CONSOLIDATION_ROADMAP.md Phase 1: canonicalise/ISO_UTC_RE/SCP_ID_RE
+# used to be defined here directly; now sourced from forge_core, the same
+# copy datacube.py/leighton_weight.py/hal.py/ledger.py use too.
+ISO_UTC_RE = forge_core.ISO_UTC_RE
+SCP_ID_RE = forge_core.SCP_ID_RE
 
 def is_full_v12_capsule(capsule: dict) -> bool:
     # Full capsules are identified by explicit declaration structure.
@@ -91,22 +95,14 @@ def collect_schema_errors(capsule_paths: list[pathlib.Path]) -> list[str]:
     return errors
 
 
-def canonicalise(obj) -> str:
-    return json.dumps(obj, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+canonicalise = forge_core.canonicalise
 
 
 def load_or_create_key() -> Ed25519PrivateKey:
-    if KEY_FILE.exists():
-        return Ed25519PrivateKey.from_private_bytes(KEY_FILE.read_bytes())
-    key = Ed25519PrivateKey.generate()
-    KEY_FILE.write_bytes(
-        key.private_bytes(
-            serialization.Encoding.Raw,
-            serialization.PrivateFormat.Raw,
-            serialization.NoEncryption(),
-        )
-    )
-    print(f"generated NEW key -> {KEY_FILE}  (back it up; never commit it)")
+    is_new = not KEY_FILE.exists()
+    key = forge_core.load_or_create_private_key(KEY_FILE)
+    if is_new:
+        print(f"generated NEW key -> {KEY_FILE}  (back it up; never commit it)")
     return key
 
 

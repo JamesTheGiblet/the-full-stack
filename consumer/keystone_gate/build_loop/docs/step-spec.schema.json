@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "forge-stack/keystone_gate/build_loop/step-spec-v1.schema.json",
+  "title": "Build Loop Step Spec v1",
+  "description": "Schema for a single step in a Build Loop step-spec. A step-spec is an ordered array of these objects, authored by hand inside a README.md (see docs/step-spec.md) and, once frozen, wrapped in an sc capsule under sc/.",
+  "type": "object",
+  "required": ["id", "action", "on_fail"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$",
+      "description": "Stable, unique identifier for this step within the spec. Must not change across README edits that don't change the step's meaning — it is the cache key for capsule-cached fixes (see roadmap step 7) and the label used in escalation reports."
+    },
+    "action": {
+      "type": "string",
+      "enum": ["create_file", "edit_file", "run_command", "run_test"],
+      "description": "What kind of operation this step performs. There is no create_dir action — directory creation goes through run_command (e.g. 'mkdir -p'), or is implied by create_file auto-creating parent directories. See step-spec.md edge case 4."
+    },
+    "target": {
+      "type": "string",
+      "description": "Meaning depends on action: create_file/edit_file -> the file path being written (relative to the spec's working directory). run_command/run_test -> the working directory the command runs in; omit to use the spec's root working directory."
+    },
+    "content": {
+      "type": ["string", "null"],
+      "description": "create_file: literal file content to write. Cannot be set together with `template` (ambiguous which wins) - if both are absent, the step needs the generative tier (roadmap step 4). edit_file: either a unified diff or a natural-language instruction of the edit; cannot be set together with `patch`, and if both are absent the step needs the generative tier. Ignored for run_command/run_test."
+    },
+    "template": {
+      "type": ["string", "null"],
+      "description": "create_file only. Name of a registered deterministic template (see interpreter/templates.py) to render with `template_params`. Cannot be set together with `content`. Pure substitution, no model call — that's the point of this tier."
+    },
+    "template_params": {
+      "type": ["object", "null"],
+      "description": "create_file only, paired with `template`. Parameters passed to the named template's render function. Omit or use {} for a parameterless template."
+    },
+    "patch": {
+      "type": ["object", "null"],
+      "required": ["type"],
+      "description": "edit_file only. A known, deterministic patch to apply (see interpreter/patches.py) — `type` selects the patch function, remaining keys are its params (e.g. {type: set_json_field, path: debug, value: true}). Cannot be set together with `content`."
+    },
+    "command": {
+      "type": "string",
+      "description": "Only meaningful for run_command/run_test. The shell command to execute. Required for run_command. Optional for run_test: if omitted, `acceptance.command` doubles as the action itself (the test run IS the check — see step-spec.md edge case 2)."
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable intent for this step. Always present in practice — it is the prompt handed to the generative tier when a template can't cover the step, and the context handed to Claude on escalation. Not schema-required so purely mechanical steps (a plain 'npm install') aren't forced to restate themselves, but omitting it disables the generative fallback for that step."
+    },
+    "acceptance": {
+      "type": ["object", "null"],
+      "description": "How to verify the step succeeded. Omit entirely (or set null) to mark the step unverified — see step-spec.md edge case 1 for what the interpreter does then.",
+      "required": ["command"],
+      "additionalProperties": false,
+      "properties": {
+        "command": {
+          "type": "string",
+          "description": "Shell command run after the step to check it worked."
+        },
+        "expected_exit_code": {
+          "type": "integer",
+          "default": 0,
+          "description": "Exit code the acceptance command must return. Defaults to 0."
+        },
+        "expected_output_pattern": {
+          "type": ["string", "null"],
+          "description": "Optional regex tested against the acceptance command's combined stdout+stderr. Omit to check exit code only."
+        }
+      }
+    },
+    "on_fail": {
+      "type": "string",
+      "enum": ["retry_local", "escalate"],
+      "description": "What happens when the acceptance check fails. retry_local: hand the error back to the local model, up to the interpreter's global retry cap (2-3 attempts), before falling through to escalate anyway. escalate: skip local retries and go straight to Claude with the step spec, generated output, and failure history. Must still be present when acceptance is absent (see edge case 1) even though it will never fire — this keeps the schema uniform and the field non-optional."
+    }
+  }
+}

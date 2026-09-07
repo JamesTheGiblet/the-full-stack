@@ -14,19 +14,16 @@ Usage:
 
 import argparse
 import base64
-import hashlib
 import json
 import os
 import pathlib
 import re
 import sys
-from datetime import datetime, timezone
 from typing import Any, Iterable, Optional
 
-from cryptography.hazmat.primitives.asymmetric.ed25519 import (
-    Ed25519PrivateKey,
-    Ed25519PublicKey,
-)
+from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+
+import forge_core
 
 ROOT = pathlib.Path(__file__).parent
 KEY_FILE = pathlib.Path(os.environ.get("FORGE_KEY_PATH", str(ROOT / "forge-signing.key")))
@@ -35,16 +32,12 @@ SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 KEY_ID = "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ"
 
 
-def canonicalise(obj: Any) -> str:
-    return json.dumps(obj, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
-
-
-def sha256_hex(data: bytes) -> str:
-    return hashlib.sha256(data).hexdigest()
-
-
-def utc_now() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+# CORE_CONSOLIDATION_ROADMAP.md Phase 1: these three used to be defined
+# here directly; now sourced from forge_core, the same copy sign.py/
+# datacube.py/leighton_weight.py/hal.py use too.
+canonicalise = forge_core.canonicalise
+sha256_hex = forge_core.sha256_hex
+utc_now = forge_core.utc_now
 
 
 def format_seq(seq_value) -> str:
@@ -117,7 +110,7 @@ def verify_chain(ledger_path: pathlib.Path, print_rows: bool = True) -> tuple[in
     if not PUB_FILE.exists() and ledger_path.exists() and ledger_path.read_text():
         raise FileNotFoundError("forge-signing.pub not found")
 
-    pub = Ed25519PublicKey.from_public_bytes(base64.b64decode(PUB_FILE.read_text().strip()))
+    pub = forge_core.load_public_key(PUB_FILE)
 
     lines = read_ledger_lines(ledger_path)
     entries = parse_entries(lines)
@@ -262,7 +255,7 @@ def append_entries(candidates: Iterable[dict], ledger_path: pathlib.Path, allow_
             print("refusing append: ledger verify failed; repair chain first")
             return 1
 
-    key = Ed25519PrivateKey.from_private_bytes(KEY_FILE.read_bytes())
+    key = forge_core.load_private_key(KEY_FILE)
 
     created_default = utc_now()
     appended = 0

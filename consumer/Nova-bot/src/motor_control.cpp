@@ -1,154 +1,183 @@
-/**
- * @file motor_control.cpp
- * @brief Basic motor control sketch for the Nova-bot ESP32 platform.
- * @version 0.1
- * @date 2026-08-16
- *
- * Implements the first firmware requirement from ROADMAP.md: Basic Motor Control.
- * This sketch provides functions to control two TT motors via a standard
- * L298N H-bridge driver. It uses the ESP32's LEDC peripheral for PWM speed control.
- *
- * Pinout (assumes a standard L298N driver):
- * - These are example pins and may need to be changed based on your wiring.
- * - Connect the motor driver's 5V and GND to the ESP32's 5V and GND.
- * - Connect the motor power supply to the driver's VMS and GND.
- */
-
 #include <Arduino.h>
+#include <ArduinoJson.h> // For parsing JSON semantic capsule
+#include <FS.h>          // For file system access (e.g., SPIFFS)
+#include <SPIFFS.h>      // Specific for SPIFFS
 
-// --- Pin Configuration ---
-// This struct centralizes pin definitions. In a future version, this will be
-// populated by parsing a configuration file (e.g., pin-configuration-v1.sc.json)
-// from the ESP32's filesystem instead of being hardcoded.
-struct MotorPins {
-    // Motor A (Left)
-    const int ENA = 14; // PWM Speed Control for Left Motor
-    const int IN1 = 25; // Direction Control 1 for Left Motor
-    const int IN2 = 26; // Direction Control 2 for Left Motor
+// Global variables for motor driver pins, to be loaded from semantic capsule
+// These are placeholder values. The Nova_bot roadmap specifies
+// "Implement runtime loading of pin configurations from the semantic capsule."
+// This dynamic loading would replace these hardcoded values in a future iteration.
 
-    // Motor B (Right)
-    const int ENB = 12; // PWM Speed Control for Right Motor
-    const int IN3 = 27; // Direction Control 1 for Right Motor
-    const int IN4 = 13; // Direction Control 2 for Right Motor
-};
+// Motor A (e.g., Left Motor)
+int MOTOR_A_IN1;
+int MOTOR_A_IN2;
+int MOTOR_A_EN;
 
-// Create an instance of the pin configuration.
-MotorPins pins;
+// Motor B (e.g., Right Motor)
+int MOTOR_B_IN1;
+int MOTOR_B_IN2;
+int MOTOR_B_EN;
 
-// --- PWM Configuration ---
-const int PWM_FREQ = 5000; // PWM frequency in Hz
-const int PWM_RESOLUTION = 8; // 8-bit resolution (0-255)
-const int PWM_CHANNEL_A = 0; // LEDC channel 0 for Left Motor
-const int PWM_CHANNEL_B = 1; // LEDC channel 1 for Right Motor
+// PWM settings for ESP32
+const int freq = 30000; // PWM frequency
+const int motor_a_channel = 0; // PWM channel for Motor A
+const int motor_b_channel = 1; // PWM channel for Motor B
+const int resolution = 8; // 8-bit resolution (0-255)
 
-// --- Motor Control Functions ---
+void load_pin_configurations() {
+  Serial.println("Attempting to load pin configurations...");
 
-/**
- * @brief Stops both motors.
- */
-void stopMotors() {
-    digitalWrite(pins.IN1, LOW);
-    digitalWrite(pins.IN2, LOW);
-    digitalWrite(pins.IN3, LOW);
-    digitalWrite(pins.IN4, LOW);
-    ledcWrite(PWM_CHANNEL_A, 0);
-    ledcWrite(PWM_CHANNEL_B, 0);
+  if (!SPIFFS.begin(true)) {
+    Serial.println("SPIFFS Mount Failed! Using default hardcoded pins.");
+    // Fallback to hardcoded values if SPIFFS fails
+    MOTOR_A_IN1 = 27;
+    MOTOR_A_IN2 = 26;
+    MOTOR_A_EN = 14;
+    MOTOR_B_IN1 = 33;
+    MOTOR_B_IN2 = 32;
+    MOTOR_B_EN = 15;
+    return;
+  }
+
+  File file = SPIFFS.open("/nova_bot/pin-configuration-v1.sc.json", "r");
+  if (!file) {
+    Serial.println("Failed to open pin-configuration-v1.sc.json! Using default hardcoded pins.");
+    // Fallback to hardcoded values if file not found
+    MOTOR_A_IN1 = 27;
+    MOTOR_A_IN2 = 26;
+    MOTOR_A_EN = 14;
+    MOTOR_B_IN1 = 33;
+    MOTOR_B_IN2 = 32;
+    MOTOR_B_EN = 15;
+    return;
+  }
+
+  StaticJsonDocument<1024> doc; // Adjust size as needed based on your JSON capsule size
+  DeserializationError error = deserializeJson(doc, file);
+  if (error) {
+    Serial.print("Failed to parse pin-configuration-v1.sc.json: ");
+    Serial.println(error.c_str());
+    Serial.println("Using default hardcoded pins.");
+    // Fallback to hardcoded values if JSON parsing fails
+    MOTOR_A_IN1 = 27;
+    MOTOR_A_IN2 = 26;
+    MOTOR_A_EN = 14;
+    MOTOR_B_IN1 = 33;
+    MOTOR_B_IN2 = 32;
+    MOTOR_B_EN = 15;
+    file.close();
+    return;
+  }
+
+  file.close();
+
+  // Extract pin values, using default hardcoded values as fallbacks if not found in JSON
+  MOTOR_A_IN1 = doc["declaration"]["parameters"]["pinout"]["motor_a_left"]["in1"] | 27;
+  MOTOR_A_IN2 = doc["declaration"]["parameters"]["pinout"]["motor_a_left"]["in2"] | 26;
+  MOTOR_A_EN = doc["declaration"]["parameters"]["pinout"]["motor_a_left"]["ena"] | 14;
+
+  MOTOR_B_IN1 = doc["declaration"]["parameters"]["pinout"]["motor_b_right"]["in3"] | 33; // Note: in3/in4 for motor B in the capsule
+  MOTOR_B_IN2 = doc["declaration"]["parameters"]["pinout"]["motor_b_right"]["in4"] | 32;
+  MOTOR_B_EN = doc["declaration"]["parameters"]["pinout"]["motor_b_right"]["enb"] | 15;
+
+  Serial.println("Pin configurations loaded successfully from semantic capsule.");
+  Serial.print("Motor A IN1: "); Serial.println(MOTOR_A_IN1);
+  Serial.print("Motor A IN2: "); Serial.println(MOTOR_A_IN2);
+  Serial.print("Motor A EN: "); Serial.println(MOTOR_A_EN);
+  Serial.print("Motor B IN1: "); Serial.println(MOTOR_B_IN1);
+  Serial.print("Motor B IN2: "); Serial.println(MOTOR_B_IN2);
+  Serial.print("Motor B EN: "); Serial.println(MOTOR_B_EN);
 }
 
-/**
- * @brief Moves the robot forward at a given speed.
- * @param speed PWM duty cycle (0-255).
- */
-void moveForward(int speed) {
-    digitalWrite(pins.IN1, HIGH);
-    digitalWrite(pins.IN2, LOW);
-    digitalWrite(pins.IN3, HIGH);
-    digitalWrite(pins.IN4, LOW);
-    ledcWrite(PWM_CHANNEL_A, speed);
-    ledcWrite(PWM_CHANNEL_B, speed);
+void setup_motor_control() {
+  load_pin_configurations(); // Load pins at setup
+
+  // Set all the motor control pins to OUTPUT
+  pinMode(MOTOR_A_IN1, OUTPUT);
+  pinMode(MOTOR_A_IN2, OUTPUT);
+  pinMode(MOTOR_B_IN1, OUTPUT);
+  pinMode(MOTOR_B_IN2, OUTPUT);
+
+  // Configure PWM channels
+  ledcSetup(motor_a_channel, freq, resolution);
+  ledcAttachPin(MOTOR_A_EN, motor_a_channel);
+  ledcSetup(motor_b_channel, freq, resolution);
+  ledcAttachPin(MOTOR_B_EN, motor_b_channel);
+
+  Serial.begin(115200);
+  Serial.println("Motor control initialized.");
 }
 
-/**
- * @brief Moves the robot backward at a given speed.
- * @param speed PWM duty cycle (0-255).
- */
-void moveBackward(int speed) {
-    digitalWrite(pins.IN1, LOW);
-    digitalWrite(pins.IN2, HIGH);
-    digitalWrite(pins.IN3, LOW);
-    digitalWrite(pins.IN4, HIGH);
-    ledcWrite(PWM_CHANNEL_A, speed);
-    ledcWrite(PWM_CHANNEL_B, speed);
+// Function to set motor speed and direction
+void set_motor_speed(int motor_channel, int in1_pin, int in2_pin, int speed) {
+  if (speed > 0) { // Forward
+    digitalWrite(in1_pin, HIGH);
+    digitalWrite(in2_pin, LOW);
+    ledcWrite(motor_channel, speed);
+  } else if (speed < 0) { // Backward
+    digitalWrite(in1_pin, LOW);
+    digitalWrite(in2_pin, HIGH);
+    ledcWrite(motor_channel, abs(speed));
+  } else { // Stop
+    digitalWrite(in1_pin, LOW);
+    digitalWrite(in2_pin, LOW);
+    ledcWrite(motor_channel, 0);
+  }
 }
 
-/**
- * @brief Turns the robot right (on the spot) at a given speed.
- * @param speed PWM duty cycle (0-255).
- */
-void turnRight(int speed) {
-    digitalWrite(pins.IN1, HIGH); // Left motor forward
-    digitalWrite(pins.IN2, LOW);
-    digitalWrite(pins.IN3, LOW);  // Right motor backward
-    digitalWrite(pins.IN4, HIGH);
-    ledcWrite(PWM_CHANNEL_A, speed);
-    ledcWrite(PWM_CHANNEL_B, speed);
+// Basic mobility functions
+void move_forward(int speed_val) {
+  Serial.print("Moving Forward at speed: ");
+  Serial.println(speed_val);
+  set_motor_speed(motor_a_channel, MOTOR_A_IN1, MOTOR_A_IN2, speed_val);
+  set_motor_speed(motor_b_channel, MOTOR_B_IN1, MOTOR_B_IN2, speed_val);
 }
 
-/**
- * @brief Turns the robot left (on the spot) at a given speed.
- * @param speed PWM duty cycle (0-255).
- */
-void turnLeft(int speed) {
-    digitalWrite(pins.IN1, LOW);  // Left motor backward
-    digitalWrite(pins.IN2, HIGH);
-    digitalWrite(pins.IN3, HIGH); // Right motor forward
-    digitalWrite(pins.IN4, LOW);
-    ledcWrite(PWM_CHANNEL_A, speed);
-    ledcWrite(PWM_CHANNEL_B, speed);
+void move_backward(int speed_val) {
+  Serial.print("Moving Backward at speed: ");
+  Serial.println(speed_val);
+  set_motor_speed(motor_a_channel, MOTOR_A_IN1, MOTOR_A_IN2, -speed_val);
+  set_motor_speed(motor_b_channel, MOTOR_B_IN1, MOTOR_B_IN2, -speed_val);
 }
 
-// --- Main Program ---
-
-void setup() {
-    // Set motor control pins as outputs
-    pinMode(pins.IN1, OUTPUT);
-    pinMode(pins.IN2, OUTPUT);
-    pinMode(pins.IN3, OUTPUT);
-    pinMode(pins.IN4, OUTPUT);
-
-    // Configure LEDC PWM channels
-    ledcSetup(PWM_CHANNEL_A, PWM_FREQ, PWM_RESOLUTION);
-    ledcSetup(PWM_CHANNEL_B, PWM_FREQ, PWM_RESOLUTION);
-
-    // Attach PWM pins to channels
-    ledcAttachPin(pins.ENA, PWM_CHANNEL_A);
-    ledcAttachPin(pins.ENB, PWM_CHANNEL_B);
-
-    // Start with motors stopped
-    stopMotors();
+void turn_left(int speed_val) {
+  Serial.print("Turning Left at speed: ");
+  Serial.println(speed_val);
+  set_motor_speed(motor_a_channel, MOTOR_A_IN1, MOTOR_A_IN2, 0); // Stop left motor or move backward
+  set_motor_speed(motor_b_channel, MOTOR_B_IN1, MOTOR_B_IN2, speed_val); // Move right motor forward
 }
 
+void turn_right(int speed_val) {
+  Serial.print("Turning Right at speed: ");
+  Serial.println(speed_val);
+  set_motor_speed(motor_a_channel, MOTOR_A_IN1, MOTOR_A_IN2, speed_val); // Move left motor forward
+  set_motor_speed(motor_b_channel, MOTOR_B_IN1, MOTOR_B_IN2, 0); // Stop right motor or move backward
+}
+
+void stop_motors() {
+  Serial.println("Stopping Motors.");
+  set_motor_speed(motor_a_channel, MOTOR_A_IN1, MOTOR_A_IN2, 0);
+  set_motor_speed(motor_b_channel, MOTOR_B_IN1, MOTOR_B_IN2, 0);
+}
+
+// Example usage in Arduino loop (for testing)
+/*
 void loop() {
-    // This is a simple demonstration sequence.
-    // In the final robot, this loop will be replaced by the main Sense->Decide->Act logic.
-
-    moveForward(200); // Move forward at 80% speed
-    delay(2000);
-    stopMotors();
-    delay(1000);
-
-    moveBackward(200); // Move backward at 80% speed
-    delay(2000);
-    stopMotors();
-    delay(1000);
-
-    turnRight(180); // Turn right at 70% speed
-    delay(1500);
-    stopMotors();
-    delay(1000);
-
-    turnLeft(180); // Turn left at 70% speed
-    delay(1500);
-    stopMotors();
-    delay(1000);
+  move_forward(200);
+  delay(2000);
+  stop_motors();
+  delay(1000);
+  move_backward(150);
+  delay(2000);
+  stop_motors();
+  delay(1000);
+  turn_left(180);
+  delay(1500);
+  stop_motors();
+  delay(1000);
+  turn_right(180);
+  delay(1500);
+  stop_motors();
+  delay(1000);
 }
+*/

@@ -1,23 +1,36 @@
 {
   "scp_id": "nova-bot/hardware-manifest-v1",
-  "created": "2026-08-16T19:23:00Z",
+  "created": "2026-08-17T17:45:00Z",
   "scp_version": "1.2.0",
   "capsule_type": "hardware_manifest",
   "inherits": "forge-stack/governance-v3",
   "declaration": {
-    "intent": "To declare the physical components and capabilities of the Nova_bot v1 prototype.",
+    "intent": "To define the physical hardware components and their general configuration for the Nova_bot v1.",
     "parameters": {
-      "mcu": "ESP32",
-      "chassis": "round-2wd-tt",
-      "power": "7.4V-series-18650",
+      "robot_type": "differential_drive",
+      "chassis": {
+        "type": "2WD_platform",
+        "material": "acrylic"
+      },
+      "motors": {
+        "type": "DC_geared_motors",
+        "quantity": 2,
+        "driver": "L298N_dual_H_bridge"
+      },
+      "microcontroller": {
+        "type": "ESP32_DevKitC",
+        "model": "ESP32-WROOM-32"
+      },
+      "power_source": {
+        "type": "LiPo_battery",
+        "voltage": "7.4V"
+      },
       "sensors": [
-        "ultrasonic-HC-SR04",
-        "photoresistor-gl5528",
-        "motor-encoder-tt"
+        {"type": "ultrasonic_distance", "model": "HC-SR04", "quantity": 1},
+        {"type": "line_follower", "quantity": 3}
       ],
       "actuators": [
-        "motor-tt",
-        "h-bridge-l298n"
+        {"type": "servo_motor", "purpose": "camera_pan_tilt", "quantity": 2}
       ]
     }
   },
@@ -25,6 +38,6 @@
   "signature": {
     "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
     "algorithm": "Ed25519",
-    "value": "eWbKhOdFFKn9TtwpQtCrir31tcMRJEzMp2s4gBIjkYTAMyyKwzGQgAM6aNm1qJeqVno+krehHYN5JZxacNKhBA=="
+    "value": ""
   }
 }

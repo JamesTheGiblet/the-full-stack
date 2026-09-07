@@ -1,0 +1,21 @@
+{
+  "scp_id": "forge-stack/keystone_gate/build_loop/step-spec-v1",
+  "scp_version": "1.0.0",
+  "created": "2026-08-28T00:00:00Z",
+  "inherits": "forge-stack/governance-v6",
+  "declaration": {
+    "intent": "Specify the Build Loop step-spec: the schema for a single build step (action, target, acceptance, on_fail) and the README authoring format a step-spec is hand-written in. Phase 0 of Build Loop — no interpreter exists yet; this capsule pins the spec the interpreter will be built against.",
+    "parameters": {
+      "document": "docs/step-spec.md",
+      "document_sha256": "COMPUTE-ON-FREEZE",
+      "schema": "docs/step-spec.schema.json",
+      "examples": [
+        "examples/01-hello-npm/README.md",
+        "examples/02-python-hello-test/README.md",
+        "examples/03-edge-cases/README.md"
+      ]
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": null
+}
