@@ -17,3 +17,13 @@ cobblewright/*.exe
 # Minecraft Server runtime files
 MinecraftServer/world/
 MinecraftServer/logs/
+
+# Server binaries and libraries. These are re-downloadable artifacts, not
+# source: server.jar comes from Mojang and the server fetches its own
+# libraries on first run. They had been committed, accounting for 98MB of
+# the ~100MB repository, and their deep Maven paths (up to 176 characters)
+# exceeded the Windows path limit — `git clone` failed outright partway
+# through checkout until they were untracked.
+MinecraftServer/libraries/
+MinecraftServer/versions/
+MinecraftServer/*.jar
