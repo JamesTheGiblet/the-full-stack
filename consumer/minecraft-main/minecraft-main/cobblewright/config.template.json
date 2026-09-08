@@ -37,7 +37,7 @@
   "VISION_MODEL": "llava:latest",
   "EMBEDDING_MODEL": "nomic-embed-text",
   "CHRONOSCRIBE_ENABLED": true,
-  "CHRONOSCRIBE_KEY_ID": "cobblewright-ed25519-v1",
+  "CHRONOSCRIBE_KEY_ID": "cobblewright-ed25519-v2",
   "CHRONOSCRIBE_MAX_PAYLOAD_CHARS": 5000,
   "SCREENSHOTS_PATH": "%APPDATA%/.minecraft/screenshots",
   "POSTGRES_URL": "postgresql://postgres:postgres@localhost:5432/cobblewright"

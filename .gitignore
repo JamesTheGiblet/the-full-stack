@@ -17,6 +17,12 @@ secrets/
 *keypair*.json
 *keypair*.ndjson
 
+# Public keys are meant to be published — without them nobody can verify a
+# signature. The blanket *.pem rule above is aimed at private key material
+# and catches these too, so allow the public half back in explicitly.
+!*_public.pem
+!*.pub.pem
+
 # Python
 __pycache__/
 *.py[cod]
