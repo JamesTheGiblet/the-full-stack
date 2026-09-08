@@ -3,6 +3,7 @@
 Agent 74 — Contabo VPS Cloud-Powered
 """
 
+import os
 import requests
 import time
 from pathlib import Path
@@ -10,7 +11,11 @@ from agent_74_headless import Agent74Headless, AutonomousEngine
 
 class Agent74Cloud(Agent74Headless):
     VPS_URL = "http://169.58.179.184:5000/api/chat"
-    API_KEY = "Agent74_Secure_Key_2026"
+    # Read from the environment; no hardcoded fallback. This literal was
+    # committed to a public repository and must be treated as compromised —
+    # rotate it on the VPS and set AGENT74_API_KEY rather than restoring a
+    # default here.
+    API_KEY = os.environ.get("AGENT74_API_KEY", "")
     
     def __init__(self):
         self.model = "phi3:mini"
