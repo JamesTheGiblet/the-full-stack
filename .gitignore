@@ -9,6 +9,14 @@
 keys/
 secrets/
 
+# Key material stored inside JSON. The rules above match by extension, so
+# they never caught consumer/minecraft-main/.../chronoscribe/
+# ed25519_keypair.json — a real Ed25519 private key that sat in this public
+# repository from the first commit until it was untracked. Match the
+# filename shape too, not just the extension.
+*keypair*.json
+*keypair*.ndjson
+
 # Python
 __pycache__/
 *.py[cod]
