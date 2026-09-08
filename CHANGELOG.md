@@ -1113,3 +1113,28 @@ Risk rating: 1.0/10
 Severity rating: 1.0/10
 
 - **Finalizing a long and painful recovery.** This successful verification pass marks the end of a significant and error-prone cleanup process. The project is now structurally sound and ready for forward progress.
+
+---
+
+## The Good 6.0
+Confidence rating: 9.1/10
+
+- **Repository root cleaned up across both trees.** Removed `sign.py.bak` (a stale duplicate of `sign.py` committed in the very first commit, superseded by the `forge_core` refactor), untracked `.offline-markdown-preview/` (four SVG files from an editor extension's cache that had been accidentally committed), and deleted `consumer/_anchor-test/` (a completely empty August leftover).
+- **Deleted a dead nested repository in the CCE consumer.** `consumer/ccemk2/ccemk2/` held its own `.git` with zero commits plus a stray 31MB `venv/` — an artifact of the original Phase 0 setup, holding no work of any kind. Confirmed empty via `git log --all` before removal.
+- **Repaired `sign_artifact.py`, which was broken in two independent ways.** Its `--verify` path now loads the public key from `forge-signing.pub` exactly as `sign.py`'s `verify_all()` does, and its signing path now writes the shared `did:key` as `key_id` and honours `FORGE_KEY_PATH`. Verified against real repository signatures, including negative cases: a tampered file correctly reports `FAILED`, and a signature made with a different key correctly fails rather than passing.
+- **Audited before deleting, in every case.** `genesis.py` and `freeze.py` were both checked for references and kept — `genesis.py` is a deliberate root-ledger-only one-shot tool, and `freeze.py` is referenced across docs and multiple consumers. `forge_core.egg-info/` was deliberately left in place because deleting it would break the editable install and every `import forge_core` with it.
+
+## The Bad 6.0
+Risk rating: 2.6/10
+
+- **`KEY_ID` is now duplicated verbatim across six root scripts.** `sign.py`, `datacube.py`, `hal.py`, `ledger.py`, `leighton_weight.py` and now `sign_artifact.py` each declare the same `did:key` literal. Matching the existing convention was the low-risk choice for a bug fix, but this is a genuine candidate for promotion into `forge_core` as a shared constant.
+- **`sign_artifact.py` remains a parallel mechanism to `sign.py`'s built-in artifact signing.** `sign.py` signs artifacts automatically when a capsule's `document` field references them; this script covers the manual case for files no capsule references. The overlap is deliberate but worth revisiting.
+- **Two pre-existing signature failures remain, both in other consumers' trees and untouched.** `keystone_gate/build_loop/step-spec-v1.sc.json` has an illegal underscore in its `scp_id`, and `Nova-bot/hardware-manifest-v1.sc.json` carries an empty signature value — an unsigned capsule presented as signed.
+
+## The Ugly 6.0
+Severity rating: 3.2/10
+
+- **Resolved error: the root `.gitignore` contained a shell command instead of ignore rules.** The file held the literal PowerShell heredoc (`@'...'@ | Set-Content ... .gitignore`) that was meant to *create* it, with the intended `.gitattributes` content appended below. Most lines still happened to function as valid patterns, which is precisely why it went unnoticed. Rewritten as clean rules; `.gitattributes` itself was already correct.
+- **Resolved error: `sign_artifact.py --verify` crashed on every signature in the repository.** It read the public key out of `sidecar["key_id"]`, but `key_id` holds a `did:key` identifier, not key material — so it died with `binascii.Error: Incorrect padding` against any real sidecar. Found by running it rather than reading it.
+- **Resolved error: `sign_artifact.py` could never sign anything on this machine.** It hardcoded `forge-signing.key` at the repository root, but the signing key is gitignored and lives outside the tree, which is the reason `sign.py` has honoured `FORGE_KEY_PATH` all along. This second bug only surfaced because the signing path was actually executed instead of assumed correct.
+- **Left unfixed by choice: `consumer/minecraft-main/minecraft-main/` is a redundant nesting level.** The outer directory contains nothing but the inner one, the same shape as the dead directory removed from CCE — but this one holds real work and documentation references the full nested path, so flattening it would break those references.

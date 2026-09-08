@@ -1,4 +1,3 @@
-@'
 # Keys and secrets — never in this tree
 *.key
 *.pem
@@ -25,17 +24,9 @@ desktop.ini
 .vscode/
 .idea/
 *.swp
+.offline-markdown-preview/
 
 # Build output
 dist/
 build/
 *.log
-'@ | Set-Content -NoNewline:$false -Encoding utf8 .gitignore
-
-@'
-*.sc.json  -text
-*.jsonl    -text
-*.sig      -text binary
-*.md       -text
-*          -text
-'@ | Set-Content -NoNewline:$false -Encoding utf8 .gitattributes
