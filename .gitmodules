@@ -1,0 +1,3 @@
+[submodule "consumer/ccemk2"]
+	path = consumer/ccemk2
+	url = https://github.com/JamesTheGiblet/ccemk2.git
