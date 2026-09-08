@@ -4,16 +4,15 @@ and consumer needs: forge-c14n-1 canonicalisation, UTC timestamp
 handling, SCP identifier validation, SHA-256 hashing, and Ed25519 key
 loading/signing/verification over canonical bytes.
 
-CORE_CONSOLIDATION_ROADMAP.md Phase 0 + Phase 1. No CLI parsing, no
-hardcoded file paths, no trading/domain imports — every path this
-package touches is passed in by the caller. Root scripts keep owning
-their own KEY_FILE/PUB_FILE/KEY_ID (each already computes these
-correctly relative to its own __file__) and become thin adapters over
-these functions; that rewiring is a separate, deliberately not-yet-done
-step (see CORE_CONSOLIDATION_ROADMAP.md's Phase 1 exit criteria) — this
-package existing does not yet change any root script's behavior.
+See consumer/ccemk2/ROADMAP.md Part II ("Forge Stack Spine Alignment")
+for the phases that built this out — Phase 15/16 (extraction, root
+scripts rewired), Phase 18 (real did:key signing added
+sign_exported_capsule, promoted here once a second consumer needed the
+identical logic). No CLI parsing, no hardcoded file paths, no
+trading/domain imports — every path this package touches is passed in by
+the caller.
 
-version: 0.1.0 — Phase 0's "small versioned API."
+version: 0.2.0 — added sign_exported_capsule for Phase 18/20.
 """
 from forge_core.canon import (
     ISO_UTC_RE,
@@ -32,10 +31,11 @@ from forge_core.keys import (
     make_signature_block,
     public_key_b64,
     sign_canonical,
+    sign_exported_capsule,
     verify_canonical,
 )
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 __all__ = [
     "ISO_UTC_RE",
@@ -52,5 +52,6 @@ __all__ = [
     "make_signature_block",
     "public_key_b64",
     "sign_canonical",
+    "sign_exported_capsule",
     "verify_canonical",
 ]

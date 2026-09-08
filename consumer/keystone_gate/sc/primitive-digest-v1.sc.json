@@ -1,0 +1,325 @@
+{
+  "scp_id": "keystone-gate/mediator/primitive-digest-v1",
+  "scp_version": "1.2.0",
+  "created": "2026-09-08T15:05:44Z",
+  "inherits": "forge-stack/governance-v6",
+  "declaration": {
+    "type": "primitive_digest",
+    "consumer": "keystone_gate",
+    "generated_at": "2026-09-08T15:05:44Z",
+    "fields": [
+      {
+        "field_path": "created",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:38Z",
+        "observation_count": 7
+      },
+      {
+        "field_path": "declaration",
+        "field_type": "dict",
+        "first_seen": "2026-09-08T07:45:38Z",
+        "observation_count": 7
+      },
+      {
+        "field_path": "declaration.consequence_trigger_mode",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:38Z",
+        "observation_count": 2
+      },
+      {
+        "field_path": "declaration.constraints",
+        "field_type": "dict",
+        "first_seen": "2026-09-08T07:45:40Z",
+        "observation_count": 3
+      },
+      {
+        "field_path": "declaration.constraints.gate_pattern_compliance",
+        "field_type": "dict",
+        "first_seen": "2026-09-08T07:45:40Z",
+        "observation_count": 1
+      },
+      {
+        "field_path": "declaration.constraints.gate_pattern_compliance.detail",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:40Z",
+        "observation_count": 1
+      },
+      {
+        "field_path": "declaration.constraints.gate_pattern_compliance.status",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:40Z",
+        "observation_count": 1
+      },
+      {
+        "field_path": "declaration.constraints.known_gaps",
+        "field_type": "dict",
+        "first_seen": "2026-09-08T07:45:40Z",
+        "observation_count": 2
+      },
+      {
+        "field_path": "declaration.constraints.known_gaps.ledger_signing",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:41Z",
+        "observation_count": 1
+      },
+      {
+        "field_path": "declaration.constraints.known_gaps.naming_inconsistency",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:40Z",
+        "observation_count": 1
+      },
+      {
+        "field_path": "declaration.constraints.known_gaps.plugin_trust_hole",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:40Z",
+        "observation_count": 1
+      },
+      {
+        "field_path": "declaration.constraints.known_gaps.scope_cut",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:41Z",
+        "observation_count": 1
+      },
+      {
+        "field_path": "declaration.constraints.self_assessment",
+        "field_type": "dict",
+        "first_seen": "2026-09-08T07:45:40Z",
+        "observation_count": 1
+      },
+      {
+        "field_path": "declaration.constraints.self_assessment.alignment_score",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:40Z",
+        "observation_count": 1
+      },
+      {
+        "field_path": "declaration.constraints.self_assessment.date",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:40Z",
+        "observation_count": 1
+      },
+      {
+        "field_path": "declaration.constraints.self_assessment.overall",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:40Z",
+        "observation_count": 1
+      },
+      {
+        "field_path": "declaration.constraints.self_assessment.performance_score",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:40Z",
+        "observation_count": 1
+      },
+      {
+        "field_path": "declaration.constraints.spine_compliance",
+        "field_type": "dict",
+        "first_seen": "2026-09-08T07:45:40Z",
+        "observation_count": 2
+      },
+      {
+        "field_path": "declaration.constraints.spine_compliance.act_hal",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:40Z",
+        "observation_count": 2
+      },
+      {
+        "field_path": "declaration.constraints.spine_compliance.audit_chronoscribe",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:40Z",
+        "observation_count": 2
+      },
+      {
+        "field_path": "declaration.constraints.spine_compliance.classify_datacube",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:40Z",
+        "observation_count": 2
+      },
+      {
+        "field_path": "declaration.constraints.spine_compliance.declare_scp",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:40Z",
+        "observation_count": 2
+      },
+      {
+        "field_path": "declaration.constraints.spine_compliance.trust_score_leighton_weight",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:40Z",
+        "observation_count": 2
+      },
+      {
+        "field_path": "declaration.constraints.unfilled_rule",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:41Z",
+        "observation_count": 1
+      },
+      {
+        "field_path": "declaration.consumer",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:39Z",
+        "observation_count": 2
+      },
+      {
+        "field_path": "declaration.entity_id",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:38Z",
+        "observation_count": 2
+      },
+      {
+        "field_path": "declaration.event_types",
+        "field_type": "list",
+        "first_seen": "2026-09-08T07:45:40Z",
+        "observation_count": 1
+      },
+      {
+        "field_path": "declaration.fields",
+        "field_type": "list",
+        "first_seen": "2026-09-08T07:45:39Z",
+        "observation_count": 1
+      },
+      {
+        "field_path": "declaration.generated_at",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:39Z",
+        "observation_count": 2
+      },
+      {
+        "field_path": "declaration.intent",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:40Z",
+        "observation_count": 3
+      },
+      {
+        "field_path": "declaration.lens_proposals",
+        "field_type": "list",
+        "first_seen": "2026-09-08T07:45:39Z",
+        "observation_count": 1
+      },
+      {
+        "field_path": "declaration.min_lambda",
+        "field_type": "NoneType",
+        "first_seen": "2026-09-08T07:45:38Z",
+        "observation_count": 2
+      },
+      {
+        "field_path": "declaration.namespace",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:38Z",
+        "observation_count": 2
+      },
+      {
+        "field_path": "declaration.parameters",
+        "field_type": "dict",
+        "first_seen": "2026-09-08T07:45:40Z",
+        "observation_count": 3
+      },
+      {
+        "field_path": "declaration.parameters.document",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:41Z",
+        "observation_count": 2
+      },
+      {
+        "field_path": "declaration.parameters.document_sha256",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:41Z",
+        "observation_count": 2
+      },
+      {
+        "field_path": "declaration.parameters.domain",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:40Z",
+        "observation_count": 2
+      },
+      {
+        "field_path": "declaration.parameters.extends",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:41Z",
+        "observation_count": 1
+      },
+      {
+        "field_path": "declaration.parameters.focus_areas",
+        "field_type": "list",
+        "first_seen": "2026-09-08T07:45:40Z",
+        "observation_count": 1
+      },
+      {
+        "field_path": "declaration.parameters.styled_under",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:41Z",
+        "observation_count": 1
+      },
+      {
+        "field_path": "declaration.rules",
+        "field_type": "list",
+        "first_seen": "2026-09-08T07:45:38Z",
+        "observation_count": 2
+      },
+      {
+        "field_path": "declaration.states",
+        "field_type": "list",
+        "first_seen": "2026-09-08T07:45:38Z",
+        "observation_count": 2
+      },
+      {
+        "field_path": "declaration.type",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:38Z",
+        "observation_count": 4
+      },
+      {
+        "field_path": "inherits",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:38Z",
+        "observation_count": 7
+      },
+      {
+        "field_path": "licence",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:38Z",
+        "observation_count": 7
+      },
+      {
+        "field_path": "scp_id",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:38Z",
+        "observation_count": 7
+      },
+      {
+        "field_path": "scp_version",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:38Z",
+        "observation_count": 7
+      },
+      {
+        "field_path": "signature",
+        "field_type": "dict",
+        "first_seen": "2026-09-08T07:45:38Z",
+        "observation_count": 7
+      },
+      {
+        "field_path": "signature.algorithm",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:38Z",
+        "observation_count": 7
+      },
+      {
+        "field_path": "signature.key_id",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:38Z",
+        "observation_count": 7
+      },
+      {
+        "field_path": "signature.value",
+        "field_type": "str",
+        "first_seen": "2026-09-08T07:45:38Z",
+        "observation_count": 7
+      }
+    ]
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+    "algorithm": "Ed25519",
+    "value": "yVS2qjGfTCGfhp7nC2OAs+WC+D/RFogodsOtUGVghDmjZ5zBYVP9fZ2qWiMVn4NfANIAHx8tv/a/JyYyXXbwDg=="
+  }
+}

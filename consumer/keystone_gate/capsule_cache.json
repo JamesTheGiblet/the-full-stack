@@ -1,2 +1,202 @@
 {
+  "ccemk2/ruleset/se-cascade-se-crypto-v1": {
+    "capsule": {
+      "scp_id": "ccemk2/ruleset/se-cascade-se-crypto-v1",
+      "scp_version": "1.2.0",
+      "created": "2026-09-07T15:59:12Z",
+      "inherits": "forge-stack/governance-v1",
+      "declaration": {
+        "entity_id": "se-crypto",
+        "namespace": "domain.trading.btc",
+        "states": [
+          "DORMANT",
+          "ANCHOR",
+          "IGNITION",
+          "CASCADE_1",
+          "CASCADE_2",
+          "SPILLWAY",
+          "EXTRACTION"
+        ],
+        "rules": [
+          {
+            "condition": {
+              "type": "signal_confidence",
+              "namespace": "domain.trading.btc",
+              "threshold": 2.0,
+              "min_confidence": 0.3
+            },
+            "from_state": "DORMANT",
+            "to_state": "ANCHOR",
+            "priority": 0,
+            "rule_id": "DORMANT->ANCHOR",
+            "safety": false
+          },
+          {
+            "condition": {
+              "type": "signal_confidence",
+              "namespace": "domain.trading.btc",
+              "threshold": 2.0,
+              "min_confidence": 0.3
+            },
+            "from_state": "ANCHOR",
+            "to_state": "IGNITION",
+            "priority": 0,
+            "rule_id": "ANCHOR->IGNITION",
+            "safety": false
+          },
+          {
+            "condition": {
+              "type": "signal_confidence",
+              "namespace": "domain.trading.btc",
+              "threshold": 2.0,
+              "min_confidence": 0.3
+            },
+            "from_state": "IGNITION",
+            "to_state": "CASCADE_1",
+            "priority": 0,
+            "rule_id": "IGNITION->CASCADE_1",
+            "safety": false
+          },
+          {
+            "condition": {
+              "type": "signal_confidence",
+              "namespace": "domain.trading.btc",
+              "threshold": 2.0,
+              "min_confidence": 0.3
+            },
+            "from_state": "CASCADE_1",
+            "to_state": "CASCADE_2",
+            "priority": 0,
+            "rule_id": "CASCADE_1->CASCADE_2",
+            "safety": false
+          },
+          {
+            "condition": {
+              "type": "signal_confidence",
+              "namespace": "domain.trading.btc",
+              "threshold": 2.0,
+              "min_confidence": 0.3
+            },
+            "from_state": "CASCADE_2",
+            "to_state": "SPILLWAY",
+            "priority": 0,
+            "rule_id": "CASCADE_2->SPILLWAY",
+            "safety": false
+          },
+          {
+            "condition": {
+              "type": "signal_confidence",
+              "namespace": "domain.trading.btc",
+              "threshold": 2.0,
+              "min_confidence": 0.3
+            },
+            "from_state": "SPILLWAY",
+            "to_state": "EXTRACTION",
+            "priority": 0,
+            "rule_id": "SPILLWAY->EXTRACTION",
+            "safety": false
+          }
+        ],
+        "consequence_trigger_mode": "per_transition",
+        "min_lambda": null,
+        "type": "ruleset"
+      },
+      "licence": "MSL-1.0",
+      "signature": {
+        "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+        "algorithm": "Ed25519",
+        "value": "jC5AvxHix7i2EVhbGZLYAqmub3Xlpz1PtOVzo17vWWvqQL1AwVoacy4xpKhmh8/zKGShuzCoyF8qQ0u9xOL4BA=="
+      }
+    },
+    "metadata": {
+      "added_at": "2026-09-08T07:45:38.387176+00:00",
+      "confidence": 1.0
+    }
+  },
+  "ccemk2/mediator/usage-digest-v1": {
+    "capsule": {
+      "scp_id": "ccemk2/mediator/usage-digest-v1",
+      "scp_version": "1.2.0",
+      "created": "2026-09-07T15:59:14Z",
+      "inherits": "forge-stack/governance-v1",
+      "declaration": {
+        "type": "usage_digest",
+        "consumer": "ccemk2",
+        "generated_at": "2026-09-07T15:59:14Z",
+        "fields": [
+          {
+            "namespace": "domain.trading.btc",
+            "lens": "FACT",
+            "first_seen": "2026-09-07T02:06:37Z",
+            "last_seen": "2026-09-07T16:59:14Z",
+            "observation_count": 890,
+            "distinct_entities": 1
+          }
+        ],
+        "lens_proposals": []
+      },
+      "licence": "MSL-1.0",
+      "signature": {
+        "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+        "algorithm": "Ed25519",
+        "value": "H7mq1ST9+jOWoBtOFDg4QEiA3VT5qPyXhFv00P6Y2O7cVSYgRIkUTnhMZw2AwfaUE3pNTdneCacbC9XLzAk/BA=="
+      }
+    },
+    "metadata": {
+      "added_at": "2026-09-08T07:45:39.521990+00:00",
+      "confidence": 0.7180952380952381
+    }
+  },
+  "cobblewright/consumer-v1": {
+    "capsule": {
+      "scp_id": "cobblewright/consumer-v1",
+      "scp_version": "1.2.0",
+      "created": "2026-07-21T00:00:00Z",
+      "inherits": "forge-stack/governance-v1",
+      "declaration": {
+        "intent": "Declare CobbleWright as a Forge Stack consumer: a Minecraft AI companion bot demonstrating the spine and gate pattern in a live, adversarial-ish environment. This capsule records an honest self-assessment of spine compliance as of first minting, not an aspirational target.",
+        "parameters": {
+          "domain": "Minecraft companion bot / player-facing agent",
+          "focus_areas": [
+            "honest monetization",
+            "build-in-public documentation",
+            "gate pattern demonstration"
+          ]
+        },
+        "constraints": {
+          "spine_compliance": {
+            "declare_scp": "NOT YET COMPLIANT \u00e2\u20ac\u201d this capsule is CobbleWright's first sc; no prior capsule existed",
+            "classify_datacube": "NOT IMPLEMENTED \u00e2\u20ac\u201d sharedState holds runtime context but does not route through DataCube's six lenses; no cubes exist for this project",
+            "trust_score_leighton_weight": "PARTIAL \u00e2\u20ac\u201d the Leighton Loop is implemented (advice scored against observed before/after world state); no confirmed domain-specific k calibration yet",
+            "audit_chronoscribe": "NOT IMPLEMENTED \u00e2\u20ac\u201d no ledger; no hash-chained or signed history of state changes or gate decisions",
+            "act_hal": "CONCEPTUAL ONLY \u00e2\u20ac\u201d tier-to-consequence mapping exists in forge_stack's own hal.md using CobbleWright as the worked example; not yet enforced or implemented within CobbleWright itself"
+          },
+          "gate_pattern_compliance": {
+            "status": "IMPLEMENTED, faithful to spec",
+            "detail": "Ingress gates (blueprint validation, vision/screenshot hardening, memory retention pruning) and egress gates (structure protection, placement safety limits, tool availability checks) both exist. Egress correctly weighted as more consequential, per gate-pattern.md."
+          },
+          "known_gaps": {
+            "plugin_trust_hole": "Raw sharedState and the raw mineflayer bot object are both accessible to plugins, bypassing every gate. This violates gate-pattern.md's own stated guarantee: 'the gate guarantee only holds if gates are the only path.' Interim mitigation: documented trusted-plugin-context caveat. Long-term fix: gatekeeper API wrapping both state and world-action access. Not yet implemented.",
+            "naming_inconsistency": "Naming inconsistencies across CobbleWright's own docs are an acknowledged, unresolved blocker \u00e2\u20ac\u201d not yet reconciled against the frozen forge_stack glossary. Direct violation of the one-term-one-home discipline."
+          },
+          "self_assessment": {
+            "date": "2026-07-21",
+            "performance_score": "58/100 \u00e2\u20ac\u201d gate architecture and Leighton Loop are real and functioning; three of five spine stages unimplemented; the one documented security hole means existing gates are not yet fully load-bearing",
+            "alignment_score": "47/100 \u00e2\u20ac\u201d no prior capsule, unresolved naming inconsistency, three spine stages absent; gate pattern and partial trust-scoring are the strongest compliant areas",
+            "overall": "52/100 \u00e2\u20ac\u201d early-lifecycle consumer with a real foundation and real, named gaps, not a failing one"
+          }
+        }
+      },
+      "licence": "MSL-1.0",
+      "signature": {
+        "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+        "algorithm": "Ed25519",
+        "value": "tVR7uwxK4k7h/aq+c2xnZziVCCdBnIOiHtbMxd/OVsEWTMUFoKUE9zMr6X7Xe1k00hNf7Bo/Tqp334B3HUHSBg=="
+      }
+    },
+    "metadata": {
+      "added_at": "2026-09-08T07:45:40.622763+00:00",
+      "confidence": 0.78
+    }
+  }
 }

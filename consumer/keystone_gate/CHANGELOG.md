@@ -4,7 +4,58 @@
 
 ---
 
-## **2026-08-28 — v0.5.0 — Build Loop: Templated Tier**
+## **2026-09-08 — v0.6.2 — Correction: Stale Governance Version**
+
+## The Good (Confidence: 9)
+
+- **Fixed a real bug in `mediator/digest.py`, found while writing CCE's own governance capsule and cross-checking it against `sc/forge-stack-governance-v6.sc.json`**: `GOVERNANCE_INHERITS` declared `"forge-stack/governance-v1"` — checked against lifeforge/cobblewright's capsules when this constant was first written, but never checked whether v1 was still *current*. It wasn't: governance-v6 was ratified 2026-08-10, before this consumer's digest was ever first signed. Not a legitimate "historical stamp" case (governance didn't change after signing) — wrong from the start. Corrected to `"forge-stack/governance-v6"`; the real digest regenerated, re-signed with the shared identity, and re-pinned to this consumer's ledger (entry `#03`) — confirmed `OK` under the real `sign.py --verify`.
+
+## The Bad (Risk: 1)
+
+- **The identical bug existed in CCE's own copy of this same constant** (`consumer/ccemk2/schemas/sc.py`) — both consumers inherited it from the same unverified-latest-version assumption, made once and copied rather than independently checked. Worth remembering for any *third* consumer's Sub-Mediator: check the actually-current governance version against `sc/forge-stack-governance-v*.sc.json` directly, don't copy a value from an existing consumer without confirming it's still current.
+
+## The Ugly (Severity: 0)
+
+- None — caught the same day, before this capsule (or CCE's) was pinned anywhere durable enough to matter beyond a re-sign and re-pin.
+
+---
+
+## **2026-09-08 — v0.6.1 — Correction: Digest Timestamp Format**
+
+## The Good (Confidence: 9)
+
+- **Fixed a real bug in `mediator/digest.py`, found while building the root-level Master Mediator's classifier** (`the-full-stack/master_mediator/`): `capsule_primitives.json`'s `first_seen` values come from `primitives.py`'s own `_utc_now()`, which includes microseconds (`2026-09-08T07:45:38.383512Z`) — not the ratified strict `YYYY-MM-DDTHH:MM:SSZ` format every `.sc.json` field is supposed to use. `_reformat_first_seen()` now converts on export, so `sc/primitive-digest-v1.sc.json`'s per-field timestamps are genuinely ratified-compliant, not just the envelope's own top-level `created`/`generated_at`. New regression test. Real digest regenerated, re-signed with the shared identity, re-pinned to this consumer's ledger — confirmed `OK` under the real `sign.py --verify` throughout.
+
+## The Bad (Risk: 1)
+
+- **`primitives.py` itself still writes microsecond timestamps** — this fix is entirely on the reporting side (`mediator/digest.py`), not in `primitives.py`'s own `_utc_now()`. `capsule_primitives.json` itself is unaffected and still not ratified-format; only the exported digest capsule is. Fine for now (that file was never meant to be schema-gated directly), but worth knowing if anything else ever reads it expecting strict format.
+
+## The Ugly (Severity: 0)
+
+- None — caught and fixed the same day it was introduced, before it reached anything beyond this consumer's own exported artifact.
+
+---
+
+## **2026-09-08 — v0.6.0 — Sub-Mediator: Primitive-Usage Digest**
+
+## The Good (Confidence: 8)
+
+- **Keystone Gate is the second real consumer to implement Mediator's Sub-Mediator telemetry contract** (`consumer/ccemk2/ROADMAP.md` Part II, Phase 20) — proving the pattern generalizes beyond CCE's trading stack, not just working once by coincidence. `mediator/digest.py` reads `capsule_primitives.json` directly (read-only — never calls `PrimitiveManager.save()` or otherwise touches the live vocabulary) and exports a real, schema-valid `.sc.json` capsule, keyed by `field_path` (whatever dimension this consumer actually varies along — the same "consumer need only have what it requires" principle CCE's four-pillar digest already established, applied to a consumer with a genuinely different shape of data).
+- **No Pydantic dependency added.** Keystone Gate is pure stdlib (`json`, `pathlib`, `datetime`); the digest envelope is a plain dict matching the real `.sc.json` shape, using only `forge_core` (already pure-stdlib-plus-`cryptography`) for the ratified `scp_id`/`created` rules. Nothing about this consumer's tech stack had to change to participate.
+- **Generated genuine data by actually running the gate, not synthetic fixtures**: processed 7 real `.sc.json` capsules already in the repo (from `ccemk2`, `cobblewright`, `giblets-forge`, `lifeforge`) through `python -m keystone_gate.cli process`, populating `capsule_primitives.json` with 51 real discovered fields and `capsule_cache.json` with 3 real approved capsules — the same "verify against real data, not fabricated" discipline CCE's own pilot followed.
+- **Signed with the real shared identity and given its own consumer ledger** — `sc/primitive-digest-v1.sc.json` confirmed `OK` under the real `python sign.py --verify` (not just schema-passing), and `consumer/keystone_gate/ledger.jsonl` created for real, anchored to the root ledger head, confirmed via `python ledger.py verify --scope keystone_gate`.
+- **`forge_core.sign_exported_capsule()` promoted from CCE-only to genuinely shared**, once this consumer needed the identical read-file/canonicalise/sign/write-back logic CCE's `schemas/sc_export.py` already had. CCE's own copy now re-exports the shared one rather than keeping a duplicate.
+- 7 new tests (`tests/test_mediator_digest.py`), plus 1 new cross-consumer proof test at root (`the-full-stack/tests/test_forge_core.py`).
+
+## The Bad (Risk: 3)
+
+- **`append-pins --scope keystone_gate` cannot be used at all right now** — it scans every `.sc.json` under `consumer/keystone_gate/**` unconditionally, and `build_loop/sc/step-spec-v1.sc.json` (pre-existing, not touched by this work) fails that scan on two counts: an underscored `scp_id` (`forge-stack/keystone_gate/build_loop/step-spec-v1` — the ratified pattern only allows `a-z0-9-` per segment) and an unresolved placeholder `document_sha256`. Worked around here with a single manual `ledger.py append --scope keystone_gate --event ... --sha256 ...` targeting only the new digest capsule, but the bulk pin path stays blocked until `build_loop`'s capsule is fixed — a real, separate cleanup item, not something this pass fixes for you.
+- **A latent root-venv gap this work exposed, not created**: `forge_core` had never actually been `pip install -e`'d into `the-full-stack/.venv` — every prior root test/script only worked because it happened to always run with cwd = repo root, letting Python's implicit cwd-path insertion find the `forge_core/` directory by accident. Running Keystone Gate's own CLI (which expects cwd = its own directory) surfaced this immediately. Fixed for real (`pip install -e .` from repo root) rather than worked around.
+- **Only one digest exists** (`primitive_digest`, from `capsule_primitives.json`) — `capsule_cache.json`'s approved-capsule history (confidence scores, approval timestamps) isn't reported yet. Deliberately scoped down: this pass proves the pattern on a second, structurally different consumer; a second pillar for this consumer is a separate, later increment, not assumed here.
+
+## The Ugly (Severity: 1)
+
+- **No automatic export cadence.** Unlike CCE (which has a live `asyncio` event loop to hang a recurring `SubMediator.run_forever()` off), Keystone Gate has no long-running process at all — it's invoked per-CLI-command. The digest export today is a manual, explicit call (`python -c "from mediator.digest import export_digest; ..."`), not wired into `cli.py` as a subcommand yet. Worth adding a `keystone_gate.cli mediator-digest` command as a small follow-up, not attempted here to keep this pass's diff focused on the pattern itself.
 
 ## The Good (Confidence: 9)
 

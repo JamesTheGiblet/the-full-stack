@@ -6,6 +6,7 @@ assumptions"). Callers (root scripts, consumers) own where their keys
 live and pass the path in.
 """
 import base64
+import json
 import pathlib
 from typing import Any, Dict
 
@@ -78,3 +79,20 @@ def make_signature_block(obj: Dict[str, Any], key: Ed25519PrivateKey, key_id: st
         "algorithm": "Ed25519",
         "value": base64.b64encode(signature).decode(),
     }
+
+
+def sign_exported_capsule(path: pathlib.Path, key: Ed25519PrivateKey, key_id: str) -> None:
+    """Sign an already-exported .sc.json capsule file in place, exactly
+    as sign.py's own sign_all() signs each capsule it finds: read the
+    file (the file is the thing being signed, not some in-memory
+    object), canonicalise every field except "signature", sign, write
+    the {key_id, algorithm, value} block back. Consumer-agnostic —
+    originally written for consumer/ccemk2, promoted here once a second
+    consumer (keystone_gate) needed the identical logic, per
+    CORE_CONSOLIDATION_ROADMAP's "one tested implementation of each
+    shared protocol primitive" exit criterion."""
+    path = pathlib.Path(path)
+    capsule = json.loads(path.read_text(encoding="utf-8"))
+    body = {k: v for k, v in capsule.items() if k != "signature"}
+    capsule["signature"] = make_signature_block(body, key, key_id)
+    path.write_text(json.dumps(capsule, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

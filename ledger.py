@@ -50,6 +50,14 @@ def format_seq(seq_value) -> str:
 def parse_entries(lines: list[str]) -> list[dict]:
     out = []
     for i, line in enumerate(lines):
+        if not line.strip():
+            # A blank line carries no entry and isn't part of any hash
+            # chain (the chain only ever hashes canonicalise(signed), the
+            # JSON line itself — never raw file bytes/spacing), so
+            # tolerating one here is safe. append_entries no longer
+            # writes one, but existing ledgers written before that fix
+            # may already have one.
+            continue
         try:
             out.append(json.loads(line))
         except json.JSONDecodeError as exc:
@@ -298,8 +306,18 @@ def append_entries(candidates: Iterable[dict], ledger_path: pathlib.Path, allow_
         ledger_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Open in append mode to be crash-safe and reduce git diff noise.
-        # The logic ensures there's always a preceding newline if the file is not empty.
-        prefix = "\n" if ledger_path.exists() and ledger_path.stat().st_size > 0 else ""
+        # Every write below ends with "\n" (see content_to_write), so an
+        # existing non-empty file already ends with one — checking only
+        # "is the file non-empty" (as this used to) prepends a second
+        # "\n" on every append after the first, writing a blank line
+        # between entries that breaks parse_entries. Check the file's
+        # actual trailing byte instead.
+        prefix = ""
+        if ledger_path.exists() and ledger_path.stat().st_size > 0:
+            with ledger_path.open("rb") as fh:
+                fh.seek(-1, os.SEEK_END)
+                if fh.read(1) != b"\n":
+                    prefix = "\n"
         content_to_write = prefix + "\n".join(new_lines) + "\n"
         with ledger_path.open("a", encoding="utf-8", newline="\n") as fh:
             fh.write(content_to_write)

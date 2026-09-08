@@ -1,13 +1,14 @@
-"""Phase 0/1 exit criteria (CORE_CONSOLIDATION_ROADMAP.md): forge_core and
-every root script that used to duplicate these primitives inline must
-produce identical canonical bytes, identical hashes, and agree on which
-capsules verify. Compares forge_core directly against the live root
-scripts (imported as modules, not re-implemented expectations), so a
-future edit to any script's inline copy that drifts from forge_core
-fails this suite immediately — exactly the kind of silent-drift Phase 1
-exists to close off.
+"""Phase 15/16 exit criteria (consumer/ccemk2/ROADMAP.md Part II):
+forge_core and every root script that used to duplicate these primitives
+inline must produce identical canonical bytes, identical hashes, and
+agree on which capsules verify. Compares forge_core directly against the
+live root scripts (imported as modules, not re-implemented expectations),
+so a future edit to any script's inline copy that drifts from forge_core
+fails this suite immediately — exactly the kind of silent-drift these
+phases exist to close off.
 """
 import base64
+import json
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -135,6 +136,28 @@ def test_signature_block_verifies_under_sign_py_own_verify_logic(tmp_path):
     assert forge_core.verify_canonical(body, sig_block["value"], pub)
     tampered = {**body, "declaration": {"type": "tampered"}}
     assert not forge_core.verify_canonical(tampered, sig_block["value"], pub)
+
+
+def test_sign_exported_capsule_produces_a_signature_sign_py_itself_would_accept(tmp_path):
+    """sign_exported_capsule was originally consumer/ccemk2-only, promoted
+    here once keystone_gate needed the identical logic (Phase 20) — same
+    cross-compatibility proof as above, but through the file-based API."""
+    key = Ed25519PrivateKey.generate()
+    pub = key.public_key()
+
+    path = tmp_path / "test-v1.sc.json"
+    path.write_text(json.dumps({
+        "scp_id": "test/mediator/test-v1", "scp_version": "1.2.0",
+        "created": forge_core.utc_now(), "declaration": {"type": "test_digest"},
+        "licence": "MSL-1.0", "signature": None,
+    }), encoding="utf-8")
+
+    forge_core.sign_exported_capsule(path, key, key_id="did:key:test")
+
+    capsule = json.loads(path.read_text(encoding="utf-8"))
+    assert capsule["signature"]["key_id"] == "did:key:test"
+    body = {k: v for k, v in capsule.items() if k != "signature"}
+    pub.verify(base64.b64decode(capsule["signature"]["value"]), sign.canonicalise(body).encode("utf-8"))
 
 
 def test_key_round_trip_load_or_create_then_load(tmp_path):
