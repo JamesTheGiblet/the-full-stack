@@ -1,5 +1,0 @@
-#!/bin/bash
-# Get self-improvement suggestions
-
-cd ~/forge
-python3 src/self_awareness.py improve

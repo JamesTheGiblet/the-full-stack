@@ -1,6 +1,0 @@
-{
-  "name": "cube",
-  "type": "function",
-  "params": [{"name": "n", "type": "int"}],
-  "logic": "return n * n * n;"
-}

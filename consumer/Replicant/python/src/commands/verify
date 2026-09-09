@@ -1,3 +1,0 @@
-#!/bin/bash
-shift
-python src/verifier.py verify "$*"
