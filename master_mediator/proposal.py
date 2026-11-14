@@ -13,13 +13,39 @@ module's job ends at "here is the proposal," not "here is the merge."
 import json
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 import forge_core
 
 from master_mediator.classifier import MaturityFinding
 
-GOVERNANCE_INHERITS = "forge-stack/governance-v1"
+REPO_ROOT = Path(__file__).resolve().parent.parent
+
+
+def current_governance(root: Path = REPO_ROOT) -> str:
+    """The scp_id of the governance capsule in force now: among
+    sc/forge-stack-governance-vN.sc.json, the one no other governance
+    capsule supersedes (the highest N if that is ambiguous). A proposal's
+    inherits records the constitution in force at signing, so it is read
+    from the repository, never hardcoded (hardening 6.1, M2: this was
+    "forge-stack/governance-v1" while governance-v6 was in force)."""
+    ids, superseded = {}, set()
+    for p in Path(root).glob("sc/forge-stack-governance-v*.sc.json"):
+        try:
+            data = json.loads(p.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError, UnicodeDecodeError):
+            continue
+        scp_id = data.get("scp_id")
+        if not isinstance(scp_id, str) or not forge_core.SCP_ID_RE.match(scp_id):
+            continue
+        ids[scp_id] = int(scp_id.rsplit("-v", 1)[1])
+        sup = (data.get("declaration") or {}).get("supersedes")
+        if isinstance(sup, str):
+            superseded.add(sup)
+    live = [i for i in ids if i not in superseded] or list(ids)
+    if not live:
+        raise FileNotFoundError(f"no governance capsule under {Path(root) / 'sc'}")
+    return max(live, key=ids.get)
 
 
 def _proposal_scp_id(finding: MaturityFinding) -> str:
@@ -36,12 +62,12 @@ def _proposal_scp_id(finding: MaturityFinding) -> str:
     return f"forge-stack/mediator/spine-update-{type_slug}-{key_slug}-v1"
 
 
-def build_spine_update_capsule(finding: MaturityFinding) -> Dict[str, Any]:
+def build_spine_update_capsule(finding: MaturityFinding, inherits: Optional[str] = None) -> Dict[str, Any]:
     """A real, ratified-format .sc.json capsule proposing a Fact-tier
     field for spine inclusion. Unsigned (signature: null) — same
     honesty-over-convenience choice every other digest producer this
     session built makes; HAL approval and a human's deliberate
-    re-signing come first."""
+    re-signing come first. inherits defaults to current_governance()."""
     if finding.tier != "Fact":
         raise ValueError(f"only Fact-tier findings warrant a spine-update proposal, got {finding.tier!r}")
 
@@ -53,7 +79,7 @@ def build_spine_update_capsule(finding: MaturityFinding) -> Dict[str, Any]:
         "scp_id": scp_id,
         "scp_version": "1.2.0",
         "created": now,
-        "inherits": GOVERNANCE_INHERITS,
+        "inherits": inherits or current_governance(),
         "declaration": {
             "type": "spine_update_proposal",
             "intent": (

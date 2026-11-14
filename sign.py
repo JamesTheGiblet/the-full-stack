@@ -98,7 +98,14 @@ def collect_schema_errors(capsule_paths: list[pathlib.Path]) -> list[str]:
 canonicalise = forge_core.canonicalise
 
 
-def load_or_create_key() -> Ed25519PrivateKey:
+def load_or_create_key(create: bool = False) -> Ed25519PrivateKey:
+    """The signing key at KEY_FILE. A missing key is an error unless
+    create is True (--init-key): a wrong or moved FORGE_KEY_PATH must
+    stop, not sign under a brand-new identity (hardening 6.1, K1)."""
+    if not KEY_FILE.exists() and not create:
+        print(f"No signing key at {KEY_FILE}. Set FORGE_KEY_PATH to your key, "
+              "or run `python sign.py --init-key` to create a NEW identity.", file=sys.stderr)
+        raise SystemExit(1)
     is_new = not KEY_FILE.exists()
     key = forge_core.load_or_create_private_key(KEY_FILE)
     if is_new:
@@ -157,11 +164,11 @@ def find_referenced_documents(capsule: dict):
     return found
 
 
-def sign_all(skip_schema: bool = False, dry_run: bool = False) -> int:
+def sign_all(skip_schema: bool = False, dry_run: bool = False, init_key: bool = False) -> int:
     if KEY_ID.startswith("REPLACE"):
         print("Set KEY_ID at the top of this script first (your DID or KERI AID).")
         return 1
-    key = load_or_create_key()
+    key = load_or_create_key(create=init_key)
     pub_b64 = base64.b64encode(
         key.public_key().public_bytes(
             serialization.Encoding.Raw, serialization.PublicFormat.Raw
@@ -286,5 +293,11 @@ if __name__ == "__main__":
         action="store_true",
         help="preview signing operations without writing any files",
     )
+    parser.add_argument(
+        "--init-key",
+        action="store_true",
+        help="create a NEW signing key at FORGE_KEY_PATH if none exists (first-time setup only)",
+    )
     args = parser.parse_args()
-    sys.exit(verify_all(skip_schema=args.skip_schema) if args.verify else sign_all(skip_schema=args.skip_schema, dry_run=args.dry_run))
+    sys.exit(verify_all(skip_schema=args.skip_schema) if args.verify
+             else sign_all(skip_schema=args.skip_schema, dry_run=args.dry_run, init_key=args.init_key))

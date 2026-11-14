@@ -118,7 +118,10 @@ def _classify_one(
     max_age = max(obs.age_days for obs in group)
     n_consumers = len(consumers)
 
-    if n_consumers >= 3 or (n_consumers >= 2 and max_age >= 90):
+    # Three consumers are strong evidence, but not on day one: they still
+    # need the 30 days Emergent needs (hardening 6.1, M1). Two consumers
+    # need 90.
+    if (n_consumers >= 3 and max_age >= 30) or (n_consumers >= 2 and max_age >= 90):
         tier = TIER_FACT
     elif n_consumers >= 2 and max_age >= 30:
         tier = TIER_EMERGENT

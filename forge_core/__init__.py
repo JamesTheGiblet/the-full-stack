@@ -12,7 +12,9 @@ identical logic). No CLI parsing, no hardcoded file paths, no
 trading/domain imports — every path this package touches is passed in by
 the caller.
 
-version: 0.2.0 — added sign_exported_capsule for Phase 18/20.
+version: 0.3.0 — hardening 6.1: create_private_key (never overwrites,
+owner-only), verify_canonical raises on caller bugs, atomic
+sign_exported_capsule. 0.2.0 added sign_exported_capsule for Phase 18/20.
 """
 from forge_core.canon import (
     ISO_UTC_RE,
@@ -25,6 +27,7 @@ from forge_core.canon import (
     utc_now,
 )
 from forge_core.keys import (
+    create_private_key,
     load_or_create_private_key,
     load_private_key,
     load_public_key,
@@ -35,7 +38,7 @@ from forge_core.keys import (
     verify_canonical,
 )
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 __all__ = [
     "ISO_UTC_RE",
@@ -46,6 +49,7 @@ __all__ = [
     "parse_iso_utc",
     "sha256_hex",
     "utc_now",
+    "create_private_key",
     "load_or_create_private_key",
     "load_private_key",
     "load_public_key",

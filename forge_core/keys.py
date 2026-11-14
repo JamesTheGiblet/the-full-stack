@@ -6,10 +6,14 @@ assumptions"). Callers (root scripts, consumers) own where their keys
 live and pass the path in.
 """
 import base64
+import binascii
 import json
+import os
 import pathlib
+import tempfile
 from typing import Any, Dict
 
+from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey, Ed25519PublicKey
 
@@ -24,20 +28,33 @@ def load_private_key(key_path: pathlib.Path) -> Ed25519PrivateKey:
     return Ed25519PrivateKey.from_private_bytes(key_path.read_bytes())
 
 
+def create_private_key(key_path: pathlib.Path) -> Ed25519PrivateKey:
+    """Generate a new signing identity at key_path (hardening 6.1, K2).
+    Never overwrites: an existing file raises FileExistsError, so a key
+    can't be silently replaced. The file is created owner-only (0600 on
+    POSIX; Windows applies its own per-user ACLs) in one exclusive step.
+    The key is still raw bytes, as every root script expects; encrypting
+    it at rest is an open question for the owner, not a change made here."""
+    key_path = pathlib.Path(key_path)
+    key = Ed25519PrivateKey.generate()
+    raw = key.private_bytes(
+        serialization.Encoding.Raw, serialization.PrivateFormat.Raw, serialization.NoEncryption(),
+    )
+    fd = os.open(str(key_path), os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_BINARY", 0), 0o600)
+    with os.fdopen(fd, "wb") as f:
+        f.write(raw)
+    return key
+
+
 def load_or_create_private_key(key_path: pathlib.Path) -> Ed25519PrivateKey:
-    """sign.py's variant: generates and persists a new key if none exists
-    yet. Kept as a distinct function rather than a flag on
-    load_private_key, so a caller's choice between "fail if missing" and
-    "create if missing" stays visible at the call site."""
+    """Load the key at key_path, or create one there through
+    create_private_key if none exists. For tests and first-time setup
+    only: a signing tool must not call this on its normal path, because
+    a wrong or moved key path would then sign under a brand-new identity
+    (hardening 6.1, K1; sign.py now creates only with --init-key)."""
     if key_path.exists():
         return Ed25519PrivateKey.from_private_bytes(key_path.read_bytes())
-    key = Ed25519PrivateKey.generate()
-    key_path.write_bytes(
-        key.private_bytes(
-            serialization.Encoding.Raw, serialization.PrivateFormat.Raw, serialization.NoEncryption(),
-        )
-    )
-    return key
+    return create_private_key(key_path)
 
 
 def load_public_key(pub_path: pathlib.Path) -> Ed25519PublicKey:
@@ -61,12 +78,20 @@ def sign_canonical(obj: Dict[str, Any], key: Ed25519PrivateKey) -> bytes:
 
 def verify_canonical(obj: Dict[str, Any], signature_b64: str, pub: Ed25519PublicKey) -> bool:
     """True if signature_b64 verifies over obj's canonical bytes; False
-    (never raises) on any malformed signature or mismatch. Callers that
-    need the underlying exception should call pub.verify() directly."""
+    on any malformed signature (missing, not a string, not base64) or
+    mismatch. An obj that cannot be canonicalised is a caller's bug and
+    raises (TypeError/ValueError from canonicalise) instead of reading as
+    "invalid signature" (hardening 6.1, K3). Callers that need the
+    underlying exception should call pub.verify() directly."""
+    payload = canonicalise(obj).encode("utf-8")
     try:
-        pub.verify(base64.b64decode(signature_b64), canonicalise(obj).encode("utf-8"))
+        sig = base64.b64decode(signature_b64, validate=True)
+    except (TypeError, ValueError, binascii.Error):
+        return False
+    try:
+        pub.verify(sig, payload)
         return True
-    except Exception:
+    except InvalidSignature:
         return False
 
 
@@ -90,9 +115,23 @@ def sign_exported_capsule(path: pathlib.Path, key: Ed25519PrivateKey, key_id: st
     originally written for consumer/ccemk2, promoted here once a second
     consumer (keystone_gate) needed the identical logic, per
     CORE_CONSOLIDATION_ROADMAP's "one tested implementation of each
-    shared protocol primitive" exit criterion."""
+    shared protocol primitive" exit criterion.
+
+    The signed capsule goes to a temporary file in the same folder and
+    replaces the original in one step, so a crash or full disk mid-write
+    leaves the original untouched (hardening 6.1, K4)."""
     path = pathlib.Path(path)
     capsule = json.loads(path.read_text(encoding="utf-8"))
     body = {k: v for k, v in capsule.items() if k != "signature"}
     capsule["signature"] = make_signature_block(body, key, key_id)
-    path.write_text(json.dumps(capsule, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    fd, tmp = tempfile.mkstemp(prefix=path.name + ".", suffix=".tmp", dir=str(path.parent))
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            f.write(json.dumps(capsule, indent=2, ensure_ascii=False) + "\n")
+        os.replace(tmp, str(path))
+    except BaseException:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
+        raise

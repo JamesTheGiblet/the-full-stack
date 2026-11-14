@@ -1138,3 +1138,29 @@ Severity rating: 3.2/10
 - **Resolved error: `sign_artifact.py --verify` crashed on every signature in the repository.** It read the public key out of `sidecar["key_id"]`, but `key_id` holds a `did:key` identifier, not key material — so it died with `binascii.Error: Incorrect padding` against any real sidecar. Found by running it rather than reading it.
 - **Resolved error: `sign_artifact.py` could never sign anything on this machine.** It hardcoded `forge-signing.key` at the repository root, but the signing key is gitignored and lives outside the tree, which is the reason `sign.py` has honoured `FORGE_KEY_PATH` all along. This second bug only surfaced because the signing path was actually executed instead of assumed correct.
 - **Left unfixed by choice: `consumer/minecraft-main/minecraft-main/` is a redundant nesting level.** The outer directory contains nothing but the inner one, the same shape as the dead directory removed from CCE — but this one holds real work and documentation references the full nested path, so flattening it would break those references.
+
+---
+
+## The Good 6.1
+Confidence rating: 9.0/10
+
+- **`sign.py` no longer invents a signing identity.** Its signing path used `load_or_create_private_key`, so a wrong or moved `FORGE_KEY_PATH` signed every capsule under a brand-new `did:key` and only printed a line about it. A missing key now stops with a message; creating one needs `python sign.py --init-key`.
+- **`forge_core.create_private_key` never overwrites and writes owner-only.** One exclusive create (`O_EXCL`, mode 0600 on POSIX), so an existing key can't be replaced by accident. `load_or_create_private_key` creates through it and is documented as tests-and-first-setup only.
+- **`verify_canonical` tells "doesn't verify" from "verifier is broken".** A missing, non-string or non-base64 signature, or a mismatch, is still `False`; an object that can't be canonicalised now raises instead of reading as an invalid signature.
+- **`sign_exported_capsule` replaces the file atomically.** Temporary file in the same folder, then `os.replace`; a failure mid-write leaves the original capsule byte-identical and no temp file behind.
+- **Master Mediator: three consumers need 30 days for Fact.** `n_consumers >= 3` used to make a field Fact on day one, the only route to Fact with no time test. Two consumers still need 90 days; the existing three-consumer test (40 days) is unchanged.
+- **Master Mediator: proposals inherit the governance in force.** `GOVERNANCE_INHERITS` was hardcoded to `forge-stack/governance-v1` while v6 is the root. `current_governance()` reads `sc/` for the governance capsule nothing supersedes; `build_spine_update_capsule(finding, inherits=None)` uses it.
+- **Master Mediator: discovery and loading agree.** `load_digests` skips a capsule that vanishes, breaks or stops being a digest after discovery, instead of stopping the whole scan.
+- **Run red first.** `tests/test_hardening_6_1.py`: 7 tests, all failing before the fixes; 44/44 after. `ccemk2`'s forge_core tests (26) pass against the fixed `forge_core`. `sign.py --verify` and `ledger.py verify` unchanged (the two known 6.0 failures only).
+
+## The Bad 6.1
+Risk rating: 2.4/10
+
+- **`CHANGELOG.md.sig` is stale until re-signed.** This entry changes `CHANGELOG.md`'s bytes; its detached signature must be re-made with the owner's key (`python sign_artifact.py CHANGELOG.md`). The AI that wrote the entry does not sign as the owner.
+- **Signing keys are still raw bytes at rest.** Owner-only permissions narrow who can read the key; they don't encrypt it. The Giblets_Legacy layers use a passphrase-protected PEM (P7 Record). Whether the root scripts should follow is a decision for the owner, not a hardening fix.
+- **`sign.py` behaviour changed for anyone relying on auto-create.** First-time setup now needs `--init-key`; every other run is unaffected.
+
+## The Ugly 6.1
+Severity rating: 1.8/10
+
+- **Found by reading, then proved by tests.** All seven gaps were spotted in a read of `forge_core` and `master_mediator`, then each was pinned by a failing test before any code changed, so none of the fixes rests on the reading alone.

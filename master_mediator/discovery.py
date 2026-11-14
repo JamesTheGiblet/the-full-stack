@@ -37,10 +37,20 @@ def load_digests(root: Path) -> List[Dict[str, Any]]:
     """Load every discovered digest capsule as a plain dict — the Master
     doesn't need CCE's ScEnvelope/Pydantic machinery any more than
     Keystone Gate's own digest producer did; it only ever reads the
-    already-exported, already-schema-valid JSON files."""
+    already-exported, already-schema-valid JSON files.
+
+    A capsule that vanishes, breaks or stops being a digest between
+    discovery and loading is skipped, as discovery itself skips one
+    (hardening 6.1, M3): one consumer's file must never stop the scan."""
     digests = []
     for path in find_digest_paths(root):
-        data = json.loads(path.read_text(encoding="utf-8"))
+        try:
+            data = json.loads(Path(path).read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError, UnicodeDecodeError):
+            continue
+        decl_type = data.get("declaration", {}).get("type", "") if isinstance(data, dict) else ""
+        if not (isinstance(decl_type, str) and decl_type.endswith("_digest")):
+            continue
         data["_source_path"] = str(path)
         digests.append(data)
     return digests
