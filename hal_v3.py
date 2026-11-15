@@ -13,8 +13,8 @@ Function:
     `python hal_v3.py seal ... [--max-score-age-days N]` reads the
     score file's `as_of` (ISO 8601 UTC) before anything else and
     refuses, with a named FAILED line and exit 1, a score that is:
-      - older than N days (default 30: decided by the VS Code AI on
-        James's "yes", 2026-11-15; his to change);
+      - older than N days (default 30, ratified by James in
+        forge-stack/governance-v7 hal_score_freshness, 2026-11-15);
       - dated more than 5 minutes in the future;
       - missing a valid `as_of`.
     A fresh score goes on to hal_v2 (signature check, exit-code fix)
@@ -24,7 +24,7 @@ Function:
 
 Tier:     P15 (HAL), v3 layer
 Depends:  hal_v2.py
-Version:  1.0.0-dev
+Version:  1.0.0 (frozen 2026-11-15)
 Licence:  MSL-1.0
 """
 

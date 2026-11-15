@@ -28,7 +28,7 @@ Function:
 
 Tier:     P3 (Freeze), v3 layer
 Depends:  freeze_v2.py
-Version:  1.0.0-dev
+Version:  1.0.0 (frozen 2026-11-15)
 Licence:  MSL-1.0
 """
 

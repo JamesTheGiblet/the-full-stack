@@ -25,7 +25,7 @@ Function:
 
 Tier:     P2 (Sign), v3 layer
 Depends:  sign_v2.py
-Version:  1.0.0-dev
+Version:  1.0.0 (frozen 2026-11-15)
 Licence:  MSL-1.0
 """
 

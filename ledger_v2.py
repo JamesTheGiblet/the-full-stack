@@ -28,7 +28,7 @@ Function:
 
 Tier:     P4 (Ledger / ChronoSCRIBE), v2 layer
 Depends:  ledger.py
-Version:  1.0.0-dev
+Version:  1.0.0 (frozen 2026-11-15)
 Licence:  MSL-1.0
 """
 

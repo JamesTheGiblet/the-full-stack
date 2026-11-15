@@ -1246,3 +1246,23 @@ Severity rating: 2.5/10
 
 - **`.gitattributes` began with a UTF-8 byte-order mark,** so its first rule read as `﻿*.sc.json` and matched nothing. Harmless only because the last rule, `* -text`, covers everything. Stripped.
 - **Eleven weeks of red were accepted as normal.** `sign.py --verify` failed on step-spec-v1 and Nova-bot from August to November; a check that always fails stops being read. With these signed, the root checks can be green, and a new red means something.
+
+---
+
+## The Good 6.5
+Confidence rating: 9.1/10
+
+- **Frozen at 1.0.0 (James: "freeze them", 2026-11-15).** `sign_v2.py`, `sign_v3.py`, `sign_capsule.py`, `ledger_v2.py`, `hal_v3.py` and `freeze_v3.py` leave 1.0.0-dev. From here each is changed only by a new layer.
+- **Frozen on a green stack.** At the freeze: 70/70 tests; `sign_v3.py --verify`, `freeze_v3.py --check` and `ledger_v2.py verify` all exit 0; the-saboteur's main run is 15/15 PASS against this repo, with every attack it knows caught and named by one of these layers.
+- **`hal_v3.py`'s header now cites its authority.** The 30-day default is ratified in governance-v7 (`hal_score_freshness`), no longer "decided by the VS Code AI".
+
+## The Bad 6.5
+Risk rating: 2.0/10
+
+- **Frozen before the S24 run.** The tests and checks ran on the laptop only; the phone pulls and runs them next. A failure there is a new layer, not an edit.
+- **`CHANGELOG.md.sig` is stale until re-signed.**
+
+## The Ugly 6.5
+Severity rating: 1.0/10
+
+- **No ugly items.** The freeze changes version lines and one sentence of a docstring; no behaviour changed.

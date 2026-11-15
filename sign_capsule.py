@@ -23,7 +23,7 @@ Function:
 
 Tier:     P2 (Sign), single-capsule tool
 Depends:  sign.py, sign_v3.py, forge_core
-Version:  1.0.0-dev
+Version:  1.0.0 (frozen 2026-11-15)
 Licence:  MSL-1.0
 """
 
