@@ -1,4 +1,4 @@
-﻿*.sc.json  -text
+*.sc.json  -text
 *.jsonl    -text
 *.sig      -text binary
 *.md       -text

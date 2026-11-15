@@ -1,0 +1,20 @@
+{
+  "scp_id": "forge-stack/docs/hal-v2",
+  "scp_version": "1.2.0",
+  "created": "2026-11-15T18:00:23Z",
+  "inherits": "forge-stack/governance-v7",
+  "declaration": {
+    "intent": "Specify HAL, the Act stage: validator roles, the seal artefact, the tier ladder by consequence class, and decay-erodes-tier. v2 pins docs/hal.md as it is now: after v1 was signed the document gained one line pointing to docs/hal-implementation-definition.md, and no new capsule was written (found by freeze_v3, hardening 6.4).",
+    "parameters": {
+      "document": "docs/hal.md",
+      "document_sha256": "4b5ea75285cfb23d3bf41a8378fef321f577ce69c388c63c831c41b761653527",
+      "supersedes": "forge-stack/docs/hal-v1"
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+    "algorithm": "Ed25519",
+    "value": "eZwfdiEgL6S2MuojHoYZiO7kAHx0VZ9anVxe06HeOoSkidyqVc7++iYf2/qL2+SPHPAWbDRQDTMUP25PYHJkCA=="
+  }
+}

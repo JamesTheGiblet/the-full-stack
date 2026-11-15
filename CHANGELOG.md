@@ -1219,3 +1219,30 @@ Severity rating: 2.2/10
 - **Governance v2 to v6 pin a glossary hash that never matched.** Their `terminology_authority.document_sha256` is `e1a7943a…`, but `docs/glossary.md` has been `df361a32…` since its only commit (`136c123`), which is also what the root ledger pinned (#03). Nothing noticed: `sign.py --verify` checks the glossary's `.sig`, not the hash a capsule pins. v7 pins the real hash; checking pinned document hashes is a gap for the Saboteur.
 - **`append-pins` back-filled six capsules that were never pinned.** governance-v4, v5 and v6 and manifest-v7, v8 and v9 were signed in August but missing from the root ledger; they went in as #124–#131 alongside governance-v7 and manifest-v10, so the ledger's order is not their ratification order.
 - **`forge_core.sign_exported_capsule` writes CRLF on Windows** (text-mode `os.fdopen`), as `sign.py` does through `write_text`; `.gitattributes` normalises on commit, so the signatures (over canonical JSON) are unaffected. `sign_capsule.py` writes bytes, LF only.
+
+---
+
+## The Good 6.4
+Confidence rating: 8.7/10
+
+- **The leftovers, fixed and decided (James: "fix the leftover and you decide").** Every fix to a signed capsule is a new version; nothing signed is edited.
+- **`freeze_v3.py --check` (P1–P4): a pinned document hash must match its document.** Nothing compared `document_sha256` with the document; `sign.py` checks the document's `.sig`, which is re-made whenever the document is re-signed. A live capsule whose pinned document differs, is missing, or is still `COMPUTE-ON-FREEZE` is FAILED; a superseded one (named by another capsule's `supersedes`, or outranked by a higher `-vN` of the same id) is a NOTE, because history is not edited. `freeze_v2.py` is not edited.
+- **What it found, and the new versions.** `datacube-v1` and `hal-v1` pin their documents as they were before each gained one line pointing to its implementation definition (both in August; the ledger re-pinned the documents at #103 and #110, but no capsule followed). `sc/datacube-v2.sc.json` and `sc/hal-v2.sc.json` pin them as they are, under governance-v7; `sc/forge-stack-manifest-v11.sc.json` names them in place of v1.
+- **`changelog-v2` drops a hash that could never hold.** `consumer/Long Con Generator/full_stack/changelog.sc.json` (`forge-stack/docs/changelog-v1`) pinned the root `CHANGELOG.md` with `COMPUTE-ON-FREEZE`. An append-only file changes with every entry, so `changelog-v2.sc.json` names the document without a hash and records its integrity as `CHANGELOG.md.sig`, re-signed after every entry.
+- **keystone_gate's step-spec: v2, and v1 withdrawn.** v1 failed the schema gate (underscores in its scp_id), named `docs/step-spec.md` by a path that did not resolve from `sc/` (the document exists, at `build_loop/docs/step-spec.md`), and was never frozen. `keystone-gate/build-loop/step-spec-v2` pins it by its real hash; v1 is kept byte for byte under `build_loop/sc/withdrawn/` with a README, renamed so the tools no longer read it.
+- **Nova-bot's hardware manifest gets the signature its CHANGELOG said it had.** `hardware-manifest-v1.sc.json` carried a signature block with an empty value. Its declaration is unchanged; the empty block is removed so `sign_capsule.py` can sign it, and `pin-configuration-v1`'s reference to it stays good.
+- **ccemk2 exports follow governance-v7** (ccemk2 3.18.0): every fraction becomes a fixed-place decimal string, and `GOVERNANCE_INHERITS` is v7. keystone_gate's digest inherits v7 too.
+- **Run red first.** `tests/test_hardening_6_4.py`: 7 tests, red before `freeze_v3.py` existed; the real-repo test red until the new capsules existed. the-saboteur threats 18–20 attack `freeze_v3` and `sign_v3`: all PASS.
+
+## The Bad 6.4
+Risk rating: 2.8/10
+
+- **Six capsules and one document wait for the owner's key.** `datacube-v2`, `hal-v2`, `manifest-v11`, `changelog-v2`, keystone_gate's `step-spec-v2` and Nova-bot's `hardware-manifest-v1` (`python sign_capsule.py ...`), and `build_loop/docs/step-spec.md`'s detached `.sig`. Until then `sign_v3 --verify` names them.
+- **The four CRLF-stored signed documents are left as they are (decision).** `.gitattributes` already says `* -text`, so git never converts them; the risk is an editor, as on the phone with `CHANGELOG.md`. Converting them would break their `.sig` and the hash each pinning capsule holds, for no gain. Rule kept instead: never let an editor change a signed document's line endings.
+- **The ledger order is not the ratification order.** `ledger.py append-pins` writes whatever is unpinned when it runs.
+
+## The Ugly 6.4
+Severity rating: 2.5/10
+
+- **`.gitattributes` began with a UTF-8 byte-order mark,** so its first rule read as `﻿*.sc.json` and matched nothing. Harmless only because the last rule, `* -text`, covers everything. Stripped.
+- **Eleven weeks of red were accepted as normal.** `sign.py --verify` failed on step-spec-v1 and Nova-bot from August to November; a check that always fails stops being read. With these signed, the root checks can be green, and a new red means something.
