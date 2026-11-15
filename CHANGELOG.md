@@ -1193,3 +1193,29 @@ Severity rating: 3.2/10
 - **Four signed docs are stored with CRLF** (`docs/AXIOM.md`, `docs/hal-implementation-definition.md`, `docs/leighton-loop-observation.md`, `docs/leighton-weight-engine.md`). They verify today and will break the moment anything normalises them to LF, as `CHANGELOG.md` did.
 - **`ledger.py verify_chain` indexes raw lines but skips blank ones,** so a blank line inside a ledger shifts every later hash. No ledger has one today; `ledger_v2` names it if it ever appears with another fault.
 - **`consumer/Long Con Generator/full_stack/changelog.sc.json` still holds `COMPUTE-ON-FREEZE`** (found by `freeze_v2 --check` on a clean copy).
+
+---
+
+## The Good 6.3
+Confidence rating: 8.8/10
+
+- **`governance-v7` ratifies the two rules 6.2 left open.** James, 2026-11-15: "30 days fine, add fractional to governance, you decide". `sc/forge-stack-governance-v7.sc.json` supersedes v6, keeps every v6 constraint word for word, and adds `number_encoding` (no fractional JSON numbers; a fraction is a fixed-place decimal string) and `hal_score_freshness` (an authoriser score at most 30 days old, the default `hal_v3.py` already uses). `sc/forge-stack-manifest-v10.sc.json` witnesses it with manifest-v9's members unchanged.
+- **The number rule is not retroactive (the VS Code AI's decision, on "you decide").** Immutability says signed capsules are never edited in place, so a capsule inheriting governance-v1 to v6 keeps its numbers; its next version inherits v7 and follows the rule. This settles the 36 fractions in `ccemk2`'s three digests without re-signing them.
+- **`sign_v3.py --verify` enforces the rule as ratified.** `sign.py`'s check and `sign_v2`'s S1 unchanged; fractions are FAILED in a capsule under governance-v7 or later (or naming none), and a NOTE in one under v1 to v6. `sign_v2.py` is not edited and stays the strict, pre-governance reading.
+- **`sign_capsule.py` signs exactly the capsules named.** `sign.py` signs every capsule in one pass, which would have rewritten all of them, and signed keystone_gate's deliberately unsigned `step-spec-v1`, just to ratify one new capsule. `sign_capsule.py` checks every path first (not already signed, schema gate, number rule) and signs all or none, atomically and LF only.
+- **Run red first.** `tests/test_governance_v7.py`: 10 tests; the capsule tests failed until the capsules existed. 63/63 across the repo.
+
+## The Bad 6.3
+Risk rating: 2.6/10
+
+- **The two capsules are unsigned until James signs them.** `sign_v3 --verify` names both until then (`python sign_capsule.py sc/forge-stack-governance-v7.sc.json sc/forge-stack-manifest-v10.sc.json`), and they still need pinning to the root ledger (`python ledger.py append-pins`). The AI that wrote them does not sign as the owner.
+- **`CHANGELOG.md.sig` is stale until re-signed.** This entry changes the file's bytes.
+- **The tool tests were not run before the tools were written.** The capsule tests were red first; `sign_capsule` and `sign_v3` were written in the same pass as their tests, so their tests have only been seen passing.
+- **`ccemk2` still writes fractions.** Its exporter inherits governance-v6 (`schemas/sc.py`, `GOVERNANCE_INHERITS`); moving it to v7 means changing it to emit decimal strings first, or its next export fails `sign_v3`.
+
+## The Ugly 6.3
+Severity rating: 2.2/10
+
+- **Governance v2 to v6 pin a glossary hash that never matched.** Their `terminology_authority.document_sha256` is `e1a7943a…`, but `docs/glossary.md` has been `df361a32…` since its only commit (`136c123`), which is also what the root ledger pinned (#03). Nothing noticed: `sign.py --verify` checks the glossary's `.sig`, not the hash a capsule pins. v7 pins the real hash; checking pinned document hashes is a gap for the Saboteur.
+- **`append-pins` back-filled six capsules that were never pinned.** governance-v4, v5 and v6 and manifest-v7, v8 and v9 were signed in August but missing from the root ledger; they went in as #124–#131 alongside governance-v7 and manifest-v10, so the ledger's order is not their ratification order.
+- **`forge_core.sign_exported_capsule` writes CRLF on Windows** (text-mode `os.fdopen`), as `sign.py` does through `write_text`; `.gitattributes` normalises on commit, so the signatures (over canonical JSON) are unaffected. `sign_capsule.py` writes bytes, LF only.
