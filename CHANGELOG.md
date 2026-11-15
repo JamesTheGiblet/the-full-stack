@@ -1164,3 +1164,32 @@ Risk rating: 2.4/10
 Severity rating: 1.8/10
 
 - **Found by reading, then proved by tests.** All seven gaps were spotted in a read of `forge_core` and `master_mediator`, then each was pinned by a failing test before any code changed, so none of the fixes rests on the reading alone.
+
+---
+
+## The Good 6.2
+Confidence rating: 8.6/10
+
+- **The Saboteur's findings, fixed as layers.** the-saboteur v2 (2026-11-15) ran 12 threats against this repo with an honest harness (clean baseline first, throwaway key, real repo hashed before and after) and found one silent pass and four gaps. Each fix is a new layer; `sign.py`, `ledger.py`, `hal.py` and `hal_v2.py` are not edited. James: "yes to all 3".
+- **`sign_v2.py --verify` (S1): every referenced artefact must have its `.sig`.** `sign.py --verify` walks the `.sig` files that exist, so deleting one made the artefact vanish from the check: a silent pass against `sign.py`'s own ratified rule. `sign_v2` runs `sign.py`'s check unchanged, then names every document a capsule references that is missing or unsigned.
+- **`sign_v2.py --verify` (S2): no fractional JSON numbers in a capsule.** A fraction is a fixed-place decimal string ("0.6", not 0.6). The real capsules show why: `1.4589999999999999` and `1.3000000000000003` are in `ccemk2`'s signed digests.
+- **`ledger_v2.py verify` (L1, L2): broken rows and replays are named.** A row that is not valid JSON is reported with its line number instead of a traceback; a row carrying another row's signature is reported as a replay, naming both lines. A clean ledger goes on to `ledger.py verify` unchanged, and any exception it raises becomes a FAILED line.
+- **`hal_v3.py seal` (H1): a stale authoriser score is refused.** The score's `as_of` must be at most `--max-score-age-days` old (default 30), not in the future, and present; a fresh score goes on to `hal_v2` unchanged.
+- **Run red first.** `tests/test_hardening_6_2.py`: 9 tests, failing before the layers existed; 53/53 with 6.1's and the rest. The Saboteur's threats 13–17 aim the same attacks at the new layers: all five PASS (named, for the right reason).
+
+## The Bad 6.2
+Risk rating: 3.9/10
+
+- **`CHANGELOG.md.sig` is stale until re-signed — and was already.** Commit `c2ff81e` (the phone) converted this file from CRLF to LF with no other change, which alone broke the signature made on 2026-11-14; this entry changes it again. The owner re-signs (`python sign_artifact.py CHANGELOG.md`, `FORGE_KEY_PATH` at `forge-signing.key`).
+- **`sign_v2 --verify` fails today, honestly.** Besides `sign.py`'s three: `docs/step-spec.md` (referenced by keystone_gate's `step-spec-v1`) does not exist, and the three `ccemk2` capsules carry 36 fractional numbers. Fixing them means changing those capsules and re-signing them.
+- **The fractional-number rule is not yet in this repo's governance.** It is written in James's identity capsule's description of forge-c14n-1; `sign_v2` enforces it on his "yes". A governance capsule should ratify it.
+- **30 days is a starting value, not a ratified one.** HAL's freshness window was chosen by the VS Code AI; the example score (`as_of` 2026-08-08) is already too old for `hal_v3`, which is correct but means the example needs a fresh score to demonstrate a seal.
+- **`c2ff81e` added `freeze_v2.py` and `hal_v2.py` with no CHANGELOG entry.** Recorded here instead.
+
+## The Ugly 6.2
+Severity rating: 3.2/10
+
+- **The Saboteur's first "12/12 PASS" was false.** `sign.py --verify` and `freeze_v2.py --check` already fail on a clean copy, and `hal.py verify-score` does not exist, so seven of its threats could not fail; v2 judges against a clean baseline. Lesson kept: a tool that already fails proves nothing about a new fault.
+- **Four signed docs are stored with CRLF** (`docs/AXIOM.md`, `docs/hal-implementation-definition.md`, `docs/leighton-loop-observation.md`, `docs/leighton-weight-engine.md`). They verify today and will break the moment anything normalises them to LF, as `CHANGELOG.md` did.
+- **`ledger.py verify_chain` indexes raw lines but skips blank ones,** so a blank line inside a ledger shifts every later hash. No ledger has one today; `ledger_v2` names it if it ever appears with another fault.
+- **`consumer/Long Con Generator/full_stack/changelog.sc.json` still holds `COMPUTE-ON-FREEZE`** (found by `freeze_v2 --check` on a clean copy).
