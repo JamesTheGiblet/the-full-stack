@@ -1,0 +1,110 @@
+{
+  "scp_id": "forge-stack/governance-v8",
+  "scp_version": "1.2.0",
+  "created": "2026-11-16T21:24:52Z",
+  "inherits": null,
+  "declaration": {
+    "intent": "Defines the foundational rules, conventions, and scope for the Forge Stack. This capsule is the root of the inheritance chain. v8 ratifies consolidation (James, 2026-11-16): a consolidation rebuilds what is, with the same behaviour, and archives the old layers; anything added is a new version.",
+    "parameters": {
+      "supersedes": "forge-stack/governance-v7",
+      "terminology_authority": {
+        "document": "docs/glossary.md",
+        "document_sha256": "df361a3292fe59396db60dfd411d8dfddd9056d182365f6cea4277dc3cda8f76"
+      }
+    },
+    "constraints": {
+      "ledger_scope": {
+        "rule": "The Forge Stack maintains a multi-scope ledger system: a single root ledger for stack-level history, and separate consumer ledgers for each downstream scope (including dedicated author scopes). This preserves truthful history while preventing root-scope drift.",
+        "root_ledger_scope": {
+          "path": "ledger.jsonl",
+          "description": "The root ledger tracks the integrity and evolution of the Forge Stack itself. It is the authoritative history for core components and governance.",
+          "includes": [
+            "All capsules and referenced documents within the `sc/` directory.",
+            "Stack-level manifests (for example `forge-stack/manifest-v*`).",
+            "HAL seals related to root governance and stack-wide policy.",
+            "State-change events from core stack components."
+          ],
+          "excludes": [
+            "Any capsule, document, or event originating from the `consumer/` directory.",
+            "Author-tier style capsules (`giblets-forge/style/*`) when stored under consumer scope."
+          ]
+        },
+        "consumer_ledger_scope": {
+          "path": "consumer/{consumer_name}/ledger.jsonl",
+          "description": "Each consumer scope maintains its own independent ledger, tracking its own history, capsules, and domain-specific events.",
+          "rule": "A consumer ledger is governed by root stack governance but managed within its own scope. The `ledger.py` tool should be run with a scope appropriate to the target ledger."
+        },
+        "author_scope": {
+          "consumer_name": "giblets-forge",
+          "capsule_path": "consumer/giblets-forge/sc/",
+          "rule": "All author-tier style capsules with `scp_id` prefix `giblets-forge/style/` are canonical in the dedicated `giblets-forge` consumer scope and are ledgered in `consumer/giblets-forge/ledger.jsonl`."
+        }
+      },
+      "datacube_artefacts": {
+        "rule": "Defines ratified policies for DataCube artifacts, as proposed in docs/datacube-implementation-definition.md.",
+        "file_extension": {
+          "value": ".cube.json",
+          "description": "The canonical file extension for DataCube projection artifacts."
+        },
+        "manifest_membership": {
+          "policy": "pin-only",
+          "description": "Cubes are considered pin-only artifacts. They are witnessed by pinning their hash to a ledger but are not included as members of a stack manifest. This parallels the handling of consumer-scope capsules."
+        }
+      },
+      "implementation_policy": {
+        "rule": "Defines the project's stance on providing reference implementations versus protocol-only specifications.",
+        "reference_implementations": {
+          "policy": "required",
+          "description": "The Forge Stack project commits to shipping a reference implementation for each of its core spine stages (SCP, DataCube, Leighton Weight, ChronoSCRIBE, HAL). While the stack is protocol-first, providing a working, verifiable implementation is a required deliverable for each stage to ensure clarity, testability, and a baseline for interoperability."
+        }
+      },
+      "immutability": "Documents and capsules are never edited in place. A revision is a new capsule identity inheriting from its predecessor. All such changes are recorded in the appropriate ledger.",
+      "conventions": {
+        "rule": "Defines house style for language and identifiers.",
+        "language": "British English (-ise).",
+        "capitalisation": "Capitalisation must be earned (acronyms).",
+        "symmetry": "System/artefact symmetry (SCP/sc).",
+        "separators": "scp_id values MUST use hyphens (-) as separators, not underscores (_)."
+      },
+      "number_encoding": {
+        "rule": "No fractional JSON number anywhere in a capsule. A whole number may be a JSON integer; a fraction is a fixed-place decimal string (\"0.6\", not 0.6), so every implementation canonicalises the same bytes and signs the same value.",
+        "why": "Binary floating point does not round-trip the same way across languages and libraries, so a fraction can change its bytes, and break its signature, between writer and verifier. The signed ccemk2 digests already carry values such as 1.4589999999999999 and 1.3000000000000003.",
+        "applies_from": "forge-stack/governance-v7",
+        "retroactive": "No. A capsule inheriting governance-v1 to v6 keeps its numbers, because signed capsules are never edited in place; its next version inherits v7 and follows the rule.",
+        "enforced_by": "sign_v3.py --verify and sign_capsule.py"
+      },
+      "hal_score_freshness": {
+        "rule": "A HAL seal refuses an authoriser's Leighton score whose as_of is more than max_score_age_days old, dated in the future, or missing. Lambda decays towards neutral, so an old score misstates the authoriser's standing now.",
+        "max_score_age_days": 30,
+        "enforced_by": "hal_v3.py seal (--max-score-age-days; its default is this value)"
+      },
+      "consolidation": {
+        "rule": "A consolidation rebuilds what is: one clean layer with the same behaviour as the current top layer, proven by the tests of that behaviour passing unchanged against it. Nothing is added and nothing is fixed in a consolidation. Anything new, a feature or a change of behaviour, is a new version layered over the consolidated base, as before.",
+        "why": "Layering without end gives v100 and v1000: long chains where each layer reaches into or patches the ones below (the-legacy legacy_v12 swaps out legacy_v10.make_server to start), so reading, testing and changing the code all get harder. James, 2026-11-16: \"consolidate what is; if adding more it's a new v\".",
+        "applies_from": "forge-stack/governance-v8",
+        "trigger": {
+          "max_chain_depth": 5,
+          "or": "a layer has to patch or monkeypatch a lower layer to work",
+          "rule": "Either condition makes a consolidation due. It is still proposed in a spec and done only on the author's word."
+        },
+        "steps": [
+          "A consolidation spec naming the layer it reproduces, the tests that prove it, and the tests retired with replaced behaviour.",
+          "The consolidated layer, run against those tests unchanged.",
+          "The old layers, specs and pages moved to archive/<last version>/, and the last commit before the move tagged.",
+          "Frozen as a new major version."
+        ],
+        "archive": "Old layers are moved to archive/<last version>/ byte-identical, and the commit before the move is given a tag. They are never edited or deleted; git history, the tag and their hashes still find exactly what was frozen.",
+        "version": "A consolidation is a new major version (the-legacy 1.10.0 consolidated is 2.0.0). Layering starts again over it.",
+        "tests": "Tests of behaviour the consolidated layer keeps move with it. Tests of behaviour already replaced (an older boot, an older page) are retired with their layer and archived beside it, as the Saboteur retires threats against old tools.",
+        "scope": "Consumers first (the Legacy, the Cockpit, the Weaver, the Field). A file pinned by path in a signed capsule (a primitive layer, a spine document) is not moved: archiving it needs new pins and the author's signature, so it is consolidated only by its own spec.",
+        "relation_to_immutability": "This keeps the immutability rule: nothing frozen is edited in place. A consolidation is a new capsule-style revision of the code, and the archive keeps every frozen layer as it was."
+      }
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+    "algorithm": "Ed25519",
+    "value": "kI5wkD/GBdITpm1azWGQS+Eoqno6UlWU3bov//sOxQg1pDn/DtqOmSllPC6QsRLgyr4dZ0naW6I85+kD8OmgDA=="
+  }
+}

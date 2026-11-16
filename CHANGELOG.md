@@ -1266,3 +1266,23 @@ Risk rating: 2.0/10
 Severity rating: 1.0/10
 
 - **No ugly items.** The freeze changes version lines and one sentence of a docstring; no behaviour changed.
+
+---
+
+## The Good 6.6
+Confidence rating: 8.8/10
+
+- **governance-v8 ratifies consolidation (drafted, awaiting James's signature).** James, 2026-11-16: "when we get to a particular point we need to consolidate the code, archive the versions and take that as the next stable point, otherwise we have v100 v1000 in the end", then "consolidate what is; if adding more it's a new v". `sc/forge-stack-governance-v8.sc.json` keeps every v7 constraint unchanged and adds `consolidation`: rebuild what is with the same behaviour, proven by its tests passing unchanged; anything new is a new version; old layers move to `archive/<last version>/` byte-identical behind a tag, never edited or deleted; a consolidation is a new major version. Due when a chain is five layers deep or a layer patches the one below; consumers first, and a file pinned by a signed capsule stays where it is.
+- **`sc/forge-stack-manifest-v12.sc.json`** witnesses governance-v8 with manifest-v11's members unchanged.
+- **`tests/test_governance_v8.py`** (5 tests) was written first and ran red (4 failed); 75/75 with the capsules.
+
+## The Bad 6.6
+Risk rating: 2.0/10
+
+- **Unsigned until James signs.** `sign_v3.py --verify` names governance-v8 and manifest-v12 until then, and `CHANGELOG.md.sig` is stale until re-signed.
+- **The trigger numbers are a first guess.** Five layers deep is where the-legacy (v12) and the Field (serve_v8) already hurt; it can change in a later governance version, never retroactively.
+
+## The Ugly 6.6
+Severity rating: 1.0/10
+
+- **No ugly items.** Two new capsules, one new test file; nothing existing changed.
