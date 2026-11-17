@@ -1,0 +1,110 @@
+{
+  "scp_id": "forge-stack/audit/architectural-gaps-v1",
+  "scp_version": "1.2.0",
+  "created": "2026-11-16T21:50:36Z",
+  "inherits": "forge-stack/governance-v8",
+  "declaration": {
+    "type": "audit",
+    "intent": "Record where the Forge Stack is proven and where it is not, each claim checked against the code, so that the next layers fix real gaps and nothing here overstates or understates the stack.",
+    "source": "An external architecture review in November 2026 raised seven concerns; James added the spine stage count on 2026-11-17. The VS Code AI checked each one against the 28 repositories on 2026-11-16 and James asked for the honest version (\"redo but honest\"). A concern the code contradicts is kept here, marked not confirmed, so it is not raised again unchecked.",
+    "summary": "Each part is proven; the whole is observed, not proven. The primitives are tested, frozen, signed and attacked by the Saboteur, and the parts work together in daily use on the laptop, the S24 and the VPS. No test proves the 28 repositories work together at the commits they are at, nothing has been measured for speed or size, and the ledger accepts any event name.",
+    "measured": {
+      "on": "2026-11-16",
+      "repositories": 28,
+      "test_files": 141,
+      "tests_collected": 1461,
+      "collection_errors": 16,
+      "collection_errors_note": "keystone_gate's own tests collected from the workspace root instead of their repository; they run in their repository.",
+      "root_ledger_rows": 137,
+      "owner_ledger_rows": 629,
+      "claims": 200
+    },
+    "findings": [
+      {
+        "id": "cross-repo-integration",
+        "verdict": "confirmed",
+        "finding": "No test runs the spine across repositories against a real database and ledger with no mocks, and nothing records which commits of the 28 repositories were tested together.",
+        "evidence": "End-to-end tests exist only inside one repository (explorer-d334-forge test_forge_v1_3.py::test_engine_end_to_end, the-legacy test_legacy_v8.py::test_boot_end_to_end). Consumers import primitives from sibling folders at whatever commit is checked out (the-legacy legacy_v3._sibling). The VPS check runs the-full-stack and the Saboteur only, and the read-only Legacy there pulls every repository's main each hour.",
+        "risk": "A push to one repository can break another and is found by use, not by a test.",
+        "next": "forge-e2e on the VPS: pull all, run every repository's tests and one zero-mock spine run (remember, commit, attest, verify the ledger) in one environment, one GREEN or RED line; on GREEN, a signed stack lock naming each repository's commit."
+      },
+      {
+        "id": "ledger-event-types",
+        "verdict": "confirmed",
+        "finding": "The ledger records any event name it is given; there is no declared register of event types.",
+        "evidence": "ledger.py append --event takes any string; ledger_v2.py adds named broken rows and replay detection, not event types.",
+        "risk": "A misspelt or invented event is witnessed as if it were ratified.",
+        "next": "A declared register of event types in a governance version, enforced by a ledger_v3 layer (ledger.py and ledger_v2.py are frozen), and a Saboteur threat that appends an undeclared event."
+      },
+      {
+        "id": "permissive-flags",
+        "verdict": "partly confirmed",
+        "finding": "Permissive flags are not registered, but there is one, not many.",
+        "evidence": "One flag that weakens a check was found in stack code: ledger.py attest --allow-duplicates. No --force flag in any stack tool (the VPS setup scripts have one, outside the stack).",
+        "risk": "Low today; a register costs little and stops new ones arriving unseen.",
+        "next": "A permissive-flag register beside the event-type register, and a Saboteur threat that fails on an unregistered one."
+      },
+      {
+        "id": "governance-enforcement",
+        "verdict": "partly confirmed",
+        "finding": "Most governance rules are enforced in code; a few are kept by hand.",
+        "evidence": "Enforced and attacked by the Saboteur (15/15 PASS on 2026-11-15): the number rule (sign_v3), score freshness (hal_v3), pinned hashes (freeze_v3), broken and replayed ledger rows (ledger_v2). Kept by hand: event types, the consolidation trigger (governance-v8), VERSION lines (lllm's stayed 0.1.0 after two freezes until 2026-11-16), S24 runs marked 'to be confirmed', and a known flaky test (the-legacy NOTES Q18).",
+        "risk": "Rules kept by hand drift when no one is looking.",
+        "next": "forge-e2e also checks each repository's VERSION against its newest frozen header and lists chains due for consolidation."
+      },
+      {
+        "id": "spine-stage-count",
+        "verdict": "confirmed",
+        "finding": "The record disagrees on how many stages the spine has: five in the ratified glossary, six in James's identity capsule. Both can be true at their dates, but no ratified document says the sixth stage was added.",
+        "evidence": "docs/glossary.md (last changed 2026-08-08, pinned by governance-v8): 'Spine — The five stages in order: Declare (SCP) → Classify (DataCube) → Trust-score (Leighton Weight) → Audit (ChronoSCRIBE) → Act (HAL)'. The identity capsule giblets-forge/identity/james-the-giblet-v1 (sovereign AI core, also signed into forge.db as a FACT about James Gilbert) lists six: Declare, Classify, Decide (RuleEngine / ruleset), Trust-score, Audit, Act, and its milestone reads '2026-08-08: all five original stages implemented in code for the first time'. The verification of August 2026 was of five; Decide was added to the description later. P12 Rules (rules-layer) was first committed 2026-11-12 and is a primitive, not a ratified spine stage. roadmap STATUS.md and TIERS.md also say five.",
+        "risk": "A reader of the identity claim and a reader of the glossary are told different architectures, and the five-stage verification can be read as covering six.",
+        "next": "James decides. Either ratify Decide as the sixth stage (a new glossary version, pinned by a new governance version, with the August verification recorded as five), or keep five and record Decide as part of an existing stage; in both cases a new claim about James Gilbert supersedes the six-stage wording, because the signed claim is never edited."
+      },
+      {
+        "id": "hal-exit-codes",
+        "verdict": "not confirmed",
+        "finding": "The review said hal.py exits 0 on failure. It does not.",
+        "evidence": "Every failure path in hal.py and hal_v3.py returns 1; the Saboteur's threats 10 (wrong key) and 17 (stale score) require a non-zero exit and pass.",
+        "risk": "None found.",
+        "next": "Nothing beyond keeping threats 10 and 17."
+      },
+      {
+        "id": "performance",
+        "verdict": "confirmed",
+        "finding": "Nothing has been measured: no speed, memory or size figures for any primitive on the S24, the laptop or the VPS.",
+        "evidence": "No benchmark exists in any repository. Ledger verification reads the whole file. Figures reported in the review for process start-up on the S24 were not reproduced here. Today's sizes are small (see measured).",
+        "risk": "Unknown limits, not known failures: at 629 rows nothing is slow, and no one knows where it would be.",
+        "next": "forge-bench: sign, store, ledger append and verify, and substrate queries at 1,000 / 10,000 / 100,000 rows, run on the S24 and the laptop, results recorded. Thresholds set from the first measurements, not guessed."
+      },
+      {
+        "id": "process-per-call",
+        "verdict": "not confirmed",
+        "finding": "The review said agents must start a Python process to sign. The primitives are libraries, imported in-process by the consumers.",
+        "evidence": "The Cockpit, the Legacy, the Weaver and SC-OS import P1-P17 as modules (legacy_v3._sibling). Subprocesses are used only for the LLLM engine (Cockpit, Weaver) and for boot starting its two servers. The command-line tools are for people.",
+        "risk": "None at today's use.",
+        "next": "No daemon. Reconsider only if SC-OS runs real peers that need the stack faster than one process can serve."
+      },
+      {
+        "id": "cost-attribution",
+        "verdict": "out of scope",
+        "finding": "The stack spends no money: there is no paid API in it, so there is nothing to attribute.",
+        "evidence": "The LLLM engine and Ollama run locally (Cockpit CLAUDE.md: no cloud backend).",
+        "risk": "None today. Provenance of which run produced a claim is a real, smaller need.",
+        "next": "Proposal only, for James: a run id on drafts and claims, recording which consumer and run wrote them. Not a new primitive unless he decides so."
+      }
+    ],
+    "order": [
+      "forge-e2e and the signed stack lock (cross-repo-integration, governance-enforcement).",
+      "The event-type and permissive-flag registers: a governance version, a ledger_v3 layer, two Saboteur threats.",
+      "forge-bench on the S24 and the laptop.",
+      "Consolidate the Legacy, the Field, the Cockpit and the Weaver (governance-v8)."
+    ],
+    "rule": "A finding is only as true as its evidence. This audit is superseded, never edited; the next version marks each finding fixed, still open, or wrong."
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+    "algorithm": "Ed25519",
+    "value": "XYNlEMpRoKYBT5p6Mjs6+00ecFpyXnQ2hXCsXn9ipReeyCs1tRZfMnJsIQ3AOOzUJTOs/DKpRuizyV0uqkxDDw=="
+  }
+}

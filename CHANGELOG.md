@@ -1286,3 +1286,23 @@ Risk rating: 2.0/10
 Severity rating: 1.0/10
 
 - **No ugly items.** Two new capsules, one new test file; nothing existing changed.
+
+---
+
+## The Good 6.7
+Confidence rating: 8.7/10
+
+- **An honest audit: `sc/audit-architectural-gaps-v1.sc.json`.** An external architecture review raised seven concerns; each was checked against the 28 repositories (James: "redo but honest"). Confirmed: no cross-repository zero-mock test and no record of which commits were tested together; the ledger accepts any event name; nothing has been benchmarked; the spine stage count disagrees between records. Partly confirmed: permissive flags (one, `ledger.py attest --allow-duplicates`) and governance enforced by hand in places. Not confirmed, and kept so they are not raised again unchecked: HAL exiting 0 on failure, and a process per primitive call. Out of scope: cost attribution. No person or employer is named. `tests/test_audit_gaps_v1.py` (6 tests) ran red first.
+- **The six-stage spine (James, 2026-11-17).** The ratified glossary said five stages; James's identity capsule said six, adding Decide (RuleEngine / ruleset), and that "all five original stages" were implemented on 2026-08-08. Both were true at their dates. James chose to ratify six. `docs/glossary-v2.md` is a new document (the glossary is never edited in place): Decide is Stage 3, between Classify and Trust-score; RuleEngine → ruleset joins the symmetry; a "Spine history" entry says the August verification was of five. `sc/glossary-v2.sc.json` pins it and supersedes glossary-v1; `sc/forge-stack-governance-v9.sc.json` keeps every v8 constraint, makes glossary-v2 the terminology authority and adds a `spine` constraint (not retroactive); `sc/forge-stack-manifest-v13.sc.json` witnesses both. `tests/test_spine_v9.py` (6 tests) ran red first (5 failed).
+
+## The Bad 6.7
+Risk rating: 2.5/10
+
+- **Five-stage wording stays in older records.** roadmap STATUS.md and TIERS.md, the Long Con Generator and Nova-bot READMEs, `docs/documentation-style-v1.json` and the Long Con readme capsule say five; they were true when written and are not edited. Their next versions follow governance-v9.
+- **James's signed identity claim (sovereign AI core) is not edited.** A new claim about James Gilbert, drafted in the Legacy and signed in the terminal, records that the six-stage spine was ratified on 2026-11-17 and that August verified five.
+- **Unsigned until James signs** the four capsules, `docs/glossary-v2.md` and this CHANGELOG. Until then `sign_v3 --verify` names them and `test_hardening_6_2` names glossary-v2's missing `.sig`.
+
+## The Ugly 6.7
+Severity rating: 1.5/10
+
+- **The spine disagreement went unnoticed until this audit.** The identity capsule gained a sixth stage after August and no check compared it with the glossary. The audit's first finding (forge-e2e) is the place for such a check.

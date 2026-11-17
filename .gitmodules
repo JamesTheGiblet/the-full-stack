@@ -3,7 +3,7 @@
 	url = https://github.com/JamesTheGiblet/ccemk2.git
 [submodule "consumer/keystone_gate"]
 	path = consumer/keystone_gate
-	url = https://github.com/JamesTheGiblet/keystone_gate.git
+	url = https://github.com/Giblet-Legacy/keystone_gate.git
 [submodule "consumer/minecraft-main"]
 	path = consumer/minecraft-main
 	url = https://github.com/JamesTheGiblet/minecraft-main.git

@@ -1,0 +1,20 @@
+{
+  "scp_id": "forge-stack/docs/glossary-v2",
+  "scp_version": "1.2.0",
+  "created": "2026-11-17T05:59:19Z",
+  "inherits": "forge-stack/governance-v8",
+  "declaration": {
+    "intent": "Define every Forge Stack term exactly once. v2 ratifies the six-stage spine (James, 2026-11-17): Decide (RuleEngine / ruleset) between Classify and Trust-score, and records that the spine verified on 2026-08-08 was five stages. Nothing else in the glossary changes.",
+    "parameters": {
+      "document": "docs/glossary-v2.md",
+      "document_sha256": "0c1a65ec13de455ef298772af16e5e320f1128faa06ec2f62e51c6faef553624",
+      "supersedes": "forge-stack/docs/glossary-v1"
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+    "algorithm": "Ed25519",
+    "value": "ul8ZrhYMLEZvsYZc/w0V8gwkvP4rMKbgIz8928ZfKmoK19PL7WXMK5O4M9FSTP2pd/9SqoWBRdecVeo79tvyBw=="
+  }
+}

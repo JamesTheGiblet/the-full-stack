@@ -1,0 +1,31 @@
+{
+  "scp_id": "forge-stack/manifest-v13",
+  "scp_version": "1.2.0",
+  "created": "2026-11-17T05:59:19Z",
+  "inherits": "forge-stack/governance-v9",
+  "declaration": {
+    "intent": "Witness forge-stack/governance-v9 (the six-stage spine) and forge-stack/docs/glossary-v2, which replaces glossary-v1 as a member. This manifest supersedes forge-stack/manifest-v12.",
+    "parameters": {
+      "members": [
+        "forge-stack/docs/glossary-v2",
+        "forge-stack/docs/scp-spec-v1",
+        "forge-stack/docs/datacube-v2",
+        "forge-stack/leighton-weight-engine-v3",
+        "forge-stack/leighton-loop-observation-v2",
+        "forge-stack/docs/chronoscribe-v1",
+        "forge-stack/docs/hal-v2",
+        "forge-stack/docs/gate-pattern-v1",
+        "forge-stack/docs/axiom-v1"
+      ],
+      "governance": "forge-stack/governance-v9",
+      "example": "forge-stack/examples/minimal-v1",
+      "supersedes": "forge-stack/manifest-v12"
+    }
+  },
+  "licence": "MSL-1.0",
+  "signature": {
+    "key_id": "did:key:z6MktudRY5LBZJeE13BiF4BeisAwWs7gvg6srh2GwLAMKDwJ",
+    "algorithm": "Ed25519",
+    "value": "Wr+c6XCPPOPxB/4yB5ewuCzUPt03soOSX2YI6SUaJNz/w1DqLnMJU5vPEqvREjrNvaxn4xTTP+zx4tTIABOeCg=="
+  }
+}
